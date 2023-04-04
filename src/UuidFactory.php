@@ -13,6 +13,11 @@ final class UuidFactory
         return new CustomUuid("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
     }
 
+    public static function max(): CustomUuid
+    {
+        return new CustomUuid("\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff");
+    }
+
     public static function v4(Randomizer $randomizer): UuidV4
     {
         $bytes = $randomizer->getBytes(16);
@@ -21,6 +26,20 @@ final class UuidFactory
         $bytes[8] = chr(0b10 << 6 | ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
         // set version
         $bytes[6] = chr(0x4 << 4 | ord($bytes[6]) & 0b1111); // Version 4: set the highest 4 bits to hex '4'
+
+        return new UuidV4($bytes);
+    }
+
+    public static function v8(string $bytes): UuidV4
+    {
+        if (\strlen($bytes) !== 16) {
+            throw new \ValueError('$bytes must be 16 bytes long');
+        }
+
+        // set variant
+        $bytes[8] = chr(0b10 << 6 | ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
+        // set version
+        $bytes[6] = chr(0x8 << 4 | ord($bytes[6]) & 0b1111); // Version 8: set the highest 4 bits to hex '8'
 
         return new UuidV4($bytes);
     }

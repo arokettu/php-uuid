@@ -36,7 +36,7 @@ class V4Test extends TestCase
 
     public function testRandom(): void
     {
-        $uuid = UuidFactory::v4(new Randomizer(new Xoshiro256StarStar(123)));
+        $uuid = UuidFactory::v4(new Randomizer(new Xoshiro256StarStar(123))); // f969a0d1a18f5a325e4d6d65c7e335f8
 
         self::assertEquals('f969a0d1-a18f-4a32-9e4d-6d65c7e335f8', $uuid->toRfc4122());
     }

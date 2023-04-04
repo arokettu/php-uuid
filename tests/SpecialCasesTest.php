@@ -5,7 +5,7 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Uuid\UuidFactory;
 use PHPUnit\Framework\TestCase;
 
-class NullTest extends TestCase
+class SpecialCasesTest extends TestCase
 {
     public function testNil(): void
     {

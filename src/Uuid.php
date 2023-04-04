@@ -7,7 +7,7 @@ namespace Arokettu\Uuid;
 abstract class Uuid
 {
     final public function __construct(
-        protected string $bytes,
+        protected readonly string $bytes,
     ) {
         if (\strlen($this->bytes) !== 16) {
             throw new \ValueError('$bytes must be 16 bytes long');
@@ -18,7 +18,7 @@ abstract class Uuid
 
     abstract protected function assertValid(string $bytes): void;
 
-    public function toRfc4122(): string
+    final public function toRfc4122(): string
     {
         return
             bin2hex(substr($this->bytes, 0, 4)) . '-' .
