@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arokettu\Uuid\Tests;
 
+use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UuidFactory;
 use PHPUnit\Framework\TestCase;
 use Random\Engine;
@@ -12,24 +15,14 @@ class V4Test extends TestCase
 {
     public function testMin(): void
     {
-        $uuid = UuidFactory::v4(new Randomizer(new class implements Engine {
-            public function generate(): string
-            {
-                return "\0";
-            }
-        }));
+        $uuid = UuidFactory::v4(new Randomizer(new FixedSequenceEngine("\0")));
 
         self::assertEquals('00000000-0000-4000-8000-000000000000', $uuid->toRfc4122());
     }
 
     public function testMax(): void
     {
-        $uuid = UuidFactory::v4(new Randomizer(new class implements Engine {
-            public function generate(): string
-            {
-                return "\xff";
-            }
-        }));
+        $uuid = UuidFactory::v4(new Randomizer(new FixedSequenceEngine("\xff")));
 
         self::assertEquals('ffffffff-ffff-4fff-bfff-ffffffffffff', $uuid->toRfc4122());
     }
