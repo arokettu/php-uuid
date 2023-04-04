@@ -7,7 +7,6 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UuidFactory;
 use PHPUnit\Framework\TestCase;
-use Random\Engine;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
