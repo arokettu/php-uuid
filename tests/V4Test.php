@@ -1,0 +1,43 @@
+<?php
+
+namespace Arokettu\Uuid\Tests;
+
+use Arokettu\Uuid\UuidFactory;
+use PHPUnit\Framework\TestCase;
+use Random\Engine;
+use Random\Engine\Xoshiro256StarStar;
+use Random\Randomizer;
+
+class V4Test extends TestCase
+{
+    public function testMin(): void
+    {
+        $uuid = UuidFactory::v4(new Randomizer(new class implements Engine {
+            public function generate(): string
+            {
+                return "\0";
+            }
+        }));
+
+        self::assertEquals('00000000-0000-4000-8000-000000000000', $uuid->toRfc4122());
+    }
+
+    public function testMax(): void
+    {
+        $uuid = UuidFactory::v4(new Randomizer(new class implements Engine {
+            public function generate(): string
+            {
+                return "\xff";
+            }
+        }));
+
+        self::assertEquals('ffffffff-ffff-4fff-bfff-ffffffffffff', $uuid->toRfc4122());
+    }
+
+    public function testRandom(): void
+    {
+        $uuid = UuidFactory::v4(new Randomizer(new Xoshiro256StarStar(123)));
+
+        self::assertEquals('f969a0d1-a18f-4a32-9e4d-6d65c7e335f8', $uuid->toRfc4122());
+    }
+}
