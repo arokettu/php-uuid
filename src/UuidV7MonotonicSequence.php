@@ -45,16 +45,17 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
         }
 
         if ($bytesTS === $this->lastTimestamp) {
-            $this->lastTimestamp += 1;
-            if ($this->lastTimestamp >= 2 ** $this->counterBits) {
+            $this->counter += 1;
+            if ($this->counter >= 2 ** $this->counterBits) {
                 // do not allow counter rollover
                 throw new \RuntimeException(sprintf(
-                    "For %d counter bits batch must be shorter than %d",
+                    "For %d counter bits, batch must be shorter than %d",
                     $this->counterBits,
                     2 ** $this->counterBits,
                 ));
             }
         } else {
+            $this->counter = 0;
             $this->lastTimestamp = $bytesTS;
         }
 
