@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
+use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\StaticClock;
 use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UuidFactory;
@@ -58,5 +59,14 @@ class V7Test extends TestCase
         );
 
         self::assertEquals('00000000-0001-7888-8888-888888888888', $uuid->toRfc4122());
+    }
+
+    public function testTime(): void
+    {
+        // v7 has millisecond precision, we have to round our raw timestamp
+        $clock = new RoundingClock(new StaticClock(), RoundingClock::ROUND_MILLISECONDS);
+        $uuid = UuidFactory::v7(clock: $clock);
+
+        self::assertEquals($clock->now(), $uuid->getDateTime());
     }
 }
