@@ -15,4 +15,11 @@ class SpecialCasesTest extends TestCase
 
         self::assertEquals('00000000-0000-0000-0000-000000000000', $uuid->toRfc4122());
     }
+
+    public function testMax(): void
+    {
+        $uuid = UuidFactory::max();
+
+        self::assertEquals('ffffffff-ffff-ffff-ffff-ffffffffffff', $uuid->toRfc4122());
+    }
 }
