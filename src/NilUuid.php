@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final class NilUuid extends Uuid
+final class NilUuid extends BaseUuid
 {
     public function __construct()
     {

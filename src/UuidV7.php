@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 use DateTimeImmutable;
 
-final class UuidV7 extends Uuid implements TimeBasedUuid
+final class UuidV7 extends BaseUuid implements TimeBasedUuid
 {
     protected function assertValid(string $bytes): void
     {

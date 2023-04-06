@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final class MaxUuid extends Uuid
+final class MaxUuid extends BaseUuid
 {
     public function __construct()
     {

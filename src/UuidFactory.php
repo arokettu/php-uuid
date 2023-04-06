@@ -20,7 +20,7 @@ final class UuidFactory
         return new MaxUuid();
     }
 
-    public static function v3(Uuid $namespace, string $identifier): UuidV3
+    public static function v3(BaseUuid $namespace, string $identifier): UuidV3
     {
         $bytes = md5($namespace->toBytes() . $identifier, true);
 
@@ -44,7 +44,7 @@ final class UuidFactory
         return new UuidV4($bytes);
     }
 
-    public static function v5(Uuid $namespace, string $identifier): UuidV3
+    public static function v5(BaseUuid $namespace, string $identifier): UuidV5
     {
         $bytes = substr(sha1($namespace->toBytes() . $identifier, true), 0, 16);
 
@@ -53,7 +53,7 @@ final class UuidFactory
         // set version
         $bytes[6] = \chr(0x5 << 4 | \ord($bytes[6]) & 0b1111); // Version 5: set the highest 4 bits to hex '5'
 
-        return new UuidV3($bytes);
+        return new UuidV5($bytes);
     }
 
     public static function v7sequence(
