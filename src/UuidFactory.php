@@ -10,14 +10,14 @@ use Random\Randomizer;
 
 final class UuidFactory
 {
-    public static function nil(): CustomUuid
+    public static function nil(): NilUuid
     {
-        return new CustomUuid("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+        return new NilUuid();
     }
 
-    public static function max(): CustomUuid
+    public static function max(): MaxUuid
     {
-        return new CustomUuid("\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff");
+        return new MaxUuid();
     }
 
     public static function v4(Randomizer $randomizer = new Randomizer()): UuidV4

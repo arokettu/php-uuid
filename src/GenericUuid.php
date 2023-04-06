@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final class CustomUuid extends Uuid
+final class GenericUuid extends Uuid
 {
     protected function assertValid(string $bytes): void
     {

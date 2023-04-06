@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 abstract class Uuid
 {
-    final public function __construct(
+    public function __construct(
         protected readonly string $bytes,
     ) {
         if (\strlen($this->bytes) !== 16) {
@@ -17,6 +17,11 @@ abstract class Uuid
     }
 
     abstract protected function assertValid(string $bytes): void;
+
+    final public function toBytes(): string
+    {
+        return $this->bytes;
+    }
 
     final public function toRfc4122(): string
     {
