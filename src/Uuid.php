@@ -32,4 +32,29 @@ abstract class Uuid
             bin2hex(substr($this->bytes, 8, 2)) . '-' .
             bin2hex(substr($this->bytes, 10));
     }
+
+    final public function toBase32(): string
+    {
+        return Helpers\Base32::encode($this->bytes);
+    }
+
+    public function toString(): string
+    {
+        return $this->toRfc4122();
+    }
+
+    final public function __toString(): string
+    {
+        return $this->toString();
+    }
+
+    final public function __serialize(): array
+    {
+        return [$this->bytes];
+    }
+
+    final public function __unserialize(array $data): void
+    {
+        [$this->bytes] = $data;
+    }
 }
