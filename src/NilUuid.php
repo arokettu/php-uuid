@@ -6,9 +6,11 @@ namespace Arokettu\Uuid;
 
 final class NilUuid extends BaseUuid
 {
+    public const BYTES = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+
     public function __construct()
     {
-        parent::__construct("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+        parent::__construct(self::BYTES);
     }
 
     protected function assertValid(string $bytes): void

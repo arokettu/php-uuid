@@ -6,9 +6,11 @@ namespace Arokettu\Uuid;
 
 final class MaxUuid extends BaseUuid
 {
+    public const BYTES = "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff";
+
     public function __construct()
     {
-        parent::__construct("\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff");
+        parent::__construct(self::BYTES);
     }
 
     protected function assertValid(string $bytes): void
