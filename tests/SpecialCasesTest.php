@@ -14,7 +14,7 @@ class SpecialCasesTest extends TestCase
         $uuid = UuidFactory::nil();
 
         self::assertEquals('00000000-0000-0000-0000-000000000000', $uuid->toRfc4122());
-        self::assertEquals('0000000000000000000000000', $uuid->toBase32());
+        self::assertEquals('00000000000000000000000000', $uuid->toBase32());
     }
 
     public function testMax(): void
@@ -22,6 +22,6 @@ class SpecialCasesTest extends TestCase
         $uuid = UuidFactory::max();
 
         self::assertEquals('ffffffff-ffff-ffff-ffff-ffffffffffff', $uuid->toRfc4122());
-        self::assertEquals('7ZZZZZZZZZZZZZZZZZZZZZZZZ', $uuid->toBase32());
+        self::assertEquals('7ZZZZZZZZZZZZZZZZZZZZZZZZZ', $uuid->toBase32());
     }
 }
