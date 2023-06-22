@@ -29,6 +29,7 @@
         "arokettu/clock": "^2.2",
         "arokettu/unsigned": "^1.1",
         "phpunit/phpunit": "^10.0",
+        "psy/psysh": "*",
         "sandfox.dev/code-standard": "^1.2022.06.29",
         "squizlabs/php_codesniffer": "*"
     },
