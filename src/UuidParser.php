@@ -70,4 +70,13 @@ final class UuidParser
 
         return self::fromBytes(Helpers\Base32::decode($string), !$asUuid);
     }
+
+    public static function fromString(string $string): Uuid
+    {
+        return match (\strlen($string)) {
+            36, 38 => self::fromRfc4122($string),
+            26 => self::fromBase32($string),
+            default => throw new \UnexpectedValueException('Format not recognized'),
+        };
+    }
 }
