@@ -69,7 +69,7 @@ class V7SequenceTest extends TestCase
             $clock = new MutableClock(new \DateTime('2025-04-15 12:34:56'));
             $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
 
-            $seq = UuidFactory::v7sequence($bits, $randomizer, $clock);
+            $seq = UuidFactory::v7Sequence($bits, $randomizer, $clock);
 
             for ($i = 0; $i < $num; $i++) {
                 self::assertEquals($uuids[$i], $seq->next()->toRfc4122(), "bits: $bits, i: $i");
@@ -88,7 +88,7 @@ class V7SequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new StaticClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UuidFactory::v7sequence(8, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(8, $randomizer, $clock);
 
         self::assertEquals('02000000-0000-7009-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-7016-b2c3-462baa770682', $sequence->next()->toRfc4122());
@@ -103,7 +103,7 @@ class V7SequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new MutableClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UuidFactory::v7sequence(8, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(8, $randomizer, $clock);
 
         self::assertEquals('02000000-0000-7009-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-7016-b2c3-462baa770682', $sequence->next()->toRfc4122());
@@ -124,7 +124,7 @@ class V7SequenceTest extends TestCase
             new \DateTime('2039-09-07 15:47:35.552'),
         );
 
-        $sequence = UuidFactory::v7sequence(8, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(8, $randomizer, $clock);
 
         self::assertEquals('02000000-0000-7009-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0080-7006-b2c3-462baa770682', $sequence->next()->toRfc4122());

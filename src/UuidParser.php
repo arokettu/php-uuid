@@ -6,10 +6,14 @@ namespace Arokettu\Uuid;
 
 final class UuidParser
 {
-    public static function fromBytes(string $bytes): Uuid
+    public static function fromBytes(string $bytes, bool $asUlid = false): Uuid
     {
         if (\strlen($bytes) !== 16) {
             throw new \ValueError('UUID must be 16 bytes long');
+        }
+
+        if ($asUlid) {
+            return new Ulid($bytes);
         }
 
         if (Helpers\UuidBytes::getVariant($bytes) === 1) {

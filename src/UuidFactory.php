@@ -56,7 +56,7 @@ final class UuidFactory
         return new UuidV5($bytes);
     }
 
-    public static function v7sequence(
+    public static function v7Sequence(
         int $counterBits = 4,
         Randomizer $randomizer = new Randomizer(),
         ClockInterface $clock = new SystemClock(),
@@ -68,7 +68,7 @@ final class UuidFactory
         Randomizer $randomizer = new Randomizer(),
         ClockInterface $clock = new SystemClock(),
     ): UuidV7 {
-        return self::v7sequence(0, $randomizer, $clock)->next();
+        return self::v7Sequence(0, $randomizer, $clock)->next();
     }
 
     public static function v8(string $bytes): UuidV8
@@ -83,5 +83,21 @@ final class UuidFactory
         $bytes[6] = \chr(0x8 << 4 | \ord($bytes[6]) & 0b1111); // Version 8: set the highest 4 bits to hex '8'
 
         return new UuidV8($bytes);
+    }
+
+    public static function ulidSequence(
+        bool $uuidV7Compatible = false,
+        Randomizer $randomizer = new Randomizer(),
+        ClockInterface $clock = new SystemClock(),
+    ): UlidMonotonicSequence {
+        return new UlidMonotonicSequence($uuidV7Compatible, $randomizer, $clock);
+    }
+
+    public static function ulid(
+        bool $uuidV7Compatible = false,
+        Randomizer $randomizer = new Randomizer(),
+        ClockInterface $clock = new SystemClock(),
+    ): Ulid {
+        return self::ulidSequence($uuidV7Compatible, $randomizer, $clock)->next();
     }
 }
