@@ -25,7 +25,7 @@ class UuidV2 extends BaseUuid implements TimeBasedUuid
             // 100-nanosecond intervals since midnight 15 October 1582 UTC
             $ts = $timeHigh << 48 | $timeMid << 32;
             $tsS = intdiv($ts, 10_000_000) + Helpers\Constants::V1_EPOCH; // convert to unix timestamp
-            $tsUs = intdiv($ts % 10_000_000, 10); // lose 1 decimal of precision
+            $tsUs = intdiv($ts % 10_000_000, 10); // lose 1 decimal of precision (much more is lost by v2 anyway)
 
             return DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs));
         } else {
