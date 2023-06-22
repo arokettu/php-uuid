@@ -8,7 +8,7 @@ use DateTimeImmutable;
 
 final class UuidV1 extends Uuid implements TimeBasedUuid
 {
-    use Helpers\Variant1VersionBasedUUID;
+    use Helpers\Rfc4122Variant1UUID;
 
     private function version(): int
     {

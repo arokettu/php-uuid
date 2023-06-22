@@ -7,7 +7,7 @@ namespace Arokettu\Uuid\Helpers;
 /**
  * @internal
  */
-trait Variant1VersionBasedUUID
+trait Rfc4122Variant1UUID
 {
     abstract private function version(): int;
 

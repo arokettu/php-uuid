@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 final class UuidV8 extends Uuid
 {
-    use Helpers\Variant1VersionBasedUUID;
+    use Helpers\Rfc4122Variant1UUID;
 
     private function version(): int
     {

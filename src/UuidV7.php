@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 final class UuidV7 extends Uuid implements TimeBasedUuid
 {
-    use Helpers\Variant1VersionBasedUUID;
+    use Helpers\Rfc4122Variant1UUID;
     use Helpers\UlidLikeDateTime;
 
     private function version(): int
