@@ -52,11 +52,22 @@ final class UuidParser
         );
 
         if (!$match) {
-            throw new \UnexpectedValueException('Not a valid RFC 4122 UUID notation');
+            throw new \UnexpectedValueException('Not a valid RFC 4122 UUID');
         }
 
         $hex = preg_replace('/[{}-]/', '', $string);
 
         return self::fromBytes(hex2bin($hex), $asUlid);
+    }
+
+    public static function fromBase32(string $string, bool $asUuid = false): Uuid
+    {
+        $match = preg_match('/^[0-7][0-9A-TV-Z]{25}$/i', $string);
+
+        if (!$match) {
+            throw new \UnexpectedValueException('Not a valid Base32 encoded ULID');
+        }
+
+        return self::fromBytes(Helpers\Base32::decode($string), !$asUuid);
     }
 }

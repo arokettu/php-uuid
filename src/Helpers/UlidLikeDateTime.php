@@ -6,6 +6,9 @@ namespace Arokettu\Uuid\Helpers;
 
 use DateTimeImmutable;
 
+/**
+ * @internal
+ */
 trait UlidLikeDateTime
 {
     protected readonly string $bytes;
