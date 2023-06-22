@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-use DateTimeImmutable;
-
 final class UuidV7 extends Uuid implements TimeBasedUuid
 {
     use Helpers\Variant1VersionBasedUUID;
@@ -14,5 +12,10 @@ final class UuidV7 extends Uuid implements TimeBasedUuid
     private function version(): int
     {
         return 7;
+    }
+
+    public function toUlid(): Ulid
+    {
+        return new Ulid($this->bytes);
     }
 }
