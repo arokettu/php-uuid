@@ -6,8 +6,10 @@ namespace Arokettu\Uuid;
 
 final class UuidV8 extends BaseUuid
 {
-    protected function assertValid(string $bytes): void
+    use Helpers\Variant1VersionBasedUUID;
+
+    private function version(): int
     {
-        // TODO: Implement assertValid() method.
+        return 8;
     }
 }

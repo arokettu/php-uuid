@@ -8,9 +8,11 @@ use DateTimeImmutable;
 
 final class UuidV7 extends BaseUuid implements TimeBasedUuid
 {
-    protected function assertValid(string $bytes): void
+    use Helpers\Variant1VersionBasedUUID;
+
+    private function version(): int
     {
-        // TODO: Implement assertValid() method.
+        return 7;
     }
 
     public function getDateTime(): DateTimeImmutable
