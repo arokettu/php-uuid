@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final class UuidV4 extends BaseUuid
+final class UuidV4 extends Uuid
 {
     use Helpers\Variant1VersionBasedUUID;
 

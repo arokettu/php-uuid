@@ -20,7 +20,7 @@ final class UuidFactory
         return new MaxUuid();
     }
 
-    public static function v3(BaseUuid $namespace, string $identifier): UuidV3
+    public static function v3(Uuid $namespace, string $identifier): UuidV3
     {
         $bytes = md5($namespace->toBytes() . $identifier, true);
 
@@ -44,7 +44,7 @@ final class UuidFactory
         return new UuidV4($bytes);
     }
 
-    public static function v5(BaseUuid $namespace, string $identifier): UuidV5
+    public static function v5(Uuid $namespace, string $identifier): UuidV5
     {
         $bytes = substr(sha1($namespace->toBytes() . $identifier, true), 0, 16);
 

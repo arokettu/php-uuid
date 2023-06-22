@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final class NilUuid extends BaseUuid
+final class NilUuid extends Uuid
 {
     public const BYTES = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-abstract class BaseUuid
+abstract class Uuid
 {
     public function __construct(
         protected readonly string $bytes,
