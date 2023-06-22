@@ -33,4 +33,22 @@ final class UuidV6 extends BaseUuid implements TimeBasedUuid
             throw new \LogicException('not implemented'); // todo
         }
     }
+
+    public function toUuidV1(): UuidV1
+    {
+        // 32 bit friendly
+
+        $hex = bin2hex($this->bytes);
+
+        // rearrange time fields
+        $time =
+            substr($hex, 7, 5) .
+            substr($hex, 13, 3) .
+            substr($hex, 3, 4) .
+            '1' . // version
+            substr($hex, 0, 3);
+        $tail = substr($hex, 16);
+
+        return new UuidV1(hex2bin($time . $tail));
+    }
 }
