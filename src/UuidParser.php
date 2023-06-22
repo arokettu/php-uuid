@@ -12,7 +12,7 @@ final class UuidParser
 
         if (Helpers\UuidBytes::getVariant($bytes) === 1) {
             return match (Helpers\UuidBytes::getVersion($bytes)) {
-//                1 => new GenericUuid($bytes), // todo: support
+                1 => new UuidV1($bytes),
 //                2 => new GenericUuid($bytes), // todo: support
                 3 => new UuidV3($bytes),
                 4 => new UuidV4($bytes),
