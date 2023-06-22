@@ -9,7 +9,7 @@ final class UuidParser
     public static function fromBytes(string $bytes, bool $asUlid = false): Uuid
     {
         if (\strlen($bytes) !== 16) {
-            throw new \ValueError('UUID must be 16 bytes long');
+            throw new \UnexpectedValueException('UUID must be 16 bytes long');
         }
 
         if ($asUlid) {
@@ -38,5 +38,25 @@ final class UuidParser
         }
 
         return new GenericUuid($bytes);
+    }
+
+    public static function fromRfc4122(string $string, bool $asUlid = false): Uuid
+    {
+        $match = preg_match(
+            '/' .
+            '^\{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}$' .
+            '|' .
+            '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' .
+            '/i',
+            $string
+        );
+
+        if (!$match) {
+            throw new \UnexpectedValueException('Not a valid RFC 4122 UUID notation');
+        }
+
+        $hex = preg_replace('/[{}-]/', '', $string);
+
+        return self::fromBytes(hex2bin($hex), $asUlid);
     }
 }
