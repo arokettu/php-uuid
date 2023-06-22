@@ -12,10 +12,10 @@ final class Base32
     public static function encode(string $bytes): string
     {
         return
-            self::encode5bytes(substr($bytes, 0, 1))[0] .
-            str_pad(self::encode5bytes(substr($bytes, 1, 5)), 8, '0') .
-            str_pad(self::encode5bytes(substr($bytes, 6, 5)), 8, '0') .
-            str_pad(self::encode5bytes(substr($bytes, 11, 5)), 8, '0');
+            str_pad(self::encode5bytes(substr($bytes, 0, 1)), 2, '0', STR_PAD_LEFT) .
+            str_pad(self::encode5bytes(substr($bytes, 1, 5)), 8, '0', STR_PAD_LEFT) .
+            str_pad(self::encode5bytes(substr($bytes, 6, 5)), 8, '0', STR_PAD_LEFT) .
+            str_pad(self::encode5bytes(substr($bytes, 11, 5)), 8, '0', STR_PAD_LEFT);
     }
 
     private static function encode5bytes(string $bytes): string
