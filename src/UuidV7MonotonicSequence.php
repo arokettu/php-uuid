@@ -69,7 +69,7 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
         // first, optimized versions for specific values
         if ($this->counterBits === 0) {
             $bytes[6] = \chr(0x7 << 4 | \ord($bytes[6]) & 0b1111);
-        } if ($this->counterBits === 4) {
+        } elseif ($this->counterBits === 4) {
             $bytes[6] = \chr(0x7 << 4 | $this->counter);
         } elseif ($this->counterBits < 4) {
             $randomBits = 4 - $this->counterBits;
