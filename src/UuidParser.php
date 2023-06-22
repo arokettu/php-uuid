@@ -17,7 +17,7 @@ final class UuidParser
                 3 => new UuidV3($bytes),
                 4 => new UuidV4($bytes),
                 5 => new UuidV5($bytes),
-//                6 => new GenericUuid($bytes), // todo: support
+                6 => new UuidV6($bytes),
                 7 => new UuidV7($bytes),
                 8 => new UuidV8($bytes),
                 default => new GenericUuid($bytes),
