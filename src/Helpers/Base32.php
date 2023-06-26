@@ -55,7 +55,7 @@ final class Base32
             return hex2bin(
                 str_pad(
                     base_convert($num, 32, 16),
-                    strlen($bytes) === 2 ? 2 : 10,
+                    \strlen($bytes) === 2 ? 2 : 10,
                     '0',
                     STR_PAD_LEFT
                 )

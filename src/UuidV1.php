@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 use DateTimeImmutable;
 
-final class UuidV1 extends Uuid implements TimeBasedUuid
+final readonly class UuidV1 extends Uuid implements TimeBasedUuid
 {
     use Helpers\Rfc4122Variant1UUID;
 

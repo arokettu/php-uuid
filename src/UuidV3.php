@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final class UuidV3 extends Uuid
+final readonly class UuidV3 extends Uuid
 {
     use Helpers\Rfc4122Variant1UUID;
 

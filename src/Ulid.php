@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 use UnexpectedValueException;
 
-final class Ulid extends Uuid implements TimeBasedUuid
+final readonly class Ulid extends Uuid implements TimeBasedUuid
 {
     use Helpers\UlidLikeDateTime;
 

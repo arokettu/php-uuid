@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-abstract class Uuid
+abstract readonly class Uuid
 {
     public function __construct(
-        protected readonly string $bytes,
+        protected string $bytes,
     ) {
         if (\strlen($this->bytes) !== 16) {
             throw new \ValueError('$bytes must be 16 bytes long');
