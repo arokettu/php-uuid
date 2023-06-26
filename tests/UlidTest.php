@@ -12,60 +12,65 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class V7Test extends TestCase
+class UlidTest extends TestCase
 {
     public function testMin(): void
     {
-        $uuid = UuidFactory::v7(
+        $uuid = UuidFactory::ulid(
+            false,
             new Randomizer(new FixedSequenceEngine("\0")),
             new StaticClock(new \DateTime('@0')),
         );
 
-        self::assertEquals('00000000-0000-7000-8000-000000000000', $uuid->toString());
+        self::assertEquals('00000000000000000000000000', $uuid->toString());
     }
 
     public function testMax(): void
     {
-        $uuid = UuidFactory::v7(
+        $uuid = UuidFactory::ulid(
+            false,
             new Randomizer(new FixedSequenceEngine("\xff")),
             new StaticClock(new \DateTime('@281474976710.655')),
         );
 
-        self::assertEquals('ffffffff-ffff-7fff-bfff-ffffffffffff', $uuid->toString());
+        self::assertEquals('7ZZZZZZZZZZZZZZZZZZZZZZZZZ', $uuid->toString());
     }
 
     public function testRandom(): void
     {
-        $uuid = UuidFactory::v7(
+        $uuid = UuidFactory::ulid(
+            false,
             new Randomizer(new Xoshiro256StarStar(123)), // f969a0d1a18f5a325e4d6d65c7e335f8
             new StaticClock(new \DateTime('@1700000000.000')), // 18bcfe56800
         );
 
-        self::assertEquals('018bcfe5-6800-7969-a0d1-a18f5a325e4d', $uuid->toString());
+        self::assertEquals('01HF7YAT00Z5MT1MD1HXD34QJD', $uuid->toString());
     }
 
     public function testRollover(): void
     {
-        $uuid = UuidFactory::v7(
-            new Randomizer(new FixedSequenceEngine("\x88")),
+        $uuid = UuidFactory::ulid(
+            false,
+            new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")),
             new StaticClock(new \DateTime('@281474976710.656')), // 281474976710.655 + 0.001
         );
 
-        self::assertEquals('00000000-0000-7888-8888-888888888888', $uuid->toString());
+        self::assertEquals('0000000000FFFFFFFFFFFFFFFF', $uuid->toString());
 
-        $uuid = UuidFactory::v7(
-            new Randomizer(new FixedSequenceEngine("\x88")),
+        $uuid = UuidFactory::ulid(
+            false,
+            new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")),
             new StaticClock(new \DateTime('@281474976710.657')), // 281474976710.655 + 0.001 + 0.001
         );
 
-        self::assertEquals('00000000-0001-7888-8888-888888888888', $uuid->toString());
+        self::assertEquals('0000000001FFFFFFFFFFFFFFFF', $uuid->toString());
     }
 
     public function testTime(): void
     {
         // v7 has millisecond precision, we have to round our raw timestamp
         $clock = new RoundingClock(new StaticClock(), RoundingClock::ROUND_MILLISECONDS);
-        $uuid = UuidFactory::v7(clock: $clock);
+        $uuid = UuidFactory::ulid(clock: $clock);
 
         self::assertEquals($clock->now(), $uuid->getDateTime());
     }
