@@ -1,6 +1,7 @@
 {
     "name": "arokettu/uuid",
     "type": "library",
+    "license": "MIT",
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
