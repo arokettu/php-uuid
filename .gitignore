@@ -1,4 +1,5 @@
 /.idea
+/debug
 /vendor
 /composer.lock
 /reports
