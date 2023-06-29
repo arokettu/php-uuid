@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final readonly class MaxUuid extends Uuid
+final readonly class MaxUuid extends AbstractUuid
 {
     public const BYTES = "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff";
 

@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 final class UuidParser
 {
-    public static function fromBytes(string $bytes, bool $asUlid = false): Uuid
+    public static function fromBytes(string $bytes, bool $asUlid = false): AbstractUuid
     {
         if (\strlen($bytes) !== 16) {
             throw new \UnexpectedValueException('UUID must be 16 bytes long');
@@ -40,7 +40,7 @@ final class UuidParser
         return new GenericUuid($bytes);
     }
 
-    public static function fromRfc4122(string $string, bool $asUlid = false): Uuid
+    public static function fromRfc4122(string $string, bool $asUlid = false): AbstractUuid
     {
         $match = preg_match(
             '/' .
@@ -64,7 +64,7 @@ final class UuidParser
         return self::fromBytes(hex2bin($hex), $asUlid);
     }
 
-    public static function fromBase32(string $string, bool $asUuid = false): Uuid
+    public static function fromBase32(string $string, bool $asUuid = false): AbstractUuid
     {
         $match = preg_match('/^[0-7][0-9A-TV-Z]{25}$/i', $string);
 
@@ -75,7 +75,7 @@ final class UuidParser
         return self::fromBytes(Helpers\Base32::decode($string), !$asUuid);
     }
 
-    public static function fromString(string $string): Uuid
+    public static function fromString(string $string): AbstractUuid
     {
         return match (\strlen($string)) {
             32, 34, 36, 38 => self::fromRfc4122($string),
