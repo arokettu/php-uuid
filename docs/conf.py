@@ -5,8 +5,8 @@ import os, sys
 sys.path.append(os.curdir)
 from conf_project import *
 
-author = 'Anton Smirnov'
-copyright = '{} {}'.format(datetime.now().year, author)
+# author = 'Anton Smirnov'
+copyright = '{} {}'.format(datetime.now().year, 'Anton Smirnov')
 language = 'en'
 
 html_title = project
