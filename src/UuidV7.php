@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final readonly class UuidV7 extends Uuid implements TimeBasedUuid
+final readonly class UuidV7 extends Uuid implements Rfc4122Uuid, TimeBasedUuid
 {
     use Helpers\Rfc4122Variant1UUID;
     use Helpers\UlidLikeDateTime;
