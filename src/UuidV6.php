@@ -10,7 +10,7 @@ final readonly class UuidV6 extends AbstractUuid implements Rfc4122Uuid, TimeBas
 {
     use Helpers\Rfc4122Variant1UUID;
 
-    private function version(): int
+    public function getRfc4122Version(): int
     {
         return 6;
     }

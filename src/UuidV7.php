@@ -9,7 +9,7 @@ final readonly class UuidV7 extends AbstractUuid implements Rfc4122Uuid, TimeBas
     use Helpers\Rfc4122Variant1UUID;
     use Helpers\UlidLikeDateTime;
 
-    private function version(): int
+    public function getRfc4122Version(): int
     {
         return 7;
     }

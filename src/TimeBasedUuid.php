@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 use DateTimeImmutable;
 
-interface TimeBasedUuid
+interface TimeBasedUuid extends Uuid
 {
     public function getDateTime(): DateTimeImmutable;
 }

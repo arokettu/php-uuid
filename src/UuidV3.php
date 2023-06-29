@@ -8,7 +8,7 @@ final readonly class UuidV3 extends AbstractUuid implements Rfc4122Uuid
 {
     use Helpers\Rfc4122Variant1UUID;
 
-    private function version(): int
+    public function getRfc4122Version(): int
     {
         return 3;
     }
