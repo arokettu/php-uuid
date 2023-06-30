@@ -18,10 +18,10 @@ Documentation
 .. toctree::
    :maxdepth: 2
 
-   parser
-   factory
    base_class
    uuid
+   parser
+   factory
 
 License
 =======

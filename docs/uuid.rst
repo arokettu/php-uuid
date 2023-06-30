@@ -213,5 +213,5 @@ You can do it at your own risk if you used ULIDs and then decided to move to a m
     var_dump($ulid->toString());    // 01H44RDYXJPFCF895N3BBXCZRC
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _RFC 4122 draft: https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04
+.. _RFC 4122 draft: https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format
 .. _ULID spec: https://github.com/ulid/spec
