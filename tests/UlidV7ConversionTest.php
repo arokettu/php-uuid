@@ -6,6 +6,7 @@ namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Uuid\Ulid;
 use Arokettu\Uuid\UuidParser;
+use Arokettu\Uuid\UuidV7;
 use PHPUnit\Framework\TestCase;
 
 class UlidV7ConversionTest extends TestCase
@@ -42,5 +43,13 @@ class UlidV7ConversionTest extends TestCase
         $ulid1 = UuidParser::fromString('01HF7YAT00Z5MT1MD1HXD34QJD');
 
         $ulid1->toUuidV7()->toString();
+    }
+
+    public function testConversionBack(): void
+    {
+        /** @var UuidV7 $uuid */
+        $uuid = UuidParser::fromString('018bcfe5-6800-7969-a0d1-a18f5a325e4d');
+
+        self::assertEquals('01HF7YAT00F5MT1MD1HXD34QJD', $uuid->toUlid()->toString());
     }
 }
