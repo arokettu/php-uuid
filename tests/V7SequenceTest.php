@@ -152,4 +152,21 @@ class V7SequenceTest extends TestCase
         $this->expectExceptionMessage('Counter sequence overflow');
         var_dump($sequence->next()->toRfc4122());
     }
+
+    public function testIterator(): void
+    {
+        $clock = new StaticClock();
+
+        $seq1 = UuidFactory::v7Sequence(true, new Randomizer(new Xoshiro256StarStar(123)), $clock);
+        $seq2 = UuidFactory::v7Sequence(true, new Randomizer(new Xoshiro256StarStar(123)), $clock);
+
+        $counter = 10;
+        foreach ($seq1 as $uuid) {
+            self::assertEquals($seq2->next(), $uuid);
+            $counter--;
+            if (!$counter) {
+                break;
+            }
+        }
+    }
 }
