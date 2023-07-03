@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Uuid\UuidFactory;
+use Arokettu\Uuid\UuidV8;
 use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
@@ -30,6 +31,60 @@ class V8Test extends TestCase
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
         $uuid = UuidFactory::v8($bytes);
 
-        self::assertEquals('f969a0d1-a18f-8a32-9e4d-6d65c7e335f8', $uuid->toRfc4122());
+        self::assertEquals('f969a0d1-a18f-8a32-9e4d-6d65c7e335f8', $uuid->toString());
+    }
+
+    public function testWrongLength(): void
+    {
+        $this->expectException(\ValueError::class);
+        $this->expectExceptionMessage('$bytes must be 16 bytes long');
+
+        $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(15); // f969a0d1a18f5a325e4d6d65c7e335
+
+        UuidFactory::v8($bytes);
+    }
+
+    public function testDirectCreation(): void
+    {
+        $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
+        $bytes[6] = "\x8a"; // valid version upper hex (8)
+        $bytes[8] = "\x9e"; // valid variant bits in upper hex (89ab)
+
+        $uuid = new UuidV8($bytes);
+        self::assertEquals('f969a0d1-a18f-8a32-9e4d-6d65c7e335f8', $uuid->toString());
+    }
+
+    public function testDirectCreationWrongLength(): void
+    {
+        $this->expectException(\ValueError::class);
+        $this->expectExceptionMessage('$bytes must be 16 bytes long');
+
+        $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(15); // f969a0d1a18f5a325e4d6d65c7e335
+        $bytes[6] = "\x8a"; // valid version upper hex (8)
+        $bytes[8] = "\x9e"; // valid variant bits in upper hex (89ab)
+
+        new UuidV8($bytes);
+    }
+
+    public function testDirectCreationWrongVariant(): void
+    {
+        $this->expectException(\ValueError::class);
+        $this->expectExceptionMessage('The supplied UUID is not a valid RFC 4122 UUID');
+
+        $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
+        $bytes[6] = "\x8a"; // valid version upper hex (8)
+
+        new UuidV8($bytes);
+    }
+
+    public function testDirectCreationWrongVersion(): void
+    {
+        $this->expectException(\ValueError::class);
+        $this->expectExceptionMessage('The supplied UUID is not a valid RFC 4122 version 8 UUID');
+
+        $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
+        $bytes[8] = "\x9e"; // valid variant bits in upper hex (89ab)
+
+        new UuidV8($bytes);
     }
 }
