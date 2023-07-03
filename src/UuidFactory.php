@@ -57,18 +57,18 @@ final class UuidFactory
     }
 
     public static function v7Sequence(
-        int $counterBits = 4,
+        bool $reserveHighestCounterBit = true,
         Randomizer $randomizer = new Randomizer(),
         ClockInterface $clock = new SystemClock(),
     ): UuidV7MonotonicSequence {
-        return new UuidV7MonotonicSequence($counterBits, $randomizer, $clock);
+        return new UuidV7MonotonicSequence($reserveHighestCounterBit, $randomizer, $clock);
     }
 
     public static function v7(
         Randomizer $randomizer = new Randomizer(),
         ClockInterface $clock = new SystemClock(),
     ): UuidV7 {
-        return self::v7Sequence(0, $randomizer, $clock)->next();
+        return self::v7Sequence(false, $randomizer, $clock)->next();
     }
 
     public static function v8(string $bytes): UuidV8

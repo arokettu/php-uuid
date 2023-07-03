@@ -37,11 +37,11 @@ class V7Test extends TestCase
     public function testRandom(): void
     {
         $uuid = UuidFactory::v7(
-            new Randomizer(new Xoshiro256StarStar(123)), // f969a0d1a18f5a325e4d6d65c7e335f8
+            new Randomizer(new Xoshiro256StarStar(123)), // f969a0d1a18f5a32 5e4d6d65c7e335f8
             new StaticClock(new \DateTime('@1700000000.000')), // 18bcfe56800
         );
 
-        self::assertEquals('018bcfe5-6800-7969-a0d1-a18f5a325e4d', $uuid->toString());
+        self::assertEquals('018bcfe5-6800-7969-9e4d-6d65c7e335f8', $uuid->toString());
     }
 
     public function testRollover(): void

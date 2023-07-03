@@ -16,13 +16,10 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
     private int $counter = 0;
 
     public function __construct(
-        private readonly int $counterBits = 4,
+        private readonly bool $reserveHighestCounterBit = true,
         private readonly Randomizer $randomizer = new Randomizer(),
         private readonly ClockInterface $clock = new SystemClock(),
     ) {
-        if ($counterBits < 0 || $counterBits > 12) {
-            throw new \ValueError('$counterBits must be in range 0-12');
-        }
     }
 
     public function next(): UuidV7
@@ -46,45 +43,23 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
 
         if ($bytesTS === $this->lastTimestamp) {
             $this->counter += 1;
-            if ($this->counter >= 2 ** $this->counterBits) {
+            if ($this->counter > 0x0fff) {
                 // do not allow counter rollover
-                throw new \RuntimeException(sprintf(
-                    "For %d counter bits, batch must be shorter than %d",
-                    $this->counterBits,
-                    2 ** $this->counterBits,
-                ));
+                throw new \RuntimeException("Counter sequence overflow");
             }
         } else {
-            $this->counter = 0;
+            $counter = hexdec(bin2hex($this->randomizer->getBytes(2)));
+            $counter &= $this->reserveHighestCounterBit ? 0x07ff : 0x0fff;
+
+            $this->counter = $counter;
             $this->lastTimestamp = $bytesTS;
         }
 
-        $bytes = $bytesTS . $this->randomizer->getBytes(10);
+        // attach version 7 to the counter directly
+        $bytes = $bytesTS . hex2bin(dechex($this->counter | 0x7000)) . $this->randomizer->getBytes(8);
 
         // set variant
         $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
-
-        // set version and counter
-        // Version 7: set the highest 4 bits to hex '7'
-        // first, optimized versions for specific values
-        if ($this->counterBits === 0) {
-            $bytes[6] = \chr(0x7 << 4 | \ord($bytes[6]) & 0b1111);
-        } elseif ($this->counterBits === 4) {
-            $bytes[6] = \chr(0x7 << 4 | $this->counter);
-        } elseif ($this->counterBits < 4) {
-            $randomBits = 4 - $this->counterBits;
-            $version = 0x7 << 4;
-            $counter = $this->counter << $randomBits;
-            $random = \ord($bytes[6]) % 2 ** $randomBits;
-            $bytes[6] = \chr($version | $counter | $random);
-        } else {
-            $byte7CounterBits = $this->counterBits - 4;
-            $randomBits = 8 - $byte7CounterBits;
-            $bytes[6] = \chr(0x7 << 4 | $this->counter >> $byte7CounterBits);
-            $counter = $this->counter << $randomBits;
-            $random = \ord($bytes[7]) % 2 ** $randomBits;
-            $bytes[7] = \chr($counter | $random);
-        }
 
         return new UuidV7($bytes);
     }
