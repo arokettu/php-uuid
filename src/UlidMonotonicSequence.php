@@ -58,9 +58,9 @@ final class UlidMonotonicSequence implements IteratorAggregate
 
             if ($this->uuidV7Compatible) {
                 // set variant
-                $bytes[2] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
+                $bytes[2] = \chr(0b10 << 6 | \ord($bytes[2]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
                 // set version
-                $bytes[0] = \chr(0x7 << 4 | \ord($bytes[6]) & 0b1111); // Version 7: set the highest 4 bits to hex '7'
+                $bytes[0] = \chr(0x7 << 4 | \ord($bytes[0]) & 0b1111); // Version 7: set the highest 4 bits to hex '7'
             }
 
             $this->lastBytes = $bytes;

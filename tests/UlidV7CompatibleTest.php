@@ -44,7 +44,7 @@ class UlidV7CompatibleTest extends TestCase
             new StaticClock(new \DateTime('@1700000000.000')), // 18bcfe56800
         );
 
-        self::assertEquals('01HF7YAT00F9MSXMD1HXD34QJD', $uuid->toString());
+        self::assertEquals('01HF7YAT00F5MT1MD1HXD34QJD', $uuid->toString());
     }
 
     public function testRollover(): void
@@ -55,7 +55,7 @@ class UlidV7CompatibleTest extends TestCase
             new StaticClock(new \DateTime('@281474976710.656')), // 281474976710.655 + 0.001
         );
 
-        self::assertEquals('0000000000FVFBVFFFFFFFFFFF', $uuid->toString());
+        self::assertEquals('0000000000FFFBFFFFFFFFFFFF', $uuid->toString());
 
         $uuid = UuidFactory::ulid(
             true,
@@ -63,7 +63,7 @@ class UlidV7CompatibleTest extends TestCase
             new StaticClock(new \DateTime('@281474976710.657')), // 281474976710.655 + 0.001 + 0.001
         );
 
-        self::assertEquals('0000000001FVFBVFFFFFFFFFFF', $uuid->toString());
+        self::assertEquals('0000000001FFFBFFFFFFFFFFFF', $uuid->toString());
     }
 
     public function testTime(): void
