@@ -110,4 +110,46 @@ class V7SequenceTest extends TestCase
         self::assertEquals('02000000-0200-74df-b05c-234f8095766f', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0280-7237-8d48-f3844e4600c4', $sequence->next()->toRfc4122());
     }
+
+    public function testOverflowWorstCase(): void
+    {
+        $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
+
+        $sequence = UuidFactory::v7Sequence(false, $randomizer, new StaticClock());
+        $sequence->next();
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Counter sequence overflow');
+        $sequence->next();
+    }
+
+    public function testOverflowGuaranteedWorstCase(): void
+    {
+        $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
+
+        $sequence = UuidFactory::v7Sequence(true, $randomizer, new StaticClock());
+
+        for ($i = 0; $i < 2049; $i++) { // 0x07ff - 0x0fff inclusive
+            $sequence->next();
+        }
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Counter sequence overflow');
+        var_dump($sequence->next()->toRfc4122());
+    }
+
+    public function testOverflowBestCase(): void
+    {
+        $randomizer = new Randomizer(new FixedSequenceEngine("\x00"));
+
+        $sequence = UuidFactory::v7Sequence(false, $randomizer, new StaticClock());
+
+        for ($i = 0; $i < 4096; $i++) {
+            $sequence->next();
+        }
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Counter sequence overflow');
+        var_dump($sequence->next()->toRfc4122());
+    }
 }
