@@ -18,67 +18,44 @@ class V7SequenceTest extends TestCase
     public function testSequences(): void
     {
         $sequences = [
-            ['num' => 1, 'bits' => 0, 'uuids' => [
-                '01963972-0580-7fff-bfff-ffffffffffff',
+            ['num' => 8, 'reserve' => true, 'uuids' => [
+                '01963972-0580-7199-9999-999999999999', '01963972-0580-719a-9999-999999999999',
+                '01963972-0580-719b-9999-999999999999', '01963972-0580-719c-9999-999999999999',
+                '01963972-0580-719d-9999-999999999999', '01963972-0580-719e-9999-999999999999',
+                '01963972-0580-719f-9999-999999999999', '01963972-0580-71a0-9999-999999999999',
                 // skip
-                '01963972-0968-7fff-bfff-ffffffffffff',
+                '01963972-0968-7199-9999-999999999999', '01963972-0968-719a-9999-999999999999',
+                '01963972-0968-719b-9999-999999999999', '01963972-0968-719c-9999-999999999999',
+                '01963972-0968-719d-9999-999999999999', '01963972-0968-719e-9999-999999999999',
+                '01963972-0968-719f-9999-999999999999', '01963972-0968-71a0-9999-999999999999',
             ]],
-            ['num' => 4, 'bits' => 2, 'uuids' => [
-                '01963972-0580-73ff-bfff-ffffffffffff', '01963972-0580-77ff-bfff-ffffffffffff',
-                '01963972-0580-7bff-bfff-ffffffffffff', '01963972-0580-7fff-bfff-ffffffffffff',
+            ['num' => 8, 'reserve' => false, 'uuids' => [
+                '01963972-0580-7999-9999-999999999999', '01963972-0580-799a-9999-999999999999',
+                '01963972-0580-799b-9999-999999999999', '01963972-0580-799c-9999-999999999999',
+                '01963972-0580-799d-9999-999999999999', '01963972-0580-799e-9999-999999999999',
+                '01963972-0580-799f-9999-999999999999', '01963972-0580-79a0-9999-999999999999',
                 // skip
-                '01963972-0968-73ff-bfff-ffffffffffff', '01963972-0968-77ff-bfff-ffffffffffff',
-                '01963972-0968-7bff-bfff-ffffffffffff', '01963972-0968-7fff-bfff-ffffffffffff',
-            ]],
-            ['num' => 8, 'bits' => 4, 'uuids' => [
-                '01963972-0580-70ff-bfff-ffffffffffff', '01963972-0580-71ff-bfff-ffffffffffff',
-                '01963972-0580-72ff-bfff-ffffffffffff', '01963972-0580-73ff-bfff-ffffffffffff',
-                '01963972-0580-74ff-bfff-ffffffffffff', '01963972-0580-75ff-bfff-ffffffffffff',
-                '01963972-0580-76ff-bfff-ffffffffffff', '01963972-0580-77ff-bfff-ffffffffffff',
-                // skip
-                '01963972-0968-70ff-bfff-ffffffffffff', '01963972-0968-71ff-bfff-ffffffffffff',
-                '01963972-0968-72ff-bfff-ffffffffffff', '01963972-0968-73ff-bfff-ffffffffffff',
-                '01963972-0968-74ff-bfff-ffffffffffff', '01963972-0968-75ff-bfff-ffffffffffff',
-                '01963972-0968-76ff-bfff-ffffffffffff', '01963972-0968-77ff-bfff-ffffffffffff',
-            ]],
-            ['num' => 8, 'bits' => 7, 'uuids' => [
-                '01963972-0580-701f-bfff-ffffffffffff', '01963972-0580-703f-bfff-ffffffffffff',
-                '01963972-0580-705f-bfff-ffffffffffff', '01963972-0580-707f-bfff-ffffffffffff',
-                '01963972-0580-709f-bfff-ffffffffffff', '01963972-0580-70bf-bfff-ffffffffffff',
-                '01963972-0580-70df-bfff-ffffffffffff', '01963972-0580-70ff-bfff-ffffffffffff',
-                // skip
-                '01963972-0968-701f-bfff-ffffffffffff', '01963972-0968-703f-bfff-ffffffffffff',
-                '01963972-0968-705f-bfff-ffffffffffff', '01963972-0968-707f-bfff-ffffffffffff',
-                '01963972-0968-709f-bfff-ffffffffffff', '01963972-0968-70bf-bfff-ffffffffffff',
-                '01963972-0968-70df-bfff-ffffffffffff', '01963972-0968-70ff-bfff-ffffffffffff',
-            ]],
-            ['num' => 8, 'bits' => 12, 'uuids' => [
-                '01963972-0580-7000-bfff-ffffffffffff', '01963972-0580-7001-bfff-ffffffffffff',
-                '01963972-0580-7002-bfff-ffffffffffff', '01963972-0580-7003-bfff-ffffffffffff',
-                '01963972-0580-7004-bfff-ffffffffffff', '01963972-0580-7005-bfff-ffffffffffff',
-                '01963972-0580-7006-bfff-ffffffffffff', '01963972-0580-7007-bfff-ffffffffffff',
-                // skip
-                '01963972-0968-7000-bfff-ffffffffffff', '01963972-0968-7001-bfff-ffffffffffff',
-                '01963972-0968-7002-bfff-ffffffffffff', '01963972-0968-7003-bfff-ffffffffffff',
-                '01963972-0968-7004-bfff-ffffffffffff', '01963972-0968-7005-bfff-ffffffffffff',
-                '01963972-0968-7006-bfff-ffffffffffff', '01963972-0968-7007-bfff-ffffffffffff',
+                '01963972-0968-7999-9999-999999999999', '01963972-0968-799a-9999-999999999999',
+                '01963972-0968-799b-9999-999999999999', '01963972-0968-799c-9999-999999999999',
+                '01963972-0968-799d-9999-999999999999', '01963972-0968-799e-9999-999999999999',
+                '01963972-0968-799f-9999-999999999999', '01963972-0968-79a0-9999-999999999999',
             ]],
         ];
 
-        foreach ($sequences as ['num' => $num, 'bits' => $bits, 'uuids' => $uuids]) {
+        foreach ($sequences as ['num' => $num, 'reserve' => $reserve, 'uuids' => $uuids]) {
             $clock = new MutableClock(new \DateTime('2025-04-15 12:34:56'));
-            $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
+            $randomizer = new Randomizer(new FixedSequenceEngine("\x99"));
 
-            $seq = UuidFactory::v7Sequence($bits, $randomizer, $clock);
+            $seq = UuidFactory::v7Sequence($reserve, $randomizer, $clock);
 
             for ($i = 0; $i < $num; $i++) {
-                self::assertEquals($uuids[$i], $seq->next()->toRfc4122(), "bits: $bits, i: $i");
+                self::assertEquals($uuids[$i], $seq->next()->toRfc4122(), "reserve: $reserve, i: $i");
             }
 
             $clock->dateTime->modify('+1 sec');
 
             for ($i = 0; $i < $num; $i++) {
-                self::assertEquals($uuids[$i + $num], $seq->next()->toRfc4122(), "bits: $bits, i2: $i");
+                self::assertEquals($uuids[$i + $num], $seq->next()->toRfc4122(), "reserve: $reserve, i2: $i");
             }
         }
     }
@@ -88,14 +65,14 @@ class V7SequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new StaticClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UuidFactory::v7Sequence(8, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(true, $randomizer, $clock);
 
-        self::assertEquals('02000000-0000-7009-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7016-b2c3-462baa770682', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7028-9d95-b3d878566a28', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7035-b844-9b23c260551a', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-704f-9c6d-af02d3c2705c', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7057-8ea8-3797f7a64d48', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7169-9e4d-6d65c7e335f8', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-716a-afa6-f2c3462baa77', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-716b-8682-cfaa99028220', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-716c-9e78-9d95b3d87856', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-716d-aa28-295af8ebf9ff', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-716e-9b75-f8449b23c260', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvance(): void
@@ -103,17 +80,17 @@ class V7SequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new MutableClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UuidFactory::v7Sequence(8, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(true, $randomizer, $clock);
 
-        self::assertEquals('02000000-0000-7009-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7016-b2c3-462baa770682', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7028-9d95-b3d878566a28', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7169-9e4d-6d65c7e335f8', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-716a-afa6-f2c3462baa77', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-716b-8682-cfaa99028220', $sequence->next()->toRfc4122());
 
         $clock->dateTime->modify('+1 second');
 
-        self::assertEquals('02000000-03e8-7005-b844-9b23c260551a', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-701f-9c6d-af02d3c2705c', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-7027-8ea8-3797f7a64d48', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7678-aa28-295af8ebf9ff', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7679-9b75-f8449b23c260', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-767a-951a-7e9d570a1aa8', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvanceEveryStep(): void
@@ -124,13 +101,13 @@ class V7SequenceTest extends TestCase
             new \DateTime('2039-09-07 15:47:35.552'),
         );
 
-        $sequence = UuidFactory::v7Sequence(8, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(true, $randomizer, $clock);
 
-        self::assertEquals('02000000-0000-7009-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0080-7006-b2c3-462baa770682', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0100-7008-9d95-b3d878566a28', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0180-7005-b844-9b23c260551a', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0200-700f-9c6d-af02d3c2705c', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0280-7007-8ea8-3797f7a64d48', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7169-9e4d-6d65c7e335f8', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0080-77a6-8682-cfaa99028220', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0100-7678-aa28-295af8ebf9ff', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0180-7375-951a-7e9d570a1aa8', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0200-74df-b05c-234f8095766f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0280-7237-8d48-f3844e4600c4', $sequence->next()->toRfc4122());
     }
 }
