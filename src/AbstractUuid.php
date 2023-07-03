@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 abstract readonly class AbstractUuid implements Uuid
 {
-    final public function __construct(
+    public function __construct(
         protected string $bytes,
     ) {
         if (\strlen($this->bytes) !== 16) {
