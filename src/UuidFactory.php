@@ -58,17 +58,17 @@ final class UuidFactory
 
     public static function v7Sequence(
         bool $reserveHighestCounterBit = true,
-        Randomizer $randomizer = new Randomizer(),
         ClockInterface $clock = new SystemClock(),
+        Randomizer $randomizer = new Randomizer(),
     ): UuidV7MonotonicSequence {
-        return new UuidV7MonotonicSequence($reserveHighestCounterBit, $randomizer, $clock);
+        return new UuidV7MonotonicSequence($reserveHighestCounterBit, $clock, $randomizer);
     }
 
     public static function v7(
-        Randomizer $randomizer = new Randomizer(),
         ClockInterface $clock = new SystemClock(),
+        Randomizer $randomizer = new Randomizer(),
     ): UuidV7 {
-        return self::v7Sequence(false, $randomizer, $clock)->next();
+        return self::v7Sequence(false, $clock, $randomizer)->next();
     }
 
     public static function v8(string $bytes): UuidV8
@@ -87,17 +87,18 @@ final class UuidFactory
 
     public static function ulidSequence(
         bool $uuidV7Compatible = false,
-        Randomizer $randomizer = new Randomizer(),
+        bool $reserveHighestCounterBit = true,
         ClockInterface $clock = new SystemClock(),
+        Randomizer $randomizer = new Randomizer(),
     ): UlidMonotonicSequence {
-        return new UlidMonotonicSequence($uuidV7Compatible, $randomizer, $clock);
+        return new UlidMonotonicSequence($uuidV7Compatible, $reserveHighestCounterBit, $clock, $randomizer);
     }
 
     public static function ulid(
         bool $uuidV7Compatible = false,
-        Randomizer $randomizer = new Randomizer(),
         ClockInterface $clock = new SystemClock(),
+        Randomizer $randomizer = new Randomizer(),
     ): Ulid {
-        return self::ulidSequence($uuidV7Compatible, $randomizer, $clock)->next();
+        return self::ulidSequence($uuidV7Compatible, false, $clock, $randomizer)->next();
     }
 }

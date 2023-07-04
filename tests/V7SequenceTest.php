@@ -46,7 +46,7 @@ class V7SequenceTest extends TestCase
             $clock = new MutableClock(new \DateTime('2025-04-15 12:34:56'));
             $randomizer = new Randomizer(new FixedSequenceEngine("\x99"));
 
-            $seq = UuidFactory::v7Sequence($reserve, $randomizer, $clock);
+            $seq = UuidFactory::v7Sequence($reserve, $clock, $randomizer);
 
             for ($i = 0; $i < $num; $i++) {
                 self::assertEquals($uuids[$i], $seq->next()->toRfc4122(), "reserve: $reserve, i: $i");
@@ -65,7 +65,7 @@ class V7SequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new StaticClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UuidFactory::v7Sequence(true, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-7169-9e4d-6d65c7e335f8', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-716a-afa6-f2c3462baa77', $sequence->next()->toRfc4122());
@@ -80,7 +80,7 @@ class V7SequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new MutableClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UuidFactory::v7Sequence(true, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-7169-9e4d-6d65c7e335f8', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-716a-afa6-f2c3462baa77', $sequence->next()->toRfc4122());
@@ -101,7 +101,7 @@ class V7SequenceTest extends TestCase
             new \DateTime('2039-09-07 15:47:35.552'),
         );
 
-        $sequence = UuidFactory::v7Sequence(true, $randomizer, $clock);
+        $sequence = UuidFactory::v7Sequence(true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-7169-9e4d-6d65c7e335f8', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0080-77a6-8682-cfaa99028220', $sequence->next()->toRfc4122());
@@ -115,7 +115,7 @@ class V7SequenceTest extends TestCase
     {
         $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
 
-        $sequence = UuidFactory::v7Sequence(false, $randomizer, new StaticClock());
+        $sequence = UuidFactory::v7Sequence(false, new StaticClock(), $randomizer);
         $sequence->next();
 
         $this->expectException(\RuntimeException::class);
@@ -127,7 +127,7 @@ class V7SequenceTest extends TestCase
     {
         $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
 
-        $sequence = UuidFactory::v7Sequence(true, $randomizer, new StaticClock());
+        $sequence = UuidFactory::v7Sequence(true, new StaticClock(), $randomizer);
 
         for ($i = 0; $i < 2049; $i++) { // 0x07ff - 0x0fff inclusive
             $sequence->next();
@@ -142,7 +142,7 @@ class V7SequenceTest extends TestCase
     {
         $randomizer = new Randomizer(new FixedSequenceEngine("\x00"));
 
-        $sequence = UuidFactory::v7Sequence(false, $randomizer, new StaticClock());
+        $sequence = UuidFactory::v7Sequence(false, new StaticClock(), $randomizer);
 
         for ($i = 0; $i < 4096; $i++) {
             $sequence->next();
@@ -157,8 +157,8 @@ class V7SequenceTest extends TestCase
     {
         $clock = new StaticClock();
 
-        $seq1 = UuidFactory::v7Sequence(true, new Randomizer(new Xoshiro256StarStar(123)), $clock);
-        $seq2 = UuidFactory::v7Sequence(true, new Randomizer(new Xoshiro256StarStar(123)), $clock);
+        $seq1 = UuidFactory::v7Sequence(true, $clock, new Randomizer(new Xoshiro256StarStar(123)));
+        $seq2 = UuidFactory::v7Sequence(true, $clock, new Randomizer(new Xoshiro256StarStar(123)));
 
         $counter = 10;
         foreach ($seq1 as $uuid) {

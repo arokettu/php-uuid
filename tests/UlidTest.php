@@ -18,8 +18,8 @@ class UlidTest extends TestCase
     {
         $uuid = UuidFactory::ulid(
             false,
-            new Randomizer(new FixedSequenceEngine("\0")),
             new StaticClock(new \DateTime('@0')),
+            new Randomizer(new FixedSequenceEngine("\0")),
         );
 
         self::assertEquals('00000000000000000000000000', $uuid->toString());
@@ -29,8 +29,8 @@ class UlidTest extends TestCase
     {
         $uuid = UuidFactory::ulid(
             false,
-            new Randomizer(new FixedSequenceEngine("\xff")),
             new StaticClock(new \DateTime('@281474976710.655')),
+            new Randomizer(new FixedSequenceEngine("\xff")),
         );
 
         self::assertEquals('7ZZZZZZZZZZZZZZZZZZZZZZZZZ', $uuid->toString());
@@ -40,8 +40,8 @@ class UlidTest extends TestCase
     {
         $uuid = UuidFactory::ulid(
             false,
-            new Randomizer(new Xoshiro256StarStar(123)), // f969a0d1a18f5a325e4d6d65c7e335f8
-            new StaticClock(new \DateTime('@1700000000.000')), // 18bcfe56800
+            new StaticClock(new \DateTime('@1700000000.000')), // f969a0d1a18f5a325e4d6d65c7e335f8
+            new Randomizer(new Xoshiro256StarStar(123)), // 18bcfe56800
         );
 
         self::assertEquals('01HF7YAT00Z5MT1MD1HXD34QJD', $uuid->toString());
@@ -51,16 +51,16 @@ class UlidTest extends TestCase
     {
         $uuid = UuidFactory::ulid(
             false,
-            new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")),
-            new StaticClock(new \DateTime('@281474976710.656')), // 281474976710.655 + 0.001
+            new StaticClock(new \DateTime('@281474976710.656')),
+            new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")), // 281474976710.655 + 0.001
         );
 
         self::assertEquals('0000000000FFFFFFFFFFFFFFFF', $uuid->toString());
 
         $uuid = UuidFactory::ulid(
             false,
-            new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")),
-            new StaticClock(new \DateTime('@281474976710.657')), // 281474976710.655 + 0.001 + 0.001
+            new StaticClock(new \DateTime('@281474976710.657')),
+            new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")), // 281474976710.655 + 0.001 + 0.001
         );
 
         self::assertEquals('0000000001FFFFFFFFFFFFFFFF', $uuid->toString());

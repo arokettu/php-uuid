@@ -17,8 +17,8 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
 
     public function __construct(
         private readonly bool $reserveHighestCounterBit = true,
-        private readonly Randomizer $randomizer = new Randomizer(),
         private readonly ClockInterface $clock = new SystemClock(),
+        private readonly Randomizer $randomizer = new Randomizer(),
     ) {
     }
 
