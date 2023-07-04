@@ -19,9 +19,14 @@ trait UlidLikeDateTime
 
         if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
             $tsMs = hexdec(bin2hex($tsBytes));
+            $neg = '';
+            if ($tsMs & 0x8000_0000_0000) { // highest bit is 1, negative timestamp
+                $tsMs ^= 0xffff_ffff_ffff;
+                $neg = '-';
+            }
             $ts = intdiv($tsMs, 1000);
             $ms = $tsMs % 1000;
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms));
+            return new DateTimeImmutable(sprintf('@%s%d.%03d', $neg, $ts, $ms));
         } else {
             throw new \LogicException('not implemented'); // todo
         }
