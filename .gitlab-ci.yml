@@ -49,5 +49,5 @@ coverage:
   image: php:8.2
   script:
     - composer update
-    - XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml
+    - vendor/bin/phpunit -d zend_extension=xdebug -d xdebug.mode=coverage --coverage-clover coverage.xml
     - bash <(curl -s https://codecov.io/bash)
