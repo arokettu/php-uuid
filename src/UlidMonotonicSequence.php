@@ -10,17 +10,17 @@ use IteratorAggregate;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
-use function Arokettu\Unsigned\add_int;
-
 final class UlidMonotonicSequence implements IteratorAggregate
 {
     private ?string $lastTimestamp = null;
     private string $lastBytes;
+    private int $counter;
 
     public function __construct(
         private readonly bool $uuidV7Compatible = false,
-        private readonly Randomizer $randomizer = new Randomizer(),
+        private readonly bool $reserveHighestCounterBit = true,
         private readonly ClockInterface $clock = new SystemClock(),
+        private readonly Randomizer $randomizer = new Randomizer(),
     ) {
     }
 
@@ -44,15 +44,11 @@ final class UlidMonotonicSequence implements IteratorAggregate
         }
 
         if ($bytesTS === $this->lastTimestamp) {
-            // 10 bytes, don't bother with native
-            $bytes = strrev(add_int(strrev($this->lastBytes), 1));
-
-            if (strcmp($bytes, $this->lastBytes) <= 0) {
+            $this->counter++;
+            if ($this->counter > 0xff_ff_ff) {
                 // do not allow counter rollover
-                throw new \RuntimeException('Random component overflow');
+                throw new \RuntimeException('Counter sequence overflow');
             }
-
-            $this->lastBytes = $bytes;
         } else {
             $bytes = $this->randomizer->getBytes(10);
 
@@ -63,11 +59,17 @@ final class UlidMonotonicSequence implements IteratorAggregate
                 $bytes[0] = \chr(0x7 << 4 | \ord($bytes[0]) & 0b1111); // Version 7: set the highest 4 bits to hex '7'
             }
 
-            $this->lastBytes = $bytes;
+            $counter = hexdec(bin2hex(substr($bytes, -3)));
+            if ($this->reserveHighestCounterBit) {
+                $counter &= 0x7f_ff_ff;
+            }
+
+            $this->lastBytes = substr($bytes, 0, -3);
+            $this->counter = $counter;
             $this->lastTimestamp = $bytesTS;
         }
 
-        $bytes = $bytesTS . $this->lastBytes;
+        $bytes = $bytesTS . $this->lastBytes . hex2bin(str_pad(dechex($this->counter), 6, '0'));
 
         return new Ulid($bytes);
     }
