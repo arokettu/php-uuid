@@ -2,6 +2,21 @@
     "name": "arokettu/uuid",
     "type": "library",
     "license": "MIT",
+    "description": "UUID and ULID classes",
+    "keywords": ["uuid", "ulid", "uuid v4" ,"uuid v7", "parser"],
+    "homepage": "https://sandfox.dev/php/uuid.html",
+    "authors": [{
+        "name": "Anton Smirnov",
+        "email": "sandfox@sandfox.me",
+        "role": "developer",
+        "homepage": "https://sandfox.me/"
+    }],
+    "support": {
+        "issues": "https://gitlab.com/sandfox/php-uuid/-/issues",
+        "source": "https://gitlab.com/sandfox/php-uuid",
+        "docs": "https://arokettu-uuid.readthedocs.io/",
+        "chat": "https://gitter.im/arokettu/community"
+    },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
