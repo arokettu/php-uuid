@@ -45,7 +45,7 @@ final class UlidMonotonicSequence implements IteratorAggregate
 
         if ($bytesTS === $this->lastTimestamp) {
             $this->counter++;
-            if ($this->counter > 0xff_ff_ff) {
+            if ($this->counter > 0x00ff_ffff) {
                 // do not allow counter rollover
                 throw new \RuntimeException('Counter sequence overflow');
             }
@@ -61,7 +61,7 @@ final class UlidMonotonicSequence implements IteratorAggregate
 
             $counter = hexdec(bin2hex(substr($bytes, -3)));
             if ($this->reserveHighestCounterBit) {
-                $counter &= 0x7f_ff_ff;
+                $counter &= 0x007f_ffff;
             }
 
             $this->lastBytes = substr($bytes, 0, -3);
