@@ -18,7 +18,7 @@ class V1Test extends TestCase
 
         // check with the same timestamp as UUIDv2 example
         // {00000002-92e8-11ed-8100-3fdb0085247e}
-        $uuid = new UuidV1(hex2bin('0000000292e811ed81003fdb0085247e'));
+        $uuid = new UuidV1('0000000292e811ed81003fdb0085247e');
         $ts = new \DateTime('2023-01-13T02:14:24.842137+0000');
         self::assertEquals($ts, $uuid->getDateTime());
     }

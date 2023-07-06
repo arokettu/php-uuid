@@ -18,10 +18,9 @@ final readonly class UuidV1 extends AbstractUuid implements Rfc4122Uuid, TimeBas
     public function getDateTime(): DateTimeImmutable
     {
         if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
-            $hex = bin2hex($this->hex);
-            $timeLow = hexdec(substr($hex, 0, 8)); // first 4 bytes
-            $timeMid = hexdec(substr($hex, 8, 4)); // next 2 bytes
-            $timeHigh = hexdec(substr($hex, 12, 4)) & 0b0000_1111_1111_1111; // next 2 bytes, strip version
+            $timeLow = hexdec(substr($this->hex, 0, 8)); // first 4 bytes
+            $timeMid = hexdec(substr($this->hex, 8, 4)); // next 2 bytes
+            $timeHigh = hexdec(substr($this->hex, 12, 4)) & 0b0000_1111_1111_1111; // next 2 bytes, strip version
 
             // 100-nanosecond intervals since midnight 15 October 1582 UTC
             $ts = $timeHigh << 48 | $timeMid << 32 | $timeLow;
@@ -36,19 +35,15 @@ final readonly class UuidV1 extends AbstractUuid implements Rfc4122Uuid, TimeBas
 
     public function toUuidV6(): UuidV6
     {
-        // 32 bit friendly
-
-        $hex = bin2hex($this->hex);
-
         // rearrange time fields
         $time =
-            substr($hex, 13, 3) .
-            substr($hex, 8, 4) .
-            substr($hex, 0, 5) .
+            substr($this->hex, 13, 3) .
+            substr($this->hex, 8, 4) .
+            substr($this->hex, 0, 5) .
             '6' . // version
-            substr($hex, 5, 3);
-        $tail = substr($hex, 16);
+            substr($this->hex, 5, 3);
+        $tail = substr($this->hex, 16);
 
-        return new UuidV6(hex2bin($time . $tail));
+        return new UuidV6($time . $tail);
     }
 }
