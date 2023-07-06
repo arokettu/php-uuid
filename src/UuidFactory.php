@@ -22,14 +22,12 @@ final class UuidFactory
 
     public static function v3(Uuid $namespace, string $identifier): UuidV3
     {
-        $bytes = md5($namespace->toHex() . $identifier, true);
+        $hex = md5($namespace->toBytes() . $identifier);
 
-        // set variant
-        $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
-        // set version
-        $bytes[6] = \chr(0x3 << 4 | \ord($bytes[6]) & 0b1111); // Version 3: set the highest 4 bits to hex '3'
+        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVersion($hex, 3);
 
-        return new UuidV3($bytes);
+        return new UuidV3($hex);
     }
 
     public static function v4(Randomizer $randomizer = new Randomizer()): UuidV4
@@ -44,14 +42,12 @@ final class UuidFactory
 
     public static function v5(Uuid $namespace, string $identifier): UuidV5
     {
-        $bytes = substr(sha1($namespace->toHex() . $identifier, true), 0, 16);
+        $hex = substr(sha1($namespace->toBytes() . $identifier), 0, 32);
 
-        // set variant
-        $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
-        // set version
-        $bytes[6] = \chr(0x5 << 4 | \ord($bytes[6]) & 0b1111); // Version 5: set the highest 4 bits to hex '5'
+        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVersion($hex, 5);
 
-        return new UuidV5($bytes);
+        return new UuidV5($hex);
     }
 
     public static function v7Sequence(
