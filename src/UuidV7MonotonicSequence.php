@@ -61,7 +61,7 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
         // set variant
         $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
 
-        return new UuidV7($bytes);
+        return new UuidV7(bin2hex($bytes));
     }
 
     /**

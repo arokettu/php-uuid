@@ -71,7 +71,7 @@ final class UlidMonotonicSequence implements IteratorAggregate
 
         $bytes = $bytesTS . $this->lastBytes . hex2bin(str_pad(dechex($this->counter), 6, '0'));
 
-        return new Ulid($bytes);
+        return new Ulid(bin2hex($bytes));
     }
 
     /**

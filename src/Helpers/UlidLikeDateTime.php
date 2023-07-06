@@ -15,10 +15,10 @@ trait UlidLikeDateTime
 
     public function getDateTime(): DateTimeImmutable
     {
-        $tsBytes = substr($this->hex, 0, 6); // first 48 bits are a timestamp
+        $tsHex = substr($this->hex, 0, 12); // first 48 bits are a timestamp
 
         if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
-            $tsMs = hexdec(bin2hex($tsBytes));
+            $tsMs = hexdec($tsHex);
             $neg = '';
             if ($tsMs & 0x8000_0000_0000) { // highest bit is 1, negative timestamp
                 $tsMs ^= 0xffff_ffff_ffff;
