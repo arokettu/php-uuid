@@ -16,6 +16,6 @@ final readonly class UuidV7 extends AbstractUuid implements Rfc4122Uuid, TimeBas
 
     public function toUlid(): Ulid
     {
-        return new Ulid($this->bytes);
+        return new Ulid($this->hex);
     }
 }

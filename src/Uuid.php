@@ -6,6 +6,8 @@ namespace Arokettu\Uuid;
 
 interface Uuid extends \Stringable
 {
+    public function toHex(): string;
+
     public function toBytes(): string;
 
     public function toRfc4122(): string;

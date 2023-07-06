@@ -7,35 +7,40 @@ namespace Arokettu\Uuid;
 abstract readonly class AbstractUuid implements Uuid
 {
     public function __construct(
-        protected string $bytes,
+        protected string $hex,
     ) {
-        if (\strlen($this->bytes) !== 16) {
-            throw new \ValueError('$bytes must be 16 bytes long');
+        if (preg_match('/^[0-9a-f]{32}$/', $this->hex) !== 1) {
+            throw new \ValueError('$bytes must be 32 lowercase hexadecimal digits');
         }
 
-        $this->assertValid($this->bytes);
+        $this->assertValid($this->hex);
     }
 
-    abstract protected function assertValid(string $bytes): void;
+    abstract protected function assertValid(string $hex): void;
+
+    final public function toHex(): string
+    {
+        return $this->hex;
+    }
 
     final public function toBytes(): string
     {
-        return $this->bytes;
+        return hex2bin($this->hex);
     }
 
     final public function toRfc4122(): string
     {
         return
-            bin2hex(substr($this->bytes, 0, 4)) . '-' .
-            bin2hex(substr($this->bytes, 4, 2)) . '-' .
-            bin2hex(substr($this->bytes, 6, 2)) . '-' .
-            bin2hex(substr($this->bytes, 8, 2)) . '-' .
-            bin2hex(substr($this->bytes, 10));
+            substr($this->hex, 0, 8) . '-' .
+            substr($this->hex, 8, 4) . '-' .
+            substr($this->hex, 12, 4) . '-' .
+            substr($this->hex, 16, 4) . '-' .
+            substr($this->hex, 20);
     }
 
     final public function toBase32(): string
     {
-        return Helpers\Base32::encode($this->bytes);
+        return Helpers\Base32::encode($this->hex);
     }
 
     public function toString(): string
@@ -49,12 +54,12 @@ abstract readonly class AbstractUuid implements Uuid
             return false;
         }
 
-        return $this->bytes === $uuid->toBytes();
+        return $this->hex === $uuid->toHex();
     }
 
     final public function compare(Uuid $uuid): int
     {
-        $compare = strcmp($this->bytes, $uuid->toBytes());
+        $compare = strcmp($this->hex, $uuid->toHex());
         return match (true) {
             $compare === 0
                 => 0,
@@ -72,11 +77,11 @@ abstract readonly class AbstractUuid implements Uuid
 
     final public function __serialize(): array
     {
-        return [$this->bytes];
+        return [$this->hex];
     }
 
     final public function __unserialize(array $data): void
     {
-        [$this->bytes] = $data;
+        [$this->hex] = $data;
     }
 }

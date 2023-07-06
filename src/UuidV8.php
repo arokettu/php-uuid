@@ -10,18 +10,18 @@ readonly class UuidV8 extends AbstractUuid implements Rfc4122Uuid
         assertValid as baseAssertValid;
     }
 
-    final public function __construct(string $bytes)
+    final public function __construct(string $hex)
     {
-        parent::__construct($bytes);
+        parent::__construct($hex);
     }
 
-    final protected function assertValid(string $bytes): void
+    final protected function assertValid(string $hex): void
     {
-        $this->baseAssertValid($bytes);
-        $this->customAssertValid($bytes);
+        $this->baseAssertValid($hex);
+        $this->customAssertValid($hex);
     }
 
-    protected function customAssertValid(string $bytes): void
+    protected function customAssertValid(string $hex): void
     {
     }
 

@@ -18,7 +18,7 @@ final readonly class UuidV6 extends AbstractUuid implements Rfc4122Uuid, TimeBas
     public function getDateTime(): DateTimeImmutable
     {
         if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
-            $hex = bin2hex($this->bytes);
+            $hex = bin2hex($this->hex);
             $timeHigh = hexdec(substr($hex, 0, 8)); // first 4 bytes
             $timeMid = hexdec(substr($hex, 8, 4)); // next 2 bytes
             $timeLow = hexdec(substr($hex, 12, 4)) & 0b0000_1111_1111_1111; // next 2 bytes, strip version
@@ -38,7 +38,7 @@ final readonly class UuidV6 extends AbstractUuid implements Rfc4122Uuid, TimeBas
     {
         // 32 bit friendly
 
-        $hex = bin2hex($this->bytes);
+        $hex = bin2hex($this->hex);
 
         // rearrange time fields
         $time =

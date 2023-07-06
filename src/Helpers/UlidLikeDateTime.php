@@ -11,11 +11,11 @@ use DateTimeImmutable;
  */
 trait UlidLikeDateTime
 {
-    protected readonly string $bytes;
+    protected readonly string $hex;
 
     public function getDateTime(): DateTimeImmutable
     {
-        $tsBytes = substr($this->bytes, 0, 6); // first 48 bits are a timestamp
+        $tsBytes = substr($this->hex, 0, 6); // first 48 bits are a timestamp
 
         if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
             $tsMs = hexdec(bin2hex($tsBytes));

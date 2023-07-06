@@ -10,7 +10,7 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
 {
     use Helpers\UlidLikeDateTime;
 
-    protected function assertValid(string $bytes): void
+    protected function assertValid(string $hex): void
     {
         // Ulid is always valid
     }
@@ -26,21 +26,21 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
     public function isUuidV7Compatible(): bool
     {
         return
-            Helpers\UuidBytes::getVariant($this->bytes) === 1 &&
-            Helpers\UuidBytes::getVersion($this->bytes) === 7;
+            Helpers\UuidBytes::getVariant($this->hex) === 1 &&
+            Helpers\UuidBytes::getVersion($this->hex) === 7;
     }
 
     public function toUuidV7(bool $lossy = false): UuidV7
     {
         if ($this->isUuidV7Compatible()) {
-            return new UuidV7($this->bytes);
+            return new UuidV7($this->hex);
         }
 
         if ($lossy === false) {
             throw new UnexpectedValueException('This ULID cannot be converted to UUID v7 losslessly');
         }
 
-        $bytes = $this->bytes;
+        $bytes = $this->hex;
 
         // set variant
         $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10

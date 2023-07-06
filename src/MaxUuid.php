@@ -6,14 +6,14 @@ namespace Arokettu\Uuid;
 
 final readonly class MaxUuid extends AbstractUuid
 {
-    public const BYTES = "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff";
+    public const HEX = "ffffffffffffffffffffffffffffffff";
 
     public function __construct()
     {
-        parent::__construct(self::BYTES);
+        parent::__construct(self::HEX);
     }
 
-    protected function assertValid(string $bytes): void
+    protected function assertValid(string $hex): void
     {
         // noop
     }

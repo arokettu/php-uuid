@@ -9,9 +9,9 @@ namespace Arokettu\Uuid\Helpers;
  */
 final class UuidBytes
 {
-    public static function getVariant(string $bytes): ?int
+    public static function getVariant(string $hex): ?int
     {
-        $bits = \ord($bytes[8]) >> 6;
+        $bits = hexdec($hex[16]) >> 2;
 
         if ($bits === 0b10) {
             return 1; // RFC 4122
@@ -20,15 +20,36 @@ final class UuidBytes
         return null; // non RFC 4122 UUIDs are irrelevant
     }
 
-    public static function getVersion(string $bytes): ?int
+    public static function getVersion(string $hex): ?int
     {
-        $bits = \ord($bytes[6]) >> 4;
+        $version = \intval($hex[12]); // 1-8 are valid, no a-f digits
 
         // check for valid version numbers
-        if ($bits < 1 || $bits > 8) {
+        if ($version < 1 || $version > 8) {
             return null;
         }
 
-        return $bits;
+        return $version;
+    }
+
+    public static function setVariant(string &$hex, int $variant): void
+    {
+        if ($variant !== 1) {
+            throw new \LogicException('Only variant 1 is supported');
+        }
+
+        $hexDigit = hexdec($hex[16]);
+        $hexDigit = $hexDigit & 0b00_11 | 0b10_00;
+        $hex[16] = dechex($hexDigit);
+    }
+
+    public static function setVersion(string &$hex, int $version): void
+    {
+        // check for valid version numbers
+        if ($version < 1 || $version > 8) {
+            throw new \LogicException('Only versions 1-8 are supported');
+        }
+
+        $hex[12] = \strval($version);
     }
 }

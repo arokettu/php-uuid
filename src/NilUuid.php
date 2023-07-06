@@ -6,14 +6,14 @@ namespace Arokettu\Uuid;
 
 final readonly class NilUuid extends AbstractUuid
 {
-    public const BYTES = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+    public const HEX = "00000000000000000000000000000000";
 
     public function __construct()
     {
-        parent::__construct(self::BYTES);
+        parent::__construct(self::HEX);
     }
 
-    protected function assertValid(string $bytes): void
+    protected function assertValid(string $hex): void
     {
         // noop
     }

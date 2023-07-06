@@ -22,7 +22,7 @@ final class UuidFactory
 
     public static function v3(Uuid $namespace, string $identifier): UuidV3
     {
-        $bytes = md5($namespace->toBytes() . $identifier, true);
+        $bytes = md5($namespace->toHex() . $identifier, true);
 
         // set variant
         $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
@@ -34,19 +34,17 @@ final class UuidFactory
 
     public static function v4(Randomizer $randomizer = new Randomizer()): UuidV4
     {
-        $bytes = $randomizer->getBytes(16);
+        $hex = bin2hex($randomizer->getBytes(16));
 
-        // set variant
-        $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
-        // set version
-        $bytes[6] = \chr(0x4 << 4 | \ord($bytes[6]) & 0b1111); // Version 4: set the highest 4 bits to hex '4'
+        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVersion($hex, 4);
 
-        return new UuidV4($bytes);
+        return new UuidV4($hex);
     }
 
     public static function v5(Uuid $namespace, string $identifier): UuidV5
     {
-        $bytes = substr(sha1($namespace->toBytes() . $identifier, true), 0, 16);
+        $bytes = substr(sha1($namespace->toHex() . $identifier, true), 0, 16);
 
         // set variant
         $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10

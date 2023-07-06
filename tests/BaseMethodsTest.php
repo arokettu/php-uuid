@@ -28,9 +28,9 @@ class BaseMethodsTest extends TestCase
 
     public function testCompare(): void
     {
-        $uuid1 = new UuidV7(hex2bin('01891cc3eb72728aa07338ca5c71e1bc'));
-        $uuid2 = new Ulid(hex2bin('01891cc3eb72728aa07338ca5c71e1bc'));
-        $uuid3 = new UuidV7(hex2bin('01891cc3eb72728aa07338ca5c71e1cc')); // +0x10
+        $uuid1 = new UuidV7('01891cc3eb72728aa07338ca5c71e1bc');
+        $uuid2 = new Ulid('01891cc3eb72728aa07338ca5c71e1bc');
+        $uuid3 = new UuidV7('01891cc3eb72728aa07338ca5c71e1cc'); // +0x10
 
         self::assertTrue($uuid1->equalTo(clone $uuid1));
         self::assertFalse($uuid1->equalTo($uuid2)); // different type

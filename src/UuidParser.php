@@ -12,32 +12,43 @@ final class UuidParser
             throw new \UnexpectedValueException('UUID must be 16 bytes long');
         }
 
-        if ($asUlid) {
-            return new Ulid($bytes);
+        return self::fromHex(bin2hex($bytes), $asUlid);
+    }
+
+    public static function fromHex(string $hex, bool $asUlid = false): Uuid
+    {
+        if (preg_match('/^[0-9a-f]{32}$/', $hex) !== 1) {
+            throw new \ValueError('UUID must be 16 hexadecimal digits');
         }
 
-        if (Helpers\UuidBytes::getVariant($bytes) === 1) {
-            return match (Helpers\UuidBytes::getVersion($bytes)) {
-                1 => new UuidV1($bytes),
-                2 => new UuidV2($bytes),
-                3 => new UuidV3($bytes),
-                4 => new UuidV4($bytes),
-                5 => new UuidV5($bytes),
-                6 => new UuidV6($bytes),
-                7 => new UuidV7($bytes),
-                8 => new UuidV8($bytes),
-                default => new GenericUuid($bytes),
+        $hex = strtolower($hex);
+
+        if ($asUlid) {
+            return new Ulid($hex);
+        }
+
+        if (Helpers\UuidBytes::getVariant($hex) === 1) {
+            return match (Helpers\UuidBytes::getVersion($hex)) {
+                1 => new UuidV1($hex),
+                2 => new UuidV2($hex),
+                3 => new UuidV3($hex),
+                4 => new UuidV4($hex),
+                5 => new UuidV5($hex),
+                6 => new UuidV6($hex),
+                7 => new UuidV7($hex),
+                8 => new UuidV8($hex),
+                default => new GenericUuid($hex),
             };
         }
 
-        if ($bytes === NilUuid::BYTES) {
+        if ($hex === NilUuid::HEX) {
             return new NilUuid();
         }
-        if ($bytes === MaxUuid::BYTES) {
+        if ($hex === MaxUuid::HEX) {
             return new MaxUuid();
         }
 
-        return new GenericUuid($bytes);
+        return new GenericUuid($hex);
     }
 
     public static function fromRfc4122(string $string, bool $asUlid = false): Uuid
@@ -61,7 +72,7 @@ final class UuidParser
 
         $hex = preg_replace('/[{}-]/', '', $string);
 
-        return self::fromBytes(hex2bin($hex), $asUlid);
+        return self::fromHex(strtolower($hex), $asUlid);
     }
 
     public static function fromBase32(string $string, bool $asUuid = false): Uuid
