@@ -83,7 +83,7 @@ final class UuidParser
             throw new \UnexpectedValueException('Not a valid Base32 encoded ULID');
         }
 
-        return self::fromBytes(Helpers\Base32::decode($string), !$asUuid);
+        return self::fromHex(Helpers\Base32::decode($string), !$asUuid);
     }
 
     public static function fromString(string $string): Uuid

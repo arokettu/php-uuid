@@ -40,13 +40,11 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
             throw new UnexpectedValueException('This ULID cannot be converted to UUID v7 losslessly');
         }
 
-        $bytes = $this->hex;
+        $hex = $this->hex;
 
-        // set variant
-        $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
-        // set version
-        $bytes[6] = \chr(0x7 << 4 | \ord($bytes[6]) & 0b1111); // Version 7: set the highest 4 bits to hex '7'
+        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVersion($hex, 7);
 
-        return new UuidV7($bytes);
+        return new UuidV7($hex);
     }
 }
