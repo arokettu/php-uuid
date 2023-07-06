@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
+use Arokettu\Clock\StaticClock;
+use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\UuidV7;
 use PHPUnit\Framework\TestCase;
@@ -31,5 +33,18 @@ class V7TimestampTest extends TestCase
         /** @var UuidV7 $uuid */
         $uuid = UuidParser::fromString('80000000-0000-7012-a345-6789abcdef00');
         self::assertEquals(-140737488356, $uuid->getDateTime()->getTimestamp()); // min negative, year 2491 BCE
+    }
+
+    public function testMillisec(): void
+    {
+        // positive timestamp
+        $dt = new \DateTime('2000-01-02 12:34:56.789 +0000');
+        $uuid = UuidFactory::v7(new StaticClock($dt));
+        self::assertEquals($dt, $uuid->getDateTime());
+
+        // negative timestamp
+        $dt = new \DateTime('1920-01-02 12:34:56.789 +0000');
+        $uuid = UuidFactory::v7(new StaticClock($dt));
+        self::assertEquals($dt, $uuid->getDateTime());
     }
 }

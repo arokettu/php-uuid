@@ -21,7 +21,7 @@ trait UlidLikeDateTime
             $tsMs = hexdec($tsHex);
             $neg = '';
             if ($tsMs & 0x8000_0000_0000) { // highest bit is 1, negative timestamp
-                $tsMs ^= 0xffff_ffff_ffff;
+                $tsMs = $tsMs ^ 0xffff_ffff_ffff - 1;
                 $neg = '-';
             }
             $ts = intdiv($tsMs, 1000);

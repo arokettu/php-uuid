@@ -24,24 +24,26 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
 
     public function next(): UuidV7
     {
-        $ts = $this->clock->now()->format('Uv');
+        $dt   = $this->clock->now();
+        $tsS  = $dt->format('U');
+        $tsMs = $dt->format('v');
 
         if (PHP_INT_SIZE >= 8) {
             // 64 bit
+            $ts = \intval($tsS) * 1000 + \intval($tsMs);
 
             // 48 bit (6 byte) timestamp
-            $hexTS = dechex(\intval($ts));
+            $hexTS = dechex($ts);
             if (\strlen($hexTS) < 12) {
                 $hexTS = str_pad($hexTS, 12, '0', STR_PAD_LEFT);
             } elseif (\strlen($hexTS) > 12) {
                 $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
             }
-            $bytesTS = hex2bin($hexTS);
         } else {
             throw new \LogicException('32 bit not implemented'); // todo
         }
 
-        if ($bytesTS === $this->lastTimestamp) {
+        if ($hexTS === $this->lastTimestamp) {
             $this->counter += 1;
             if ($this->counter > 0x0fff) {
                 // do not allow counter rollover
@@ -52,16 +54,16 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
             $counter &= $this->reserveHighestCounterBit ? 0x07ff : 0x0fff;
 
             $this->counter = $counter;
-            $this->lastTimestamp = $bytesTS;
+            $this->lastTimestamp = $hexTS;
         }
 
         // attach version 7 to the counter directly
-        $bytes = $bytesTS . hex2bin(dechex($this->counter | 0x7000)) . $this->randomizer->getBytes(8);
+        $hex = $hexTS . dechex($this->counter | 0x7000) . bin2hex($this->randomizer->getBytes(8));
 
         // set variant
-        $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
+        Helpers\UuidBytes::setVariant($hex, 1);
 
-        return new UuidV7(bin2hex($bytes));
+        return new UuidV7($hex);
     }
 
     /**
