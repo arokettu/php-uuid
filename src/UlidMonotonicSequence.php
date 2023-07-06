@@ -13,7 +13,7 @@ use Random\Randomizer;
 final class UlidMonotonicSequence implements IteratorAggregate
 {
     private ?string $lastTimestamp = null;
-    private string $lastBytes;
+    private string $lastHex;
     private int $counter;
 
     public function __construct(
@@ -26,52 +26,37 @@ final class UlidMonotonicSequence implements IteratorAggregate
 
     public function next(): Ulid
     {
-        $ts = $this->clock->now()->format('Uv');
+        $hexTS = Helpers\UlidLikeDateTimeBuilder::buildHex($this->clock->now());
 
-        if (PHP_INT_SIZE >= 8) {
-            // 64 bit
-
-            // 48 bit (6 byte) timestamp
-            $hexTS = dechex(\intval($ts));
-            if (\strlen($hexTS) < 12) {
-                $hexTS = str_pad($hexTS, 12, '0', STR_PAD_LEFT);
-            } elseif (\strlen($hexTS) > 12) {
-                $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
-            }
-            $bytesTS = hex2bin($hexTS);
-        } else {
-            throw new \LogicException('32 bit not implemented'); // todo
-        }
-
-        if ($bytesTS === $this->lastTimestamp) {
+        if ($hexTS === $this->lastTimestamp) {
             $this->counter++;
             if ($this->counter > 0x00ff_ffff) {
                 // do not allow counter rollover
                 throw new \RuntimeException('Counter sequence overflow');
             }
         } else {
-            $bytes = $this->randomizer->getBytes(10);
+            $hex = $this->randomizer->getBytes(10);
 
             if ($this->uuidV7Compatible) {
                 // set variant
-                $bytes[2] = \chr(0b10 << 6 | \ord($bytes[2]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
+                $hex[2] = \chr(0b10 << 6 | \ord($hex[2]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
                 // set version
-                $bytes[0] = \chr(0x7 << 4 | \ord($bytes[0]) & 0b1111); // Version 7: set the highest 4 bits to hex '7'
+                $hex[0] = \chr(0x7 << 4 | \ord($hex[0]) & 0b1111); // Version 7: set the highest 4 bits to hex '7'
             }
 
-            $counter = hexdec(bin2hex(substr($bytes, -3)));
+            $counter = hexdec(bin2hex(substr($hex, -3)));
             if ($this->reserveHighestCounterBit) {
                 $counter &= 0x007f_ffff;
             }
 
-            $this->lastBytes = substr($bytes, 0, -3);
+            $this->lastHex = bin2hex(substr($hex, 0, -3));
             $this->counter = $counter;
-            $this->lastTimestamp = $bytesTS;
+            $this->lastTimestamp = $hexTS;
         }
 
-        $bytes = $bytesTS . $this->lastBytes . hex2bin(str_pad(dechex($this->counter), 6, '0'));
+        $hex = $hexTS . $this->lastHex . str_pad(dechex($this->counter), 6, '0');
 
-        return new Ulid(bin2hex($bytes));
+        return new Ulid($hex);
     }
 
     /**

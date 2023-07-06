@@ -24,24 +24,7 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
 
     public function next(): UuidV7
     {
-        $dt   = $this->clock->now();
-        $tsS  = $dt->format('U');
-        $tsMs = $dt->format('v');
-
-        if (PHP_INT_SIZE >= 8) {
-            // 64 bit
-            $ts = \intval($tsS) * 1000 + \intval($tsMs);
-
-            // 48 bit (6 byte) timestamp
-            $hexTS = dechex($ts);
-            if (\strlen($hexTS) < 12) {
-                $hexTS = str_pad($hexTS, 12, '0', STR_PAD_LEFT);
-            } elseif (\strlen($hexTS) > 12) {
-                $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
-            }
-        } else {
-            throw new \LogicException('32 bit not implemented'); // todo
-        }
+        $hexTS = Helpers\UlidLikeDateTimeBuilder::buildHex($this->clock->now());
 
         if ($hexTS === $this->lastTimestamp) {
             $this->counter += 1;
