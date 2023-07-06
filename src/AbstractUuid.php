@@ -10,7 +10,7 @@ abstract readonly class AbstractUuid implements Uuid
         protected string $hex,
     ) {
         if (preg_match('/^[0-9a-f]{32}$/', $this->hex) !== 1) {
-            throw new \ValueError('$bytes must be 32 lowercase hexadecimal digits');
+            throw new \ValueError('$hex must be 32 lowercase hexadecimal digits');
         }
 
         $this->assertValid($this->hex);

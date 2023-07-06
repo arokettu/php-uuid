@@ -71,12 +71,12 @@ final class UuidFactory
             throw new \ValueError('$bytes must be 16 bytes long');
         }
 
-        // set variant
-        $bytes[8] = \chr(0b10 << 6 | \ord($bytes[8]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
-        // set version
-        $bytes[6] = \chr(0x8 << 4 | \ord($bytes[6]) & 0b1111); // Version 8: set the highest 4 bits to hex '8'
+        $hex = bin2hex($bytes);
 
-        return new UuidV8($bytes);
+        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVersion($hex, 8);
+
+        return new UuidV8($hex);
     }
 
     public static function ulidSequence(
