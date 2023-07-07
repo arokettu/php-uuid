@@ -58,8 +58,6 @@ You can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
 
-    require __DIR__ . '/../vendor/autoload.php';
-
     use Arokettu\Uuid\UuidFactory;
     use Random\Engine\Xoshiro256StarStar;
     use Random\Randomizer;
@@ -164,8 +162,6 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
 
-    require __DIR__ . '/../vendor/autoload.php';
-
     use Arokettu\Clock\StaticClock;
     use Arokettu\Uuid\UlidFactory;
     use Random\Engine\Xoshiro256StarStar;
@@ -184,3 +180,143 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 
 Monotonic Sequences
 ===================
+
+UUIDv7 and ULID can create monotonic sequences for IDs created in the same millisecond if you need.
+Sequences implement ``Traversable``.
+
+::
+
+    <?php
+
+    use Arokettu\Uuid\UuidFactory;
+
+    $seq = UuidFactory::v7Sequence();
+
+    foreach ($seq as $uuid) {
+        echo $uuid, PHP_EOL; // infinite supply of monotonic UUIDs
+    }
+
+UUIDv7
+------
+
+``Arokettu\Uuid\UuidFactory::v7Sequence($reserveHighestCounterBit = true)``
+
+The chosen algorithm is 12 bit clock sequence in rand_a + random 'tail' in rand_b
+as described in `RFC 4122`_ (Draft 4) 6.2 Method 1.
+With the highest counter bit reserved, it gives a guaranteed sequence of 2049 UUIDs (actual number is random, up to 4096).
+Bit reservation can be canceled by passing ``$reserveHighestCounterBit = false``, this will guarantee only one UUID in the worst case (still up to 4096).
+
+Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
+and override RNG by passing an instance of ``Random\Randomizer``.
+
+::
+
+    <?php
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\UuidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $seq = UuidFactory::v7Sequence(
+        clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+        randomizer: new Randomizer(new Xoshiro256StarStar(123)),
+    );
+
+    for ($i = 0; $i < 10; $i++) {
+        echo $seq->next(), PHP_EOL;
+    }
+
+    // 01893039-2a00-7169-9e4d-6d65c7e335f8
+    // 01893039-2a00-716a-afa6-f2c3462baa77
+    // 01893039-2a00-716b-8682-cfaa99028220
+    // 01893039-2a00-716c-9e78-9d95b3d87856
+    // 01893039-2a00-716d-aa28-295af8ebf9ff
+    // 01893039-2a00-716e-9b75-f8449b23c260
+    // 01893039-2a00-716f-951a-7e9d570a1aa8
+    // 01893039-2a00-7170-94df-5c6daf02d3c2
+    // 01893039-2a00-7171-b05c-234f8095766f
+    // 01893039-2a00-7172-ba37-4ea83797f7a6
+
+.. note:: See ULID section for a way to generate a longer sequence than 2049.
+
+ULID
+----
+
+::
+
+    Arokettu\Uuid\UlidFactory::sequence(
+        $uuidV7Compatible = false,
+        $reserveHighestCounterBit = true,
+    );
+
+The algorithm is a simplified version of ULID standard algo, having the whole rand_a + rand_b as a counter,
+that also aligns with `RFC 4122`_ (Draft 4) 6.2 Method 2.
+The simplification is that only the lowest 3 bytes act as a proper counter to simplify the 32 bit implementation.
+With the highest counter bit reserved, it gives a guaranteed sequence of 8'388'609 ULIDs (actual number is random, up to 16'777'216).
+Bit reservation can be canceled by passing ``$reserveHighestCounterBit = false``, this will guarantee only one ULID in the worst case (still up to 16'777'216).
+
+Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
+and override RNG by passing an instance of ``Random\Randomizer``.
+
+::
+
+    <?php
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\UlidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $seq = UlidFactory::sequence(
+        clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+        randomizer: new Randomizer(new Xoshiro256StarStar(123)),
+    );
+
+    for ($i = 0; $i < 10; $i++) {
+        echo $seq->next(), PHP_EOL;
+    }
+
+    // 01H4R3JAG0Z5MT1MD1HXD34QJD
+    // 01H4R3JAG0Z5MT1MD1HXD34QJE
+    // 01H4R3JAG0Z5MT1MD1HXD34QJF
+    // 01H4R3JAG0Z5MT1MD1HXD34QJG
+    // 01H4R3JAG0Z5MT1MD1HXD34QJH
+    // 01H4R3JAG0Z5MT1MD1HXD34QJJ
+    // 01H4R3JAG0Z5MT1MD1HXD34QJK
+    // 01H4R3JAG0Z5MT1MD1HXD34QJM
+    // 01H4R3JAG0Z5MT1MD1HXD34QJN
+    // 01H4R3JAG0Z5MT1MD1HXD34QJP
+
+``$uuidV7Compatible`` param allows you to create ULIDs that are bit-compatible with UUIDv7 by setting proper version and variant bits.
+Among other uses (like the ability to switch to UUIDs in future) it allows you to create UUIDv7 sequences longer than 2049 (but less random and more predictable)::
+
+    <?php
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\UlidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $seq = UlidFactory::sequence(
+        true, // build with proper bits
+        clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+        randomizer: new Randomizer(new Xoshiro256StarStar(123)),
+    );
+
+    for ($i = 0; $i < 10; $i++) {
+        echo $seq->next()->toUuidV7(), PHP_EOL;
+    }
+
+    // 01893039-2a00-7969-a0d1-a18f5a325e4d
+    // 01893039-2a00-7969-a0d1-a18f5a325e4e
+    // 01893039-2a00-7969-a0d1-a18f5a325e4f
+    // 01893039-2a00-7969-a0d1-a18f5a325e50
+    // 01893039-2a00-7969-a0d1-a18f5a325e51
+    // 01893039-2a00-7969-a0d1-a18f5a325e52
+    // 01893039-2a00-7969-a0d1-a18f5a325e53
+    // 01893039-2a00-7969-a0d1-a18f5a325e54
+    // 01893039-2a00-7969-a0d1-a18f5a325e55
+    // 01893039-2a00-7969-a0d1-a18f5a325e56
+
+.. _RFC 4122: https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format
