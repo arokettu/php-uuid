@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Helpers;
 
+use Arokettu\Unsigned as u;
+
 /**
  * @internal
  */
@@ -27,8 +29,33 @@ final class DateTime
             }
 
             return $hexTS;
+        } elseif (extension_loaded('gmp')) {
+            // gmp
+            $ts = gmp_init($tsS . '000') + \intval($tsMs);
+            if ($ts >= 0) {
+                $hexTS = gmp_strval($ts, 16);
+            } else {
+                $hexTS = bin2hex(~gmp_export($ts + 1, 6, GMP_BIG_ENDIAN));
+            }
+
+            // 48 bit (6 byte) timestamp
+            if (\strlen($hexTS) < 12) {
+                $hexTS = str_pad($hexTS, 12, '0', STR_PAD_LEFT);
+            } elseif (\strlen($hexTS) > 12) {
+                $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
+            }
+
+            return $hexTS;
         } else {
-            throw new \LogicException('32 bit not implemented'); // todo
+            // 32 bit, no gmp
+
+            if (str_starts_with($tsS, '-')) {
+                $tsSU = u\neg(u\from_dec(substr($tsS, 1) . '000', 6));
+            } else {
+                $tsSU = u\from_dec($tsS . '000', 6);
+            }
+
+            return u\to_hex(u\add_int($tsSU, \intval($tsMs)));
         }
     }
 
@@ -40,8 +67,16 @@ final class DateTime
             $ms = $tsMs % 1000;
             return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms)) ?:
                 throw new \RuntimeException('Error creating DateTime object');
+        } elseif (extension_loaded('gmp')) {
+            $tsMs = gmp_init($hex, 16);
+            [$ts, $ms] = gmp_div_qr($tsMs, 1000);
+            return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
+                throw new \RuntimeException('Error creating DateTime object');
         } else {
-            throw new \LogicException('not implemented'); // todo
+            $tsMs = u\from_hex($hex, 6);
+            [$ts, $ms] = u\div_mod_int($tsMs, 1000);
+            return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
+                throw new \RuntimeException('Error creating DateTime object');
         }
     }
 }

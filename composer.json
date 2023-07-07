@@ -35,7 +35,8 @@
     },
     "require": {
         "php": "^8.2",
-        "arokettu/system-clock": "^2.0"
+        "arokettu/system-clock": "^2.0",
+        "arokettu/unsigned": "^1.1"
     },
     "require-dev": {
         "arokettu/clock": "^2.2",
@@ -46,6 +47,7 @@
         "vimeo/psalm": "^5.13"
     },
     "suggest": {
-        "arokettu/unsigned": "Required for some calculations on 32 bit machines"
+        "php-64bit": "*",
+        "ext-gmp": "*"
     }
 }
