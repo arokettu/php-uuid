@@ -46,4 +46,51 @@ class ParserTest extends TestCase
         // Base32
         self::assertInstanceOf(Ulid::class, UuidParser::fromString('01H3JF5GX4M2D891JB7AYDDH6H'));
     }
+
+    public function testBytes(): void
+    {
+        $uuid = UuidParser::fromBytes('1234567890123456');
+
+        self::assertEquals('31323334-3536-3738-3930-313233343536', $uuid->toString());
+    }
+
+    public function testBytesWrongLength(): void
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('UUID must be 16 bytes long');
+
+        UuidParser::fromBytes('12345678901234567');
+    }
+
+    public function testHexWrongLength(): void
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('UUID must be 32 hexadecimal digits');
+
+        UuidParser::fromHex('3132333435363738393031323334353637');
+    }
+
+    public function testRfcWrongChars(): void
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Not a valid RFC 4122 UUID notation');
+
+        UuidParser::fromRfc4122('000003e8-113f-21ee-8z00-2eb5a363657c');
+    }
+
+    public function testBase32WrongChars1(): void
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
+
+        UuidParser::fromBase32('ZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+    }
+
+    public function testBase32WrongCharsU(): void
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
+
+        UuidParser::fromBase32('7ZZZZZZZZZZZUZZZZZZZZZZZZZ');
+    }
 }

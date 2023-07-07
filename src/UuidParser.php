@@ -18,7 +18,7 @@ final class UuidParser
     public static function fromHex(string $hex, bool $asUlid = false): Uuid
     {
         if (preg_match('/^[0-9a-f]{32}$/', $hex) !== 1) {
-            throw new \ValueError('UUID must be 16 hexadecimal digits');
+            throw new \UnexpectedValueException('UUID must be 32 hexadecimal digits');
         }
 
         $hex = strtolower($hex);
@@ -67,7 +67,7 @@ final class UuidParser
         );
 
         if (!$match) {
-            throw new \UnexpectedValueException('Not a valid RFC 4122 UUID');
+            throw new \UnexpectedValueException('Not a valid RFC 4122 UUID notation');
         }
 
         $hex = preg_replace('/[{}-]/', '', $string);

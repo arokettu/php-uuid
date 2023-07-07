@@ -36,7 +36,7 @@ class V8Test extends TestCase
 
     public function testWrongLength(): void
     {
-        $this->expectException(\ValueError::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('$bytes must be 16 bytes long');
 
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(15); // f969a0d1a18f5a325e4d6d65c7e335
@@ -56,7 +56,7 @@ class V8Test extends TestCase
 
     public function testDirectCreationWrongLength(): void
     {
-        $this->expectException(\ValueError::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('$hex must be 32 lowercase hexadecimal digits');
 
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(15); // f969a0d1a18f5a325e4d6d65c7e335
@@ -68,7 +68,7 @@ class V8Test extends TestCase
 
     public function testDirectCreationWrongVariant(): void
     {
-        $this->expectException(\ValueError::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('The supplied UUID is not a valid RFC 4122 UUID');
 
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
@@ -79,7 +79,7 @@ class V8Test extends TestCase
 
     public function testDirectCreationWrongVersion(): void
     {
-        $this->expectException(\ValueError::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('The supplied UUID is not a valid RFC 4122 version 8 UUID');
 
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8

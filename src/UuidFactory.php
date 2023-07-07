@@ -68,7 +68,7 @@ final class UuidFactory
     public static function v8(string $bytes): UuidV8
     {
         if (\strlen($bytes) !== 16) {
-            throw new \ValueError('$bytes must be 16 bytes long');
+            throw new \UnexpectedValueException('$bytes must be 16 bytes long');
         }
 
         $hex = bin2hex($bytes);
