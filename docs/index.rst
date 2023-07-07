@@ -21,7 +21,7 @@ Documentation
    base_class
    uuid
    parser
-   factory
+   factories
 
 License
 =======
