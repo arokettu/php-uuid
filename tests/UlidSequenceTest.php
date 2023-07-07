@@ -68,7 +68,7 @@ class UlidSequenceTest extends TestCase
             $clock = new MutableClock(new \DateTime('2025-04-15 12:34:56'));
             $randomizer = new Randomizer(new FixedSequenceEngine("\x99"));
 
-            $seq = UlidFactory::ulidSequence($v7, $reserve, $clock, $randomizer);
+            $seq = UlidFactory::sequence($v7, $reserve, $clock, $randomizer);
 
             for ($i = 0; $i < $num; $i++) {
                 self::assertEquals($uuids[$i], $seq->next()->toRfc4122(), "reserve: $reserve, i: $i");
@@ -87,7 +87,7 @@ class UlidSequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new StaticClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UlidFactory::ulidSequence(true, true, $clock, $randomizer);
+        $sequence = UlidFactory::sequence(true, true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-7969-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-7969-a0d1-a18f5a325e4e', $sequence->next()->toRfc4122());
@@ -98,7 +98,7 @@ class UlidSequenceTest extends TestCase
 
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
 
-        $sequence = UlidFactory::ulidSequence(false, true, $clock, $randomizer);
+        $sequence = UlidFactory::sequence(false, true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-f969-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-f969-a0d1-a18f5a325e4e', $sequence->next()->toRfc4122());
@@ -113,7 +113,7 @@ class UlidSequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new MutableClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UlidFactory::ulidSequence(false, true, $clock, $randomizer);
+        $sequence = UlidFactory::sequence(false, true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-f969-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-f969-a0d1-a18f5a325e4e', $sequence->next()->toRfc4122());
@@ -128,7 +128,7 @@ class UlidSequenceTest extends TestCase
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new MutableClock(new \DateTime('2039-09-07 15:47:35.552'));
 
-        $sequence = UlidFactory::ulidSequence(true, true, $clock, $randomizer);
+        $sequence = UlidFactory::sequence(true, true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-7969-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0000-7969-a0d1-a18f5a325e4e', $sequence->next()->toRfc4122());
@@ -149,7 +149,7 @@ class UlidSequenceTest extends TestCase
             new \DateTime('2039-09-07 15:47:35.552'),
         );
 
-        $sequence = UlidFactory::ulidSequence(false, true, $clock, $randomizer);
+        $sequence = UlidFactory::sequence(false, true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-f969-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0080-2fa6-f2c3-462baa770682', $sequence->next()->toRfc4122());
@@ -164,7 +164,7 @@ class UlidSequenceTest extends TestCase
             new \DateTime('2039-09-07 15:47:35.552'),
         );
 
-        $sequence = UlidFactory::ulidSequence(true, true, $clock, $randomizer);
+        $sequence = UlidFactory::sequence(true, true, $clock, $randomizer);
 
         self::assertEquals('02000000-0000-7969-a0d1-a18f5a325e4d', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-0080-7fa6-b2c3-462baa770682', $sequence->next()->toRfc4122());
@@ -178,7 +178,7 @@ class UlidSequenceTest extends TestCase
     {
         $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
 
-        $sequence = UlidFactory::ulidSequence(false, false, new StaticClock(), $randomizer);
+        $sequence = UlidFactory::sequence(false, false, new StaticClock(), $randomizer);
         $sequence->next();
 
         $this->expectException(\RuntimeException::class);
@@ -190,7 +190,7 @@ class UlidSequenceTest extends TestCase
     {
         $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
 
-        $sequence = UlidFactory::ulidSequence(true, false, new StaticClock(), $randomizer);
+        $sequence = UlidFactory::sequence(true, false, new StaticClock(), $randomizer);
         $sequence->next();
 
         $this->expectException(\RuntimeException::class);
@@ -202,8 +202,8 @@ class UlidSequenceTest extends TestCase
     {
         $clock = new StaticClock();
 
-        $seq1 = UlidFactory::ulidSequence(false, true, $clock, new Randomizer(new Xoshiro256StarStar(123)));
-        $seq2 = UlidFactory::ulidSequence(false, true, $clock, new Randomizer(new Xoshiro256StarStar(123)));
+        $seq1 = UlidFactory::sequence(false, true, $clock, new Randomizer(new Xoshiro256StarStar(123)));
+        $seq2 = UlidFactory::sequence(false, true, $clock, new Randomizer(new Xoshiro256StarStar(123)));
 
         $counter = 10;
         foreach ($seq1 as $ulid) {

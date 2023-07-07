@@ -8,7 +8,7 @@ use Random\Randomizer;
 
 final class UlidFactory
 {
-    public static function ulidSequence(
+    public static function sequence(
         bool $uuidV7Compatible = false,
         bool $reserveHighestCounterBit = true,
         ClockInterface $clock = new SystemClock(),
@@ -22,6 +22,6 @@ final class UlidFactory
         ClockInterface $clock = new SystemClock(),
         Randomizer $randomizer = new Randomizer(),
     ): Ulid {
-        return self::ulidSequence($uuidV7Compatible, false, $clock, $randomizer)->next();
+        return self::sequence($uuidV7Compatible, false, $clock, $randomizer)->next();
     }
 }
