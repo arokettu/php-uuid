@@ -10,6 +10,7 @@
 * Fixed UUIDv7 generation for negative Unix timestamps
 * The library no longer throws ValueError
 * Added fromHex() and toHex()
+* Timestamp on ULID & UUIDv7 is interpreted as unsigned
 
 ### 0.1.0
 
