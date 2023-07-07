@@ -12,6 +12,7 @@ use Arokettu\Unsigned as u;
 final class DateTime
 {
     private const V1_EPOCH = -12219292800; // (new DateTimeImmutable('1582-10-15 UTC'))->getTimestamp()
+    private const V1_EPOCH_STR = '2d8539c80'; // 12219292800. it's 34 bit so string for 32
 
     public static function buildUlidHex(\DateTimeInterface $dt): string
     {
@@ -90,16 +91,37 @@ final class DateTime
 
     public static function parseUuidV1Hex(string $hex): \DateTimeImmutable
     {
-        if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
-            // 100-nanosecond intervals since midnight 15 October 1582 UTC
+        // 100-nanosecond intervals since midnight 15 October 1582 UTC
+
+        if (PHP_INT_SIZE >= 8) {
+            // 64 bit - a simple way
             $ts = hexdec($hex);
             $tsS = intdiv($ts, 10_000_000) + self::V1_EPOCH; // convert to unix timestamp
             $tsUs = intdiv($ts % 10_000_000, 10); // lose 1 decimal of precision
 
             return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs)) ?:
                 throw new \RuntimeException('Error creating DateTime object');
+        // @codeCoverageIgnoreStart
+        // 32 bit stuff is not covered by the coverage build
+        } elseif (extension_loaded('gmp')) {
+            $ts = gmp_init($hex, 16);
+            [$tsES, $tsNs] = gmp_div_qr($ts, 10_000_000); // epoch and hundreds of nanoseconds
+            $tsS = $tsES - gmp_init(self::V1_EPOCH_STR, 16);
+            $tsUs = gmp_div($tsNs, 10);
+
+            return \DateTimeImmutable::createFromFormat(
+                'U u',
+                sprintf('%s %06s', gmp_strval($tsS), gmp_strval($tsUs))
+            ) ?: throw new \RuntimeException('Error creating DateTime object');
         } else {
-            throw new \LogicException('not implemented'); // todo
+            $ts = u\from_hex($hex, 8);
+            [$tsES, $tsNs] = u\div_mod_int($ts, 10_000_000); // epoch and hundreds of nanoseconds
+            $tsS = u\add($tsES, u\neg(u\from_hex(self::V1_EPOCH_STR, 8)));
+            $tsUs = intdiv($tsNs, 10); // lose 1 decimal of precision
+
+            return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %06d', u\to_dec($tsS), $tsUs)) ?:
+                throw new \RuntimeException('Error creating DateTime object');
         }
+        // @codeCoverageIgnoreEnd
     }
 }
