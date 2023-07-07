@@ -11,6 +11,8 @@ use Arokettu\Unsigned as u;
  */
 final class DateTime
 {
+    private const V1_EPOCH = -12219292800; // (new DateTimeImmutable('1582-10-15 UTC'))->getTimestamp()
+
     public static function buildUlidHex(\DateTimeInterface $dt): string
     {
         $tsS  = $dt->format('U');
@@ -84,5 +86,20 @@ final class DateTime
                 throw new \RuntimeException('Error creating DateTime object');
         }
         // @codeCoverageIgnoreEnd
+    }
+
+    public static function parseUuidV1Hex(string $hex): \DateTimeImmutable
+    {
+        if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
+            // 100-nanosecond intervals since midnight 15 October 1582 UTC
+            $ts = hexdec($hex);
+            $tsS = intdiv($ts, 10_000_000) + self::V1_EPOCH; // convert to unix timestamp
+            $tsUs = intdiv($ts % 10_000_000, 10); // lose 1 decimal of precision
+
+            return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs)) ?:
+                throw new \RuntimeException('Error creating DateTime object');
+        } else {
+            throw new \LogicException('not implemented'); // todo
+        }
     }
 }
