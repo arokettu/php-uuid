@@ -38,7 +38,8 @@ final class DateTime
             $tsMs = hexdec($hex);
             $ts = intdiv($tsMs, 1000);
             $ms = $tsMs % 1000;
-            return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms));
+            return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms)) ?:
+                throw new \RuntimeException('Error creating DateTime object');
         } else {
             throw new \LogicException('not implemented'); // todo
         }

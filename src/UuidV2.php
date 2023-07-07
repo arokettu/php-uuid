@@ -26,7 +26,8 @@ final readonly class UuidV2 extends AbstractUuid implements Rfc4122Uuid, TimeBas
             $tsS = intdiv($ts, 10_000_000) + Helpers\Constants::V1_EPOCH; // convert to unix timestamp
             $tsUs = intdiv($ts % 10_000_000, 10); // lose 1 decimal of precision (much more is lost by v2 anyway)
 
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs));
+            return DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs)) ?:
+                throw new \RuntimeException('Error creating DateTime object');
         } else {
             throw new \LogicException('not implemented'); // todo
         }
