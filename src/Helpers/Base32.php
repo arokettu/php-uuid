@@ -15,7 +15,7 @@ final class Base32
     {
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
-        if (extension_loaded('gmp')) {
+        if (\extension_loaded('gmp')) {
             $num = gmp_strval(gmp_init($hex, 16), 32);
         } else {
             $num = u\to_base(u\from_hex($hex, 16), 32);
@@ -43,7 +43,7 @@ final class Base32
 
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
-        if (extension_loaded('gmp')) {
+        if (\extension_loaded('gmp')) {
             $hex = gmp_strval(gmp_init($num, 32), 16);
         } else {
             $hex = u\to_hex(u\from_base($num, 32, 16));

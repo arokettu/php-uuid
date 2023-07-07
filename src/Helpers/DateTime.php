@@ -34,7 +34,7 @@ final class DateTime
             return $hexTS;
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
-        } elseif (extension_loaded('gmp')) {
+        } elseif (\extension_loaded('gmp')) {
             // gmp
             $ts = gmp_init($tsS . '000') + \intval($tsMs);
             if ($ts >= 0) {
@@ -75,7 +75,7 @@ final class DateTime
                 throw new \RuntimeException('Error creating DateTime object');
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
-        } elseif (extension_loaded('gmp')) {
+        } elseif (\extension_loaded('gmp')) {
             $tsMs = gmp_init($hex, 16);
             [$ts, $ms] = gmp_div_qr($tsMs, 1000);
             return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
@@ -103,7 +103,7 @@ final class DateTime
                 throw new \RuntimeException('Error creating DateTime object');
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
-        } elseif (extension_loaded('gmp')) {
+        } elseif (\extension_loaded('gmp')) {
             $ts = gmp_init($hex, 16);
             [$tsES, $tsNs] = gmp_div_qr($ts, 10_000_000); // epoch and hundreds of nanoseconds
             $tsS = $tsES - gmp_init(self::V1_EPOCH_STR, 16);
