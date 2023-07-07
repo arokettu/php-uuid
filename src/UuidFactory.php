@@ -8,6 +8,9 @@ use Arokettu\Clock\SystemClock;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
+/**
+ * @psalm-api
+ */
 final class UuidFactory
 {
     public static function nil(): NilUuid

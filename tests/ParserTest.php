@@ -7,7 +7,7 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Uuid\GenericUuid;
 use Arokettu\Uuid\MaxUuid;
 use Arokettu\Uuid\NilUuid;
-use Arokettu\Uuid\Ulid;
+use Arokettu\Uuid\UlidParser;
 use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\UuidV1;
 use Arokettu\Uuid\UuidV2;
@@ -43,8 +43,8 @@ class ParserTest extends TestCase
         // Not Variant 1
         self::assertInstanceOf(GenericUuid::class, UuidParser::fromString('e3be9143-c203-45b2-0af6-332b8ce0b069'));
 
-        // Base32
-        self::assertInstanceOf(Ulid::class, UuidParser::fromString('01H3JF5GX4M2D891JB7AYDDH6H'));
+        // Base32 should now parse to uuid too
+        self::assertInstanceOf(GenericUuid::class, UuidParser::fromString('01H3JF5GX4M2D891JB7AYDDH6H'));
     }
 
     public function testBytes(): void
@@ -83,7 +83,7 @@ class ParserTest extends TestCase
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
-        UuidParser::fromBase32('ZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+        UlidParser::fromBase32('ZZZZZZZZZZZZZZZZZZZZZZZZZZ');
     }
 
     public function testBase32WrongCharsU(): void
@@ -91,6 +91,6 @@ class ParserTest extends TestCase
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
-        UuidParser::fromBase32('7ZZZZZZZZZZZUZZZZZZZZZZZZZ');
+        UlidParser::fromBase32('7ZZZZZZZZZZZUZZZZZZZZZZZZZ');
     }
 }

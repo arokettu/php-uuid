@@ -21,6 +21,9 @@ readonly class UuidV8 extends AbstractUuid implements Rfc4122Uuid
         $this->customAssertValid($hex);
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedParam
+     */
     protected function customAssertValid(string $hex): void
     {
     }

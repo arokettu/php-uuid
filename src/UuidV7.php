@@ -14,6 +14,9 @@ final readonly class UuidV7 extends AbstractUuid implements Rfc4122Uuid, TimeBas
         return 7;
     }
 
+    /**
+     * @psalm-api
+     */
     public function toUlid(): Ulid
     {
         return new Ulid($this->hex);

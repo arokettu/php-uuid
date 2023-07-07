@@ -30,6 +30,9 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
             Helpers\UuidBytes::getVersion($this->hex) === 7;
     }
 
+    /**
+     * @psalm-api
+     */
     public function toUuidV7(bool $lossy = false): UuidV7
     {
         if ($this->isUuidV7Compatible()) {

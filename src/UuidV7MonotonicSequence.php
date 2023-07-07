@@ -10,6 +10,9 @@ use IteratorAggregate;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
+/**
+ * @implements IteratorAggregate<int, UuidV7>
+ */
 final class UuidV7MonotonicSequence implements IteratorAggregate
 {
     private ?string $lastTimestamp = null;
@@ -50,7 +53,7 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
     }
 
     /**
-     * @return Generator<void, null, UuidV7, null>
+     * @return \Traversable<int, UuidV7>
      */
     public function getIterator(): Generator
     {

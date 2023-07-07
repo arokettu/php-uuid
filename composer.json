@@ -42,7 +42,8 @@
         "phpunit/phpunit": "^10.0",
         "psy/psysh": "*",
         "sandfox.dev/code-standard": "^1.2023.06.29",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "vimeo/psalm": "^5.13"
     },
     "suggest": {
         "arokettu/unsigned": "Required for some calculations on 32 bit machines"

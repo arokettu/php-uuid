@@ -33,6 +33,9 @@ final readonly class UuidV1 extends AbstractUuid implements Rfc4122Uuid, TimeBas
         }
     }
 
+    /**
+     * @psalm-api
+     */
     public function toUuidV6(): UuidV6
     {
         // rearrange time fields

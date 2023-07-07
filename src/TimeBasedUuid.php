@@ -8,5 +8,8 @@ use DateTimeImmutable;
 
 interface TimeBasedUuid extends Uuid
 {
+    /**
+     * @psalm-api
+     */
     public function getDateTime(): DateTimeImmutable;
 }
