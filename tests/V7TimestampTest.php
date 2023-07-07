@@ -16,23 +16,23 @@ class V7TimestampTest extends TestCase
     {
         /** @var UuidV7 $uuid */
         $uuid = UuidParser::fromString('00000000-0000-7012-a345-6789abcdef00');
-        self::assertEquals(0, $uuid->getDateTime()->getTimestamp()); // epoch
+        self::assertEquals(new \DateTime('@0'), $uuid->getDateTime()); // epoch
 
         /** @var UuidV7 $uuid */
         $uuid = UuidParser::fromString('01000000-0000-7012-a345-6789abcdef00');
-        self::assertEquals(1099511627, $uuid->getDateTime()->getTimestamp()); // 2004 something
+        self::assertEquals(new \DateTime('@1099511627.776'), $uuid->getDateTime()); // 2004 something
 
         /** @var UuidV7 $uuid */
         $uuid = UuidParser::fromString('feffffff-ffff-7012-a345-6789abcdef00');
-        self::assertEquals(280375465082, $uuid->getDateTime()->getTimestamp());
+        self::assertEquals(new \DateTime('@280375465082.879'), $uuid->getDateTime());
 
         /** @var UuidV7 $uuid */
         $uuid = UuidParser::fromString('7fffffff-ffff-7012-a345-6789abcdef00');
-        self::assertEquals(140737488355, $uuid->getDateTime()->getTimestamp()); // max signed positive
+        self::assertEquals(new \DateTime('@140737488355.327'), $uuid->getDateTime()); // max signed positive
 
         /** @var UuidV7 $uuid */
         $uuid = UuidParser::fromString('80000000-0000-7012-a345-6789abcdef00');
-        self::assertEquals(140737488355, $uuid->getDateTime()->getTimestamp()); // still positive
+        self::assertEquals(new \DateTime('@140737488355.328'), $uuid->getDateTime()); // still positive
     }
 
     public function testMillisec(): void
