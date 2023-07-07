@@ -13,6 +13,7 @@ UUID and ULID classes for PHP.
 ```php
 <?php
 
+use Arokettu\Uuid\UlidFactory;
 use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidNamespaces;
 use Arokettu\Uuid\UuidParser;
@@ -21,21 +22,21 @@ use Arokettu\Uuid\UuidParser;
 $uuid4 = UuidFactory::v4(); // example: 5c24b036-6202-419f-a1f3-48cbe6ebf17a
 $uuid5 = UuidFactory::v5(UuidNamespaces::url(), 'http://example.com/'); // 0a300ee9-f9e4-5697-a51a-efc7fafaba67
 $uuid7 = UuidFactory::v7(); // example: 01892370-4c48-70cf-9cb9-96784308f504
-$ulid  = UuidFactory::ulid(); // example: 01H4HQC4G1C1606J19358PWESA
+$ulid  = UlidFactory::ulid(); // example: 01H4HQC4G1C1606J19358PWESA
 
 // get data like timestamps on UUIDs versions 1, 2, 6, 7 and ULIDs
 $uuid7->getDateTime(); // 2023-07-05 00:25:09.448 +00:00
 
 // parse existing UUID or ULID
 $uuid  = UuidParser::fromString('01892370-4c48-70cf-9cb9-96784308f504'); // == $uuid7 
-$ulid2 = UuidParser::fromString('01H4HQC4G1C1606J19358PWESA'); // == $uuid
+$ulid2 = UlidFactory::fromString('01H4HQC4G1C1606J19358PWESA'); // == $uuid
 
 // possible killer features
 // UUIDv1 to UUIDv6 conversion (and vice versa)
 UuidParser::fromString('e982dc4e-1acc-11ee-be56-0242ac120002')
     ->toUuidV6(); // 1ee1acce-982d-6c4e-be56-0242ac120002
 // ULID to UUIDv7 conversion (lossy but predictable)
-UuidParser::fromString('01H4HQC4G1C1606J19358PWESA')
+UlidFactory::fromString('01H4HQC4G1C1606J19358PWESA')
     ->toUuidV7(lossy: true); // 01892376-1201-704c-8348-2919516e3b2a
 ```
 
