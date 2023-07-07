@@ -24,7 +24,7 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
 
     public function next(): UuidV7
     {
-        $hexTS = Helpers\UlidLikeDateTimeBuilder::buildHex($this->clock->now());
+        $hexTS = Helpers\DateTime::buildUlidHex($this->clock->now());
 
         if ($hexTS === $this->lastTimestamp) {
             $this->counter += 1;

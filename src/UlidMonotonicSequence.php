@@ -26,7 +26,7 @@ final class UlidMonotonicSequence implements IteratorAggregate
 
     public function next(): Ulid
     {
-        $hexTS = Helpers\UlidLikeDateTimeBuilder::buildHex($this->clock->now());
+        $hexTS = Helpers\DateTime::buildUlidHex($this->clock->now());
 
         if ($hexTS === $this->lastTimestamp) {
             $this->counter++;

@@ -7,9 +7,9 @@ namespace Arokettu\Uuid\Helpers;
 /**
  * @internal
  */
-final class UlidLikeDateTimeBuilder
+final class DateTime
 {
-    public static function buildHex(\DateTimeInterface $dt): string
+    public static function buildUlidHex(\DateTimeInterface $dt): string
     {
         $tsS  = $dt->format('U');
         $tsMs = $dt->format('v');
@@ -29,6 +29,18 @@ final class UlidLikeDateTimeBuilder
             return $hexTS;
         } else {
             throw new \LogicException('32 bit not implemented'); // todo
+        }
+    }
+
+    public static function parseUlidHex(string $hex): \DateTimeImmutable
+    {
+        if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
+            $tsMs = hexdec($hex);
+            $ts = intdiv($tsMs, 1000);
+            $ms = $tsMs % 1000;
+            return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms));
+        } else {
+            throw new \LogicException('not implemented'); // todo
         }
     }
 }
