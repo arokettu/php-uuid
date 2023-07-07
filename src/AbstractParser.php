@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final class UuidParser
+abstract class AbstractParser
 {
     public static function fromBytes(string $bytes, bool $asUlid = false): Uuid
     {
