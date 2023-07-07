@@ -145,6 +145,15 @@ The factory accepts any sequence of 16 bytes, overwriting only variant and versi
 RFC 4122 Namespaces
 ===================
 
+``Arokettu\Uuid\UuidNamespaces``
+
+Predefined namespaces:
+
+* ``UuidNamespaces::dns()``: ``{6ba7b810-9dad-11d1-80b4-00c04fd430c8}``
+* ``UuidNamespaces::url()``: ``{6ba7b811-9dad-11d1-80b4-00c04fd430c8}``
+* ``UuidNamespaces::oid()``: ``{6ba7b812-9dad-11d1-80b4-00c04fd430c8}``
+* ``UuidNamespaces::x500()``: ``{6ba7b814-9dad-11d1-80b4-00c04fd430c8}``
+
 ULID
 ====
 
