@@ -7,7 +7,7 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\StaticClock;
 use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
-use Arokettu\Uuid\UuidFactory;
+use Arokettu\Uuid\UlidFactory;
 use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
@@ -16,7 +16,7 @@ class UlidTest extends TestCase
 {
     public function testMin(): void
     {
-        $uuid = UuidFactory::ulid(
+        $uuid = UlidFactory::ulid(
             false,
             new StaticClock(new \DateTime('@0')),
             new Randomizer(new FixedSequenceEngine("\0")),
@@ -27,7 +27,7 @@ class UlidTest extends TestCase
 
     public function testMax(): void
     {
-        $uuid = UuidFactory::ulid(
+        $uuid = UlidFactory::ulid(
             false,
             new StaticClock(new \DateTime('@281474976710.655')),
             new Randomizer(new FixedSequenceEngine("\xff")),
@@ -38,7 +38,7 @@ class UlidTest extends TestCase
 
     public function testRandom(): void
     {
-        $uuid = UuidFactory::ulid(
+        $uuid = UlidFactory::ulid(
             false,
             new StaticClock(new \DateTime('@1700000000.000')), // f969a0d1a18f5a325e4d6d65c7e335f8
             new Randomizer(new Xoshiro256StarStar(123)), // 18bcfe56800
@@ -49,7 +49,7 @@ class UlidTest extends TestCase
 
     public function testRollover(): void
     {
-        $uuid = UuidFactory::ulid(
+        $uuid = UlidFactory::ulid(
             false,
             new StaticClock(new \DateTime('@281474976710.656')),
             new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")), // 281474976710.655 + 0.001
@@ -57,7 +57,7 @@ class UlidTest extends TestCase
 
         self::assertEquals('0000000000FFFFFFFFFFFFFFFF', $uuid->toString());
 
-        $uuid = UuidFactory::ulid(
+        $uuid = UlidFactory::ulid(
             false,
             new StaticClock(new \DateTime('@281474976710.657')),
             new Randomizer(new FixedSequenceEngine("\x7b\xde\xf7\xbd\xef")), // 281474976710.655 + 0.001 + 0.001
@@ -70,7 +70,7 @@ class UlidTest extends TestCase
     {
         // v7 has millisecond precision, we have to round our raw timestamp
         $clock = new RoundingClock(new StaticClock(), RoundingClock::ROUND_MILLISECONDS);
-        $uuid = UuidFactory::ulid(clock: $clock);
+        $uuid = UlidFactory::ulid(clock: $clock);
 
         self::assertEquals($clock->now(), $uuid->getDateTime());
     }

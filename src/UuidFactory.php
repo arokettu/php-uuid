@@ -78,21 +78,4 @@ final class UuidFactory
 
         return new UuidV8($hex);
     }
-
-    public static function ulidSequence(
-        bool $uuidV7Compatible = false,
-        bool $reserveHighestCounterBit = true,
-        ClockInterface $clock = new SystemClock(),
-        Randomizer $randomizer = new Randomizer(),
-    ): UlidMonotonicSequence {
-        return new UlidMonotonicSequence($uuidV7Compatible, $reserveHighestCounterBit, $clock, $randomizer);
-    }
-
-    public static function ulid(
-        bool $uuidV7Compatible = false,
-        ClockInterface $clock = new SystemClock(),
-        Randomizer $randomizer = new Randomizer(),
-    ): Ulid {
-        return self::ulidSequence($uuidV7Compatible, false, $clock, $randomizer)->next();
-    }
 }
