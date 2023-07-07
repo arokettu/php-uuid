@@ -33,7 +33,7 @@ Generic UUID
 
 Any UUID that is not Nil, Max or RFC 4122 and is not marked as ULID will be parsed to this class.
 
-The class can also be initialized directly with any 16 bytes of data.
+The class can also be initialized directly with any 32 hexadecimal digits.
 (Obviously, the class will not be cast to a version class in case the data happen to be a valid version or special UUID)
 
 RFC 4122
@@ -41,7 +41,7 @@ RFC 4122
 
 Variant 1 versions described in the `RFC 4122`_ and in the `update draft <RFC 4122 draft_>`__.
 
-Any class can be initialized directly by 16 bytes of data but the correct variant and version bits must be set.
+Any class can be initialized directly by 32 hexadecimal digits but the correct variant and version bits must be set.
 
 Version 1
 ---------
@@ -53,6 +53,7 @@ The library does not support generation of these UUIDs since they are more or le
 The class implements ``TimeBasedUuid`` interface.
 UUIDv1 timestamp is measured to 100 nsec precision which is more than DateTime can handle
 therefore the returned value will be truncated by one decimal.
+The range is ``1582-10-15 00:00:00.0 +00:00`` -- ``5236-03-31 21:21:00.684697 +00:00``.
 
 UUIDv1 can be rearranged without loss of any data and precision into a lexicographically monotonic UUIDv6.
 Use the ``toUuidV6()`` method for that::
@@ -75,6 +76,7 @@ The library does not support generation of these UUIDs and preferably they shoul
 
 The class implements ``TimeBasedUuid`` interface with 429'496'729'600 nsec precision (approximately 7 minutes)
 due to truncated timestamp field compared to V1.
+The range is ``1582-10-15 00:00:00.0 +00:00`` -- ``5236-03-31 21:13:51.187968 +00:00``.
 
 Version 3
 ---------
@@ -110,6 +112,7 @@ They are mostly useful as a conversion from UUIDv1.
 The class implements ``TimeBasedUuid`` interface.
 UUIDv1 timestamp is measured to 100 nsec precision which is more than DateTime can handle
 therefore the returned value will be truncated by one decimal.
+The range is ``1582-10-15 00:00:00.0 +00:00`` -- ``5236-03-31 21:21:00.684697 +00:00``.
 
 UUIDv6 can be rearranged without loss of any data and precision into a legacy UUIDv1.
 Use the ``toUuidV1()`` method for that::
@@ -132,7 +135,8 @@ This is the recommended version if you do need monotonicity.
 
 UUIDv7 was designed after ULID and shares the timestamp structure with it.
 
-The class implements ``TimeBasedUuid`` interface with millisecond precision.
+The class implements ``TimeBasedUuid`` interface with millisecond precision
+in range ``1970-01-01 00:00:00 +00:00`` -- ``10889-08-02 05:31:50.655 +00:00``.
 
 UUIDv7 without any bit change can be converted to a ULID.
 Use ``toUlid()`` for that::
@@ -158,7 +162,7 @@ The class can be extended::
 
     readonly class UuidExtended extends UuidV8
     {
-        protected function customAssertValid(string $bytes): void
+        protected function customAssertValid(string $hex): void
         {
             // validate your UUID as you like
         }
@@ -177,9 +181,10 @@ ULID is a different type of identifiers as described in the `ULID spec`_,
 but since it has similarities to UUID like 128-bit length, was designed to solve basically same problem, and shares its
 timestamp structure with UUIDv7, it was included in the library as "a very custom UUID".
 
-Since the format lacks any indication bits, the class can be initialized directly with any 16 bytes of data.
+Since the format lacks any indication bits, the class can be initialized directly with any 32 hexadecimal digits.
 
-The class implements ``TimeBasedUuid`` interface with millisecond precision.
+The class implements ``TimeBasedUuid`` interface with millisecond precision
+in range ``1970-01-01 00:00:00 +00:00`` -- ``10889-08-02 05:31:50.655 +00:00``.
 
 ULID can be converted into UUIDv7 but there are caveats.
 The ``isUuidV7Compatible()`` method can be used to check if the ULID is binary compatible with UUIDv7.

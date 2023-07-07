@@ -8,6 +8,23 @@ Base class
 
 ``Arokettu\Uuid\AbstractUuid`` class and ``Arokettu\Uuid\Uuid`` interface.
 
+Direct creation
+---------------
+
+The base constructor is inherited by most of the descendants.
+It accepts a string of lowercase hexadecimal digits (0-9, a-f)::
+
+    <?php
+
+    use Arokettu\Uuid\GenericUuid;
+
+    // {12345678-9abc-def0-1234-56789abcdef0}
+    $uuid = new GenericUuid('123456789abcdef0123456789abcdef0');
+
+.. note:: ``UuidParser::fromRfc4122()`` and ``UuidParser::fromRfc4122()`` can parse UUIDs/ULIDs in hex in case-insensitive manner.
+
+Subclasses may also check the string for additional validity.
+
 Conversion to String
 --------------------
 
@@ -32,10 +49,11 @@ Methods to compare two UUID objects.
 
     <?php
 
+    use Arokettu\Uuid\UlidParser;
     use Arokettu\Uuid\UuidParser;
 
     $uuid = UuidParser::fromString('6ba7b811-9dad-11d1-80b4-00c04fd430c8');
-    $ulid = UuidParser::fromString('3BMYW137DD278R1D00R17X8C68');
+    $ulid = UlidParser::fromString('3BMYW137DD278R1D00R17X8C68');
 
     var_dump($uuid->compare($ulid)); // 0
     var_dump($uuid->equalTo($ulid)); // false
@@ -52,13 +70,14 @@ This interface is most useful to check that it is a standard based UUID as oppos
     <?php
 
     use Arokettu\Uuid\Rfc4122Uuid;
+    use Arokettu\Uuid\UlidFactory;
     use Arokettu\Uuid\UuidFactory;
 
     $uuid = UuidFactory::v4();
     var_dump($uuid instanceof Rfc4122Uuid); // true
     var_dump($uuid->getRfc4122Version()); // 4
 
-    $ulid = UuidFactory::ulid();
+    $ulid = UlidFactory::ulid();
     var_dump($ulid instanceof Rfc4122Uuid); // false
 
 TimeBasedUuid
