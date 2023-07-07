@@ -4,7 +4,7 @@
 
 ### 0.2.0
 
-*Jul 8, 2023*
+*Jul 7, 2023*
 
 * Changed internal representation to flat hex
 * Fixed UUIDv7 generation for negative Unix timestamps
