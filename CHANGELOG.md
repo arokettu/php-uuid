@@ -11,6 +11,7 @@
 * The library no longer throws ValueError
 * Added fromHex() and toHex()
 * Timestamp on ULID & UUIDv7 is interpreted as unsigned
+* Extract UlidParser and UlidFactory 
 
 ### 0.1.0
 
