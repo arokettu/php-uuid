@@ -43,8 +43,9 @@ class V7TimestampTest extends TestCase
         self::assertEquals($dt, $uuid->getDateTime());
 
         // negative timestamp
-        $dt = new \DateTime('1920-01-02 12:34:56.789 +0000');
+        $dt = new \DateTime('1920-01-02 12:34:56.789 +0000'); // -1577791503211
         $uuid = UuidFactory::v7(new StaticClock($dt));
-        self::assertEquals($dt, $uuid->getDateTime());
+        // interpreted as unsigned (279897185207445)
+        self::assertEquals(new \DateTimeImmutable('10839-08-03T18:06:47.445000+0000'), $uuid->getDateTime());
     }
 }
