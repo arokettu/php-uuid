@@ -29,6 +29,8 @@ final class DateTime
             }
 
             return $hexTS;
+        // @codeCoverageIgnoreStart
+        // 32 bit stuff is not covered by the coverage build
         } elseif (extension_loaded('gmp')) {
             // gmp
             $ts = gmp_init($tsS . '000') + \intval($tsMs);
@@ -57,6 +59,7 @@ final class DateTime
 
             return u\to_hex(u\add_int($tsSU, \intval($tsMs)));
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public static function parseUlidHex(string $hex): \DateTimeImmutable
@@ -67,6 +70,8 @@ final class DateTime
             $ms = $tsMs % 1000;
             return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms)) ?:
                 throw new \RuntimeException('Error creating DateTime object');
+        // @codeCoverageIgnoreStart
+        // 32 bit stuff is not covered by the coverage build
         } elseif (extension_loaded('gmp')) {
             $tsMs = gmp_init($hex, 16);
             [$ts, $ms] = gmp_div_qr($tsMs, 1000);
@@ -78,5 +83,6 @@ final class DateTime
             return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
                 throw new \RuntimeException('Error creating DateTime object');
         }
+        // @codeCoverageIgnoreEnd
     }
 }

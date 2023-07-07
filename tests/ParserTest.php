@@ -70,6 +70,14 @@ class ParserTest extends TestCase
         UuidParser::fromHex('3132333435363738393031323334353637');
     }
 
+    public function testHexWrongLengthUlid(): void
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('ULID must be 32 hexadecimal digits');
+
+        UlidParser::fromHex('3132333435363738393031323334353637');
+    }
+
     public function testRfcWrongChars(): void
     {
         $this->expectException(\UnexpectedValueException::class);
