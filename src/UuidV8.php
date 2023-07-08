@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-readonly class UuidV8 extends AbstractUuid implements Rfc4122Uuid
+readonly class UuidV8 extends AbstractUuid implements Rfc4122Variant1Uuid
 {
     use Helpers\Rfc4122Variant1UUID {
         assertValid as baseAssertValid;

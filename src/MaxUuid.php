@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final readonly class MaxUuid extends AbstractUuid
+final readonly class MaxUuid extends AbstractUuid implements Rfc4122Uuid
 {
     public const HEX = "ffffffffffffffffffffffffffffffff";
 
