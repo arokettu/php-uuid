@@ -14,55 +14,56 @@ final class Base32
     public static function encode(string $hex): string
     {
         if (PHP_INT_SIZE >= 8) {
-            $p0 = substr($hex, 0, 2);
-            $p1 = substr($hex, 2, 10);
-            $p2 = substr($hex, 12, 10);
-            $p3 = substr($hex, 22, 10);
+            $h0 = substr($hex, 0, 2);
+            $h1 = substr($hex, 2, 10);
+            $h2 = substr($hex, 12, 10);
+            $h3 = substr($hex, 22, 10);
 
-            $c0 = base_convert($p0, 16, 32);
-            $c1 = base_convert($p1, 16, 32);
-            $c2 = base_convert($p2, 16, 32);
-            $c3 = base_convert($p3, 16, 32);
+            $b0 = base_convert($h0, 16, 32);
+            $b1 = base_convert($h1, 16, 32);
+            $b2 = base_convert($h2, 16, 32);
+            $b3 = base_convert($h3, 16, 32);
 
-            $num = $c0 .
-                str_pad($c1, 8, '0', STR_PAD_LEFT) .
-                str_pad($c2, 8, '0', STR_PAD_LEFT) .
-                str_pad($c3, 8, '0', STR_PAD_LEFT);
+            $num =
+                str_pad($b0, 2, '0', STR_PAD_LEFT) .
+                str_pad($b1, 8, '0', STR_PAD_LEFT) .
+                str_pad($b2, 8, '0', STR_PAD_LEFT) .
+                str_pad($b3, 8, '0', STR_PAD_LEFT);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } else {
-            $p0 = substr($hex, 0, 2);
-            $p1 = substr($hex, 2, 5);
-            $p2 = substr($hex, 7, 5);
-            $p3 = substr($hex, 12, 5);
-            $p4 = substr($hex, 17, 5);
-            $p5 = substr($hex, 22, 5);
-            $p6 = substr($hex, 27, 5);
+            $h0 = substr($hex, 0, 2);
+            $h1 = substr($hex, 2, 5);
+            $h2 = substr($hex, 7, 5);
+            $h3 = substr($hex, 12, 5);
+            $h4 = substr($hex, 17, 5);
+            $h5 = substr($hex, 22, 5);
+            $h6 = substr($hex, 27, 5);
 
-            $c0 = base_convert($p0, 16, 32);
-            $c1 = base_convert($p1, 16, 32);
-            $c2 = base_convert($p2, 16, 32);
-            $c3 = base_convert($p3, 16, 32);
-            $c4 = base_convert($p4, 16, 32);
-            $c5 = base_convert($p5, 16, 32);
-            $c6 = base_convert($p6, 16, 32);
+            $b0 = base_convert($h0, 16, 32);
+            $b1 = base_convert($h1, 16, 32);
+            $b2 = base_convert($h2, 16, 32);
+            $b3 = base_convert($h3, 16, 32);
+            $b4 = base_convert($h4, 16, 32);
+            $b5 = base_convert($h5, 16, 32);
+            $b6 = base_convert($h6, 16, 32);
 
-            $num = $c0 .
-                str_pad($c1, 4, '0', STR_PAD_LEFT) .
-                str_pad($c2, 4, '0', STR_PAD_LEFT) .
-                str_pad($c3, 4, '0', STR_PAD_LEFT) .
-                str_pad($c4, 4, '0', STR_PAD_LEFT) .
-                str_pad($c5, 4, '0', STR_PAD_LEFT) .
-                str_pad($c6, 4, '0', STR_PAD_LEFT);
+            $num =
+                str_pad($b0, 2, '0', STR_PAD_LEFT) .
+                str_pad($b1, 4, '0', STR_PAD_LEFT) .
+                str_pad($b2, 4, '0', STR_PAD_LEFT) .
+                str_pad($b3, 4, '0', STR_PAD_LEFT) .
+                str_pad($b4, 4, '0', STR_PAD_LEFT) .
+                str_pad($b5, 4, '0', STR_PAD_LEFT) .
+                str_pad($b6, 4, '0', STR_PAD_LEFT);
         }
         // @codeCoverageIgnoreEnd
 
-        $digits = strtr(
+        return strtr(
             $num,
             'abcdefghijklmnopqrstuv',
             'ABCDEFGHJKMNPQRSTVWXYZ',
         );
-        return str_pad($digits, 26, '0', STR_PAD_LEFT);
     }
 
     public static function decode(string $base32): string
@@ -76,15 +77,52 @@ final class Base32
             'abcdefghijklmnopqrstuv' . '110',
         );
 
+        if (PHP_INT_SIZE >= 8) {
+            $b0 = substr($num, 0, 2);
+            $b1 = substr($num, 2, 8);
+            $b2 = substr($num, 10, 8);
+            $b3 = substr($num, 18, 8);
+
+            $h0 = base_convert($b0, 32, 16);
+            $h1 = base_convert($b1, 32, 16);
+            $h2 = base_convert($b2, 32, 16);
+            $h3 = base_convert($b3, 32, 16);
+
+            $hex =
+                str_pad($h0, 2, '0', STR_PAD_LEFT) .
+                str_pad($h1, 10, '0', STR_PAD_LEFT) .
+                str_pad($h2, 10, '0', STR_PAD_LEFT) .
+                str_pad($h3, 10, '0', STR_PAD_LEFT);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
-        if (\extension_loaded('gmp')) {
-            $hex = gmp_strval(gmp_init($num, 32), 16);
         } else {
-            $hex = u\to_hex(u\from_base($num, 32, 16));
+            $b0 = substr($num, 0, 2);
+            $b1 = substr($num, 2, 4);
+            $b2 = substr($num, 6, 4);
+            $b3 = substr($num, 10, 4);
+            $b4 = substr($num, 14, 4);
+            $b5 = substr($num, 18, 4);
+            $b6 = substr($num, 22, 4);
+
+            $h0 = base_convert($b0, 32, 16);
+            $h1 = base_convert($b1, 32, 16);
+            $h2 = base_convert($b2, 32, 16);
+            $h3 = base_convert($b3, 32, 16);
+            $h4 = base_convert($b4, 32, 16);
+            $h5 = base_convert($b5, 32, 16);
+            $h6 = base_convert($b6, 32, 16);
+
+            $hex =
+                str_pad($h0, 2, '0', STR_PAD_LEFT) .
+                str_pad($h1, 5, '0', STR_PAD_LEFT) .
+                str_pad($h2, 5, '0', STR_PAD_LEFT) .
+                str_pad($h3, 5, '0', STR_PAD_LEFT) .
+                str_pad($h4, 5, '0', STR_PAD_LEFT) .
+                str_pad($h5, 5, '0', STR_PAD_LEFT) .
+                str_pad($h6, 5, '0', STR_PAD_LEFT);
         }
         // @codeCoverageIgnoreEnd
 
-        return str_pad($hex, 32, '0', STR_PAD_LEFT);
+        return $hex;
     }
 }
