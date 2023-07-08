@@ -47,7 +47,7 @@
         "vimeo/psalm": "^5.13"
     },
     "suggest": {
-        "php-64bit": "*",
-        "ext-gmp": "*"
+        "php-64bit": "The library is optimized for 64-bit systems",
+        "ext-gmp": "To speed up calculations on 32-bit systems"
     }
 }

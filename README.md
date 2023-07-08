@@ -47,9 +47,7 @@ UlidParser::fromString('01H4HQC4G1C1606J19358PWESA')
 composer require arokettu/uuid
 ```
 
-## Limitations
-
-* 32 bit is not supported yet (will be by 1.0.0)
+* GMP extension is strongly recommended on 32-bit systems.
 
 ## Documentation
 
