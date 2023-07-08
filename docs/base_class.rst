@@ -59,26 +59,36 @@ Methods to compare two UUID objects.
     var_dump($uuid->equalTo($ulid)); // false
     var_dump($uuid->equalTo($ulid, strict: false)); // true
 
-Rfc4122Uuid
-===========
+Rfc4122Variant1Uuid
+===================
 
-`RFC 4122`_ UUID versions (except for Nil and Max) extend this interface.
+.. versionadded:: 1.1.0
+
+`RFC 4122`_ Variant 1 UUID versions (all except for Nil and Max) extend this interface.
 This interface is most useful to check that it is a standard based UUID as opposed to Nil, Max, ULID or unrecognized generic.
 
 ::
 
     <?php
 
-    use Arokettu\Uuid\Rfc4122Uuid;
+    use Arokettu\Uuid\Rfc4122Variant1Uuid;
     use Arokettu\Uuid\UlidFactory;
     use Arokettu\Uuid\UuidFactory;
 
     $uuid = UuidFactory::v4();
-    var_dump($uuid instanceof Rfc4122Uuid); // true
+    var_dump($uuid instanceof Rfc4122Variant1Uuid); // true
     var_dump($uuid->getRfc4122Version()); // 4
 
     $ulid = UlidFactory::ulid();
-    var_dump($ulid instanceof Rfc4122Uuid); // false
+    var_dump($ulid instanceof Rfc4122Variant1Uuid); // false
+
+Rfc4122Uuid
+===========
+
+.. versionchanged:: 1.1.0 Now includes Nil and Max
+
+All UUIDs mentioned in `RFC 4122`_ and its update draft, i.e. Nil, Max, Rfc4122Variant1Uuid.
+This excludes only Generic UUIDs and ULIDs.
 
 TimeBasedUuid
 =============

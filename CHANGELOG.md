@@ -2,6 +2,13 @@
 
 ## 1.x
 
+### 1.1.0
+
+*Jul 8, 2023*
+
+* `Rfc4122Uuid` now includes Max and Nil
+* `Rfc4122Variant1Uuid` is added to contain only versions 1-8
+
 ### 1.0.0
 
 *Jul 8, 2023*
