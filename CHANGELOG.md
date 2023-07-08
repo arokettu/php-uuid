@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.x
+
+### 1.0.0
+
+*Jul 8, 2023*
+
+* Support for 32-bit systems
+
 ## 0.x
 
 ### 0.2.0
