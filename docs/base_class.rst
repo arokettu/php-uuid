@@ -25,6 +25,16 @@ It accepts a string of lowercase hexadecimal digits (0-9, a-f)::
 
 Subclasses may also check the string for additional validity.
 
+Conversion to Bytes
+-------------------
+
+.. versionadded:: next ``toGuid()``
+
+Methods to convert UUID object to a byte sequence:
+
+* ``toBytes()`` to the raw big-endian byte sequence
+* ``toGuidBytes()`` to the Microsoft GUID mixed-endian byte sequence
+
 Conversion to String
 --------------------
 

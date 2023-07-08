@@ -2,6 +2,10 @@
 
 ## 1.x
 
+### next
+
+* Added conversions to/from Microsoft GUID byte layout
+
 ### 1.1.0
 
 *Jul 8, 2023*

@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Arokettu\Uuid\Tests;
+
+use Arokettu\Uuid\UuidParser;
+use PHPUnit\Framework\TestCase;
+
+class GuidTest extends TestCase
+{
+    public function testGuid(): void
+    {
+        $bytes = hex2bin('33221100554477668899aabbccddeeff');
+        $guid  = '00112233-4455-6677-8899-aabbccddeeff';
+
+        // successfully parsed
+        $uuid = UuidParser::fromGuidBytes($bytes);
+        self::assertEquals($guid, $uuid->toString());
+
+        // successfully converted to bytes
+        self::assertEquals($bytes, $uuid->toGuidBytes());
+    }
+}

@@ -34,6 +34,24 @@ abstract class AbstractParser
      * @psalm-api
      * @return T
      */
+    public static function fromGuidBytes(string $bytes): Uuid
+    {
+        if (\strlen($bytes) !== 16) {
+            throw new \UnexpectedValueException('GUID representation must be 16 bytes long');
+        }
+
+        $seg1 = substr($bytes, 0, 4);
+        $seg2 = substr($bytes, 4, 2);
+        $seg3 = substr($bytes, 6, 2);
+        $seg4 = substr($bytes, 8);
+
+        return static::fromHex(bin2hex(strrev($seg1) . strrev($seg2) . strrev($seg3) . $seg4));
+    }
+
+    /**
+     * @psalm-api
+     * @return T
+     */
     public static function fromRfc4122(string $string): Uuid
     {
         $match = preg_match(

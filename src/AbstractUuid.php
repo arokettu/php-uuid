@@ -28,6 +28,18 @@ abstract readonly class AbstractUuid implements Uuid
         return hex2bin($this->hex);
     }
 
+    final public function toGuidBytes(): string
+    {
+        $bytes = hex2bin($this->hex);
+
+        $seg1 = substr($bytes, 0, 4);
+        $seg2 = substr($bytes, 4, 2);
+        $seg3 = substr($bytes, 6, 2);
+        $seg4 = substr($bytes, 8);
+
+        return strrev($seg1) . strrev($seg2) . strrev($seg3) . $seg4;
+    }
+
     final public function toRfc4122(): string
     {
         return

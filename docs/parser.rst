@@ -41,6 +41,27 @@ If the version is not determined, an instance of ``Arokettu\Uuid\GenericUuid`` i
     var_dump($ulid::class);         // Arokettu\Uuid\Ulid
     var_dump($ulid->getDateTime()->format('c')); // 5720-12-08T01:31:12+00:00
 
+.. warning::
+    This method is for the natural/network big endian byte sequences.
+    Use ``fromGuidBytes()`` for Microsoft GUID byte order.
+
+fromGuidBytes()
+===============
+
+Like ``fromBytes()`` but the byte order is Microsoft GUID mixed-endian::
+
+    <?php
+
+    use Arokettu\Uuid\UuidParser;
+
+    $guidBytes = '33221100554477668899aabbccddeeff';
+    $guid = UuidParser::fromGuidBytes(hex2bin($guidBytes));
+    var_dump($guid->toString()); // '00112233-4455-6677-8899-aabbccddeeff'
+
+.. warning::
+    Make sure you use it only on actual GUID ordered byte sequences.
+    Like ``fromBytes()`` it will always succeed but you will get an incorrect UUID if it was in the natural (big endian) order.
+
 fromRfc4122()
 =============
 

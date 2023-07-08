@@ -19,6 +19,11 @@ interface Uuid extends \Stringable
     /**
      * @psalm-api
      */
+    public function toGuidBytes(): string;
+
+    /**
+     * @psalm-api
+     */
     public function toRfc4122(): string;
 
     /**
