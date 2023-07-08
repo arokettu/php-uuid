@@ -21,4 +21,13 @@ class GuidTest extends TestCase
         // successfully converted to bytes
         self::assertEquals($bytes, $uuid->toGuidBytes());
     }
+
+    public function testGuidWrongLength(): void
+    {
+        $bytes = hex2bin('33221100554477668899aabbccddee');
+
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('GUID representation must be 16 bytes long');
+        UuidParser::fromGuidBytes($bytes);
+    }
 }
