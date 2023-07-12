@@ -22,6 +22,7 @@ Documentation
    uuid
    parser
    factories
+   doctrine
 
 License
 =======
