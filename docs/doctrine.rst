@@ -36,10 +36,7 @@ Register types::
 
     <?php
 
-    use Arokettu\Uuid\Doctrine\UlidBinaryType;
-    use Arokettu\Uuid\Doctrine\UlidType;
-    use Arokettu\Uuid\Doctrine\UuidBinaryType;
-    use Arokettu\Uuid\Doctrine\UuidType;
+    use Arokettu\Uuid\Doctrine\{UlidBinaryType,UlidType,UuidBinaryType,UuidType};
     use Doctrine\DBAL\Types\Type;
 
     // registers types directly
@@ -54,15 +51,9 @@ Apply type to a model::
 
     <?php
 
-    use Arokettu\Uuid\Doctrine\UuidType;
-    use Arokettu\Uuid\Doctrine\UuidV4Generator;
+    use Arokettu\Uuid\Doctrine\{UuidType,UuidV4Generator};
     use Arokettu\Uuid\Uuid;
-    use Doctrine\ORM\Mapping\Column;
-    use Doctrine\ORM\Mapping\CustomIdGenerator;
-    use Doctrine\ORM\Mapping\Entity;
-    use Doctrine\ORM\Mapping\GeneratedValue;
-    use Doctrine\ORM\Mapping\Id;
-    use Doctrine\ORM\Mapping\Table;
+    use Doctrine\ORM\Mapping\{Column,CustomIdGenerator,Entity,GeneratedValue,Id,Table};
 
     #[Entity, Table(name: 'uuid_object')]
     class UuidObject
