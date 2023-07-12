@@ -51,8 +51,6 @@ composer require arokettu/uuid
 
 ## Documentation
 
-Documentation is a sort of work in progress.
-
 Read full documentation here: <https://sandfox.dev/php/uuid.html>
 
 Also on Read the Docs: <https://arokettu-uuid.readthedocs.io/>
