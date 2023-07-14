@@ -45,7 +45,7 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
 
         $hex = $this->hex;
 
-        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
         Helpers\UuidBytes::setVersion($hex, 7);
 
         return new UuidV7($hex);

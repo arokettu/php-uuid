@@ -8,7 +8,7 @@ use DateTimeImmutable;
 
 final readonly class UuidV1 extends AbstractUuid implements Rfc4122Variant10xxUuid, TimeBasedUuid
 {
-    use Helpers\Rfc4122Variant1UUID;
+    use Helpers\Rfc4122Variant10xxUUID;
 
     public function getRfc4122Version(): int
     {

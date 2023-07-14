@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 final readonly class UuidV7 extends AbstractUuid implements Rfc4122Variant10xxUuid, TimeBasedUuid
 {
-    use Helpers\Rfc4122Variant1UUID;
+    use Helpers\Rfc4122Variant10xxUUID;
     use Helpers\UlidLikeDateTime;
 
     public function getRfc4122Version(): int

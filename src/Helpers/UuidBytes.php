@@ -32,11 +32,11 @@ final class UuidBytes
         return $version;
     }
 
-    public static function setVariant(string &$hex, int $variant): void
+    public static function setVariant(string &$hex, UuidVariant $variant): void
     {
-        if ($variant !== 1) {
+        if ($variant !== UuidVariant::RFC4122) {
             // @codeCoverageIgnoreStart
-            throw new \LogicException('Only variant 1 is supported');
+            throw new \LogicException('Only variant 10xx is supported');
             // @codeCoverageIgnoreEnd
         }
 

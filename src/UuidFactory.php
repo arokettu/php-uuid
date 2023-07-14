@@ -27,7 +27,7 @@ final class UuidFactory
     {
         $hex = md5($namespace->toBytes() . $identifier);
 
-        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
         Helpers\UuidBytes::setVersion($hex, 3);
 
         return new UuidV3($hex);
@@ -37,7 +37,7 @@ final class UuidFactory
     {
         $hex = bin2hex($randomizer->getBytes(16));
 
-        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
         Helpers\UuidBytes::setVersion($hex, 4);
 
         return new UuidV4($hex);
@@ -47,7 +47,7 @@ final class UuidFactory
     {
         $hex = substr(sha1($namespace->toBytes() . $identifier), 0, 32);
 
-        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
         Helpers\UuidBytes::setVersion($hex, 5);
 
         return new UuidV5($hex);
@@ -76,7 +76,7 @@ final class UuidFactory
 
         $hex = bin2hex($bytes);
 
-        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
         Helpers\UuidBytes::setVersion($hex, 8);
 
         return new UuidV8($hex);

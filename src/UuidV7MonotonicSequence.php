@@ -47,7 +47,7 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
         $hex = $hexTS . dechex($this->counter | 0x7000) . bin2hex($this->randomizer->getBytes(8));
 
         // set variant
-        Helpers\UuidBytes::setVariant($hex, 1);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
 
         return new UuidV7($hex);
     }
