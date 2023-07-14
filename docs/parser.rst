@@ -24,7 +24,7 @@ Parses 16 bytes into UUID::
     var_dump($uuid::class);         // Arokettu\Uuid\UuidV1
     var_dump($uuid->getDateTime()->format('c')); // 1998-02-04T22:13:53+00:00
 
-``UuidParser`` autodetects UUID versions: nil, max, variant 1 versions 1-8 as described in `RFC 4122`_.
+``UuidParser`` autodetects UUID versions: nil, max, variant 10xx versions 1-8 as described in `RFC 4122`_.
 If the version is not determined, an instance of ``Arokettu\Uuid\GenericUuid`` is created.
 ``UlidParser`` always gets ULID::
 

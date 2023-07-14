@@ -28,7 +28,7 @@ Subclasses may also check the string for additional validity.
 Conversion to Bytes
 -------------------
 
-.. versionadded:: next ``toGuid()``
+.. versionadded:: 1.2.0 ``toGuid()``
 
 Methods to convert UUID object to a byte sequence:
 
@@ -69,10 +69,11 @@ Methods to compare two UUID objects.
     var_dump($uuid->equalTo($ulid)); // false
     var_dump($uuid->equalTo($ulid, strict: false)); // true
 
-Rfc4122Variant1Uuid
-===================
+Rfc4122Variant10xxUuid
+======================
 
 .. versionadded:: 1.1.0
+.. versionchanged:: 1.2.0 renamed from Rfc4122Variant1Uuid to Rfc4122Variant10xxUuid
 
 `RFC 4122`_ Variant 1 UUID versions (all except for Nil and Max) extend this interface.
 This interface is most useful to check that it is a standard based UUID as opposed to Nil, Max, ULID or unrecognized generic.
@@ -81,23 +82,23 @@ This interface is most useful to check that it is a standard based UUID as oppos
 
     <?php
 
-    use Arokettu\Uuid\Rfc4122Variant1Uuid;
+    use Arokettu\Uuid\Rfc4122Variant10xxUuid;
     use Arokettu\Uuid\UlidFactory;
     use Arokettu\Uuid\UuidFactory;
 
     $uuid = UuidFactory::v4();
-    var_dump($uuid instanceof Rfc4122Variant1Uuid); // true
+    var_dump($uuid instanceof Rfc4122Variant10xxUuid); // true
     var_dump($uuid->getRfc4122Version()); // 4
 
     $ulid = UlidFactory::ulid();
-    var_dump($ulid instanceof Rfc4122Variant1Uuid); // false
+    var_dump($ulid instanceof Rfc4122Variant10xxUuid); // false
 
 Rfc4122Uuid
 ===========
 
 .. versionchanged:: 1.1.0 Now includes Nil and Max
 
-All UUIDs mentioned in `RFC 4122`_ and its update draft, i.e. Nil, Max, Rfc4122Variant1Uuid.
+All UUIDs mentioned in `RFC 4122`_ and its update draft, i.e. Nil, Max, Rfc4122Variant10xxUuid.
 This excludes only Generic UUIDs and ULIDs.
 
 TimeBasedUuid

@@ -2,9 +2,12 @@
 
 ## 1.x
 
-### next
+### 1.2.0
+
+*Jul 14, 2023*
 
 * Added conversions to/from Microsoft GUID byte layout
+* `Rfc4122Variant1Uuid` renamed to `Rfc4122Variant10xxUuid` (`Rfc4122Variant1Uuid` kept as an alias)
 
 ### 1.1.0
 
