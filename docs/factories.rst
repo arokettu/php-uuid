@@ -203,8 +203,8 @@ UUIDv7
 
 The chosen algorithm is 12 bit clock sequence in rand_a + random 'tail' in rand_b
 as described in `RFC 4122`_ (Draft 4) 6.2 Method 1.
-With the highest counter bit reserved, it gives a guaranteed sequence of 2049 UUIDs (actual number is random, up to 4096).
-Bit reservation can be canceled by passing ``$reserveHighestCounterBit = false``, this will guarantee only one UUID in the worst case (still up to 4096).
+With the highest counter bit reserved, it gives a guaranteed sequence of 2049 UUIDs per millisecond (actual number is random, up to 4096).
+Bit reservation can be canceled by passing ``$reserveHighestCounterBit = false``, this will guarantee only one UUID per millisecond in the worst case (still up to 4096).
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
@@ -253,8 +253,8 @@ ULID
 The algorithm is a simplified version of ULID standard algo, having the whole rand_a + rand_b as a counter,
 that also aligns with `RFC 4122`_ (Draft 4) 6.2 Method 2.
 The simplification is that only the lowest 3 bytes act as a proper counter to simplify the 32 bit implementation.
-With the highest counter bit reserved, it gives a guaranteed sequence of 8'388'609 ULIDs (actual number is random, up to 16'777'216).
-Bit reservation can be canceled by passing ``$reserveHighestCounterBit = false``, this will guarantee only one ULID in the worst case (still up to 16'777'216).
+With the highest counter bit reserved, it gives a guaranteed sequence of 8'388'609 ULIDs per millisecond (actual number is random, up to 16'777'216).
+Bit reservation can be canceled by passing ``$reserveHighestCounterBit = false``, this will guarantee only one ULID per millisecond in the worst case (still up to 16'777'216).
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
