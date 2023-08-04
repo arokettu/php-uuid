@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use Arokettu\Uuid\Helpers\UuidVariant;
 use UnexpectedValueException;
 
 final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
@@ -26,7 +27,7 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
     public function isUuidV7Compatible(): bool
     {
         return
-            Helpers\UuidBytes::getVariant($this->hex) === 1 &&
+            Helpers\UuidBytes::getVariant($this->hex) === UuidVariant::RFC4122 &&
             Helpers\UuidBytes::getVersion($this->hex) === 7;
     }
 

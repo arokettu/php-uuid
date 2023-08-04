@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use Arokettu\Uuid\Helpers\UuidVariant;
+
 /**
  * @psalm-api
  * @extends AbstractParser<Uuid>
@@ -20,7 +22,7 @@ final class UuidParser extends AbstractParser
 
         $hex = strtolower($hex);
 
-        if (Helpers\UuidBytes::getVariant($hex) === 1) {
+        if (Helpers\UuidBytes::getVariant($hex) === UuidVariant::RFC4122) {
             return match (Helpers\UuidBytes::getVersion($hex)) {
                 1 => new UuidV1($hex),
                 2 => new UuidV2($hex),

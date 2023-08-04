@@ -9,12 +9,12 @@ namespace Arokettu\Uuid\Helpers;
  */
 final class UuidBytes
 {
-    public static function getVariant(string $hex): ?int
+    public static function getVariant(string $hex): ?UuidVariant
     {
         $bits = hexdec($hex[16]) >> 2;
 
         if ($bits === 0b10) {
-            return 1; // RFC 4122
+            return UuidVariant::RFC4122; // RFC 4122
         }
 
         return null; // non RFC 4122 UUIDs are irrelevant
