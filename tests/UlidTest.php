@@ -6,6 +6,7 @@ namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\StaticClock;
+use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UlidFactory;
 use PHPUnit\Framework\TestCase;
@@ -70,8 +71,21 @@ class UlidTest extends TestCase
     {
         // v7 has millisecond precision, we have to round our raw timestamp
         $clock = new RoundingClock(new StaticClock(), RoundingClock::ROUND_MILLISECONDS);
-        $uuid = UlidFactory::ulid(clock: $clock);
+        $ulid = UlidFactory::ulid(clock: $clock);
 
-        self::assertEquals($clock->now(), $uuid->getDateTime());
+        self::assertEquals($clock->now(), $ulid->getDateTime());
+    }
+
+    public function testSystemTime(): void
+    {
+        // v7 has millisecond precision, we have to round our raw timestamp
+        $clock = new RoundingClock(new SystemClock(), RoundingClock::ROUND_MILLISECONDS);
+
+        $before = $clock->now();
+        $ulid = UlidFactory::ulid();
+        $after = $clock->now();
+
+        self::assertGreaterThanOrEqual($before, $ulid->getDateTime());
+        self::assertLessThanOrEqual($after, $ulid->getDateTime());
     }
 }
