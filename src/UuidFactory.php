@@ -13,6 +13,8 @@ use Random\Randomizer;
  */
 final class UuidFactory
 {
+    use Helpers\CachedFactoryObjects;
+
     public static function nil(): NilUuid
     {
         return new NilUuid();
@@ -33,8 +35,10 @@ final class UuidFactory
         return new UuidV3($hex);
     }
 
-    public static function v4(Randomizer $randomizer = new Randomizer()): UuidV4
+    public static function v4(?Randomizer $randomizer = null): UuidV4
     {
+        $randomizer ??= self::rnd();
+
         $hex = bin2hex($randomizer->getBytes(16));
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
@@ -55,15 +59,19 @@ final class UuidFactory
 
     public static function v7Sequence(
         bool $reserveHighestCounterBit = true,
-        ClockInterface $clock = new SystemClock(),
-        Randomizer $randomizer = new Randomizer(),
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
     ): UuidV7MonotonicSequence {
-        return new UuidV7MonotonicSequence($reserveHighestCounterBit, $clock, $randomizer);
+        return new UuidV7MonotonicSequence(
+            $reserveHighestCounterBit,
+            $clock ?? self::clock(),
+            $randomizer ?? self::rnd(),
+        );
     }
 
     public static function v7(
-        ClockInterface $clock = new SystemClock(),
-        Randomizer $randomizer = new Randomizer(),
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
     ): UuidV7 {
         return self::v7Sequence(false, $clock, $randomizer)->next();
     }

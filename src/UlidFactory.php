@@ -13,19 +13,26 @@ use Random\Randomizer;
  */
 final class UlidFactory
 {
+    use Helpers\CachedFactoryObjects;
+
     public static function sequence(
         bool $uuidV7Compatible = false,
         bool $reserveHighestCounterBit = true,
-        ClockInterface $clock = new SystemClock(),
-        Randomizer $randomizer = new Randomizer(),
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
     ): UlidMonotonicSequence {
-        return new UlidMonotonicSequence($uuidV7Compatible, $reserveHighestCounterBit, $clock, $randomizer);
+        return new UlidMonotonicSequence(
+            $uuidV7Compatible,
+            $reserveHighestCounterBit,
+            $clock ?? self::clock(),
+            $randomizer ?? self::rnd(),
+        );
     }
 
     public static function ulid(
         bool $uuidV7Compatible = false,
-        ClockInterface $clock = new SystemClock(),
-        Randomizer $randomizer = new Randomizer(),
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
     ): Ulid {
         return self::sequence($uuidV7Compatible, false, $clock, $randomizer)->next();
     }
