@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-use Arokettu\Clock\SystemClock;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
