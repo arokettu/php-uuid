@@ -2,6 +2,13 @@
 
 ## 1.x
 
+### 1.2.1
+
+*Aug 4, 2023*
+
+* Sped up factories a bit
+* Fixed problems with autoload of the deprecated interface
+
 ### 1.2.0
 
 *Jul 14, 2023*
