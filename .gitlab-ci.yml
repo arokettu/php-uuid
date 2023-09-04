@@ -38,6 +38,12 @@ test-8:
   stage: test
   image: php:8
 
+# 32 bit
+test-8-32bit:
+  extends: .test
+  stage: test
+  image: i386/php:8
+
 # coverage
 coverage:
   variables:
