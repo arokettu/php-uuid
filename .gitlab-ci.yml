@@ -44,6 +44,17 @@ test-8-32bit:
   stage: test
   image: i386/php:8
 
+# 32 bit + GMP
+test-8-32bit-gmp:
+  extends: .test
+  stage: test
+  image: i386/php:8
+  script:
+    - apt-get install -y libgmp-dev
+    - docker-php-ext-install gmp
+    - composer update
+    - vendor/bin/phpunit
+
 # coverage
 coverage:
   variables:
