@@ -38,8 +38,8 @@ class V7Test extends TestCase
     public function testRandom(): void
     {
         $uuid = UuidFactory::v7(
-            new StaticClock(new \DateTime('@1700000000.000')), // f969a0d1a18f5a32 5e4d6d65c7e335f8
-            new Randomizer(new Xoshiro256StarStar(123)), // 18bcfe56800
+            new StaticClock(new \DateTime('@1700000000.000')), // 18bcfe56800
+            new Randomizer(new Xoshiro256StarStar(123)), // f969a0d1a18f5a32 5e4d6d65c7e335f8
         );
 
         self::assertEquals('018bcfe5-6800-7969-9e4d-6d65c7e335f8', $uuid->toString());
