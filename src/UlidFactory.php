@@ -33,6 +33,15 @@ final class UlidFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): Ulid {
-        return self::sequence($uuidV7Compatible, false, $clock, $randomizer)->next();
+        $ts = Helpers\DateTime::buildUlidHex(($clock ?? self::clock())->now());
+        $rnd = bin2hex(($randomizer ?? self::rnd())->getBytes(10));
+        $hex = $ts . $rnd;
+
+        if ($uuidV7Compatible) {
+            Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+            Helpers\UuidBytes::setVersion($hex, 7);
+        }
+
+        return new Ulid($hex);
     }
 }

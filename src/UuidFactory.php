@@ -72,7 +72,14 @@ final class UuidFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): UuidV7 {
-        return self::v7Sequence(false, $clock, $randomizer)->next();
+        $ts = Helpers\DateTime::buildUlidHex(($clock ?? self::clock())->now());
+        $rnd = bin2hex(($randomizer ?? self::rnd())->getBytes(10));
+        $hex = $ts . $rnd;
+
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVersion($hex, 7);
+
+        return new UuidV7($hex);
     }
 
     public static function v8(string $bytes): UuidV8
