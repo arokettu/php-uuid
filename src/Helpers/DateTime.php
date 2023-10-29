@@ -108,6 +108,22 @@ final class DateTime
             return $hexTS;
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
+        } elseif (\extension_loaded('gmp')) {
+            $ts = (gmp_init($tsS, 10) - self::V1_EPOCH) * 10_000_000 + \intval($tsUs) * 10 + $nsec100;
+
+            // 60 bit (7.5 byte / 15 hex digit) timestamp
+            if ($ts >= 0) {
+                $hexTS = gmp_strval($ts, 16);
+            } else {
+                $hexTS = bin2hex(~gmp_export($ts + 1, 6, GMP_BIG_ENDIAN));
+            }
+            if (\strlen($hexTS) < 15) {
+                $hexTS = str_pad($hexTS, 15, '0', STR_PAD_LEFT);
+            } elseif (\strlen($hexTS) > 15) {
+                $hexTS = substr($hexTS, -15); // allow date to roll over on 5236-03-31 lol
+            }
+
+            return $hexTS;
         } else {
             if ($tsS[0] === '-') {
                 $tsS = substr($tsS, 1);
