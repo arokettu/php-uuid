@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Arokettu\Uuid\NodeID;
+namespace Arokettu\Uuid\Node;
 
-interface NodeID
+interface Node
 {
     /**
      * @return string 12 lowercase hex digits

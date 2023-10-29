@@ -13,6 +13,7 @@ use Random\Randomizer;
 final class UuidFactory
 {
     use Helpers\CachedClock;
+    use Helpers\CachedNode;
     use Helpers\CachedRandomizer;
 
     public static function nil(): NilUuid
@@ -23,6 +24,33 @@ final class UuidFactory
     public static function max(): MaxUuid
     {
         return new MaxUuid();
+    }
+
+    public static function v1(
+        ?Node\Node $node = null,
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
+    ): UuidV1 {
+        $node ??= self::node();
+        $clock ??= self::clock();
+        $randomizer ??= self::rnd();
+
+        $tsHex = Helpers\DateTime::buildUuidV1Hex($clock->now());
+        $nodeHex = $node->getHex();
+        $clockSequenceHex = bin2hex($randomizer->getBytes(2));
+
+        $hex =
+            substr($tsHex, 7, 8) . // time_low
+            substr($tsHex, 3, 4) . // time_mid
+            '0' . // version placeholder
+            substr($tsHex, 0, 3) . // time_high
+            $clockSequenceHex .
+            $nodeHex;
+
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVersion($hex, 1);
+
+        return new UuidV1($hex);
     }
 
     public static function v3(Uuid $namespace, string $identifier): UuidV3
@@ -55,6 +83,32 @@ final class UuidFactory
         Helpers\UuidBytes::setVersion($hex, 5);
 
         return new UuidV5($hex);
+    }
+
+    public static function v6(
+        ?Node\Node $node = null,
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
+    ): UuidV6 {
+        $node ??= self::node();
+        $clock ??= self::clock();
+        $randomizer ??= self::rnd();
+
+        $tsHex = Helpers\DateTime::buildUuidV1Hex($clock->now());
+        $nodeHex = $node->getHex();
+        $clockSequenceHex = bin2hex($randomizer->getBytes(2));
+
+        $hex =
+            substr($tsHex, 0, 12) . // time_high + time_mid
+            '0' . // version placeholder
+            substr($tsHex, 12, 3) . // time_low
+            $clockSequenceHex .
+            $nodeHex;
+
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVersion($hex, 6);
+
+        return new UuidV6($hex);
     }
 
     public static function v7Sequence(

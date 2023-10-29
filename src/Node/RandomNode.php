@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Arokettu\Uuid\NodeID;
+namespace Arokettu\Uuid\Node;
 
 use Random\Engine\Secure;
 use Random\Randomizer;
 
-final class RandomNodeID implements NodeID
+final class RandomNode implements Node
 {
     public function __construct(
         private ?Randomizer $randomizer = null,
