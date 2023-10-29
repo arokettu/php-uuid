@@ -89,13 +89,13 @@ final class DateTime
         // @codeCoverageIgnoreEnd
     }
 
-    public static function buildUuidV1Hex(\DateTimeInterface $dt): string
+    public static function buildUuidV1Hex(\DateTimeInterface $dt, int $nsec100 = 0): string
     {
         $tsS  = $dt->format('U');
         $tsUs = $dt->format('u');
 
         if (PHP_INT_SIZE >= 8) {
-            $ts = (\intval($tsS) - self::V1_EPOCH) * 10_000_000 + \intval($tsUs) * 10;
+            $ts = (\intval($tsS) - self::V1_EPOCH) * 10_000_000 + \intval($tsUs) * 10 + $nsec100;
 
             // 60 bit (7.5 byte / 15 hex digit) timestamp
             $hexTS = dechex($ts);
@@ -106,9 +106,12 @@ final class DateTime
             }
 
             return $hexTS;
+        // @codeCoverageIgnoreStart
+        // 32 bit stuff is not covered by the coverage build
         } else {
             throw new \LogicException('32 bit not implemented');
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public static function parseUuidV1Hex(string $hex): \DateTimeImmutable
