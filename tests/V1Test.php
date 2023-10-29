@@ -36,9 +36,24 @@ class V1Test extends TestCase
 
     public function testFactory(): void
     {
-        $clock = new StaticClock(new \DateTimeImmutable('2023-10-29 17:04 UTC'));
-        $randEngine = new Xoshiro256StarStar(123);
-        $node = StaticNode::fromHex('1234567890ab');
+        $clock = new StaticClock(
+            new \DateTimeImmutable('2023-10-29 17:04:00.123456 UTC') // 1ee767d27875680
+        );
+        $rand = new Randomizer(new Xoshiro256StarStar(123)); // f969a0d1a18f5a32
+        $node = StaticNode::fromHex('1234567890ab'); // 1334567890ab
+
+        $uuid = UuidFactory::v1($node, $clock, $rand);
+        self::assertEquals('27875680-767d-11ee-b969-1334567890ab', $uuid->toString());
+    }
+
+    public function testSystemTime(): void
+    {
+        $time1 = new \DateTime();
+        $uuid = UuidFactory::v1();
+        $time2 = new \DateTime();
+
+        self::assertGreaterThanOrEqual($time1, $uuid->getDateTime());
+        self::assertLessThanOrEqual($time2, $uuid->getDateTime());
     }
 
     public function testEquivalentToV6(): void
