@@ -2,6 +2,11 @@
 
 ## 1.x
 
+### next
+
+* Factory methods to generate UUIDv1 and UUIDv6
+* Speed up non-monotonic generation of UUIDv7 and ULID
+
 ### 1.2.1
 
 *Aug 4, 2023*
