@@ -37,6 +37,8 @@ class V1Test extends TestCase
     public function testFactory(): void
     {
         $clock = new StaticClock(new \DateTimeImmutable('2023-10-29 17:04 UTC'));
+        $randEngine = new Xoshiro256StarStar(123);
+        $node = StaticNode::fromHex('1234567890ab');
     }
 
     public function testEquivalentToV6(): void
