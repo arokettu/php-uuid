@@ -6,6 +6,7 @@ namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Clock\StaticClock;
 use Arokettu\Uuid\Node\StaticNode;
+use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidNamespaces;
 use Arokettu\Uuid\UuidV6;
@@ -39,6 +40,18 @@ class V6Test extends TestCase
 
         $uuid = UuidFactory::v6($node, $clock, $rand);
         self::assertEquals('1ee767d2-7875-6680-b969-1334567890ab', $uuid->toString());
+
+        $fixed = new Randomizer(new FixedSequenceEngine("\xab\xcd\xef"));
+
+        // time underflow
+        $clock = new StaticClock(new \DateTimeImmutable('1585-01-01 1:02 UTC')); // 0027bbfb17ab400
+        $uuid = UuidFactory::v6($node, $clock, $fixed);
+        self::assertEquals('0027bbfb-17ab-6400-abcd-1334567890ab', $uuid->toString());
+
+        // time overflow
+        $clock = new StaticClock(new \DateTimeImmutable('6000-01-01 2:03 UTC')); // [1]358432968ac2200
+        $uuid = UuidFactory::v6($node, $clock, $fixed);
+        self::assertEquals('35843296-8ac2-6200-abcd-1334567890ab', $uuid->toString());
     }
 
     public function testSystemTime(): void
