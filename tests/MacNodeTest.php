@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
+use Arokettu\Uuid\Helpers\SystemMac;
 use Arokettu\Uuid\Node\MacNode;
 use PHPUnit\Framework\TestCase;
 
@@ -36,5 +37,16 @@ class MacNodeTest extends TestCase
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Unrecognized MAC format');
         MacNode::parse('94-47-b9-e7:6b:fc');
+    }
+
+    public function testSystemMac(): void
+    {
+        // this test will likely fail on Windows
+        // todo: detect and disable
+        $node1 = MacNode::system();
+        self::assertEquals(12, \strlen($node1->getHex())); // we can't predict what mac do we have
+
+        $node2 = MacNode::system();
+        self::assertEquals($node1->getHex(), $node2->getHex());
     }
 }

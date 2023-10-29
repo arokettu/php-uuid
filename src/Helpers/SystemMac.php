@@ -22,7 +22,10 @@ final class SystemMac
         $mac = shell_exec('getmac');
 
         if ($mac === null) {
+            // @codeCoverageIgnoreStart
+            // we can't test success and failure in the same process
             throw new \RuntimeException('Unable to determine system MAC address');
+            // @codeCoverageIgnoreEnd
         }
 
         return trim($mac);
