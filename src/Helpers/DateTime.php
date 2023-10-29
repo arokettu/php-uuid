@@ -109,7 +109,17 @@ final class DateTime
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } else {
-            throw new \LogicException('32 bit not implemented');
+            if ($tsS[0] === '-') {
+                $tsS = substr($tsS, 1);
+                $ts = u\neg(u\from_dec($tsS, 8));
+            } else {
+                $ts = u\from_dec($tsS, 8);
+            }
+            $ts = u\sub_int($ts, self::V1_EPOCH);
+            $ts = u\mul_int($ts, 10_000_000);
+            $ts = u\add_int($ts, \intval($tsUs) * 10 + $nsec100);
+
+            return substr(u\to_hex($ts), -15);
         }
         // @codeCoverageIgnoreEnd
     }
