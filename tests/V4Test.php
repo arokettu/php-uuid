@@ -32,4 +32,12 @@ class V4Test extends TestCase
 
         self::assertEquals('f969a0d1-a18f-4a32-9e4d-6d65c7e335f8', $uuid->toRfc4122());
     }
+
+    public function testRfcExample(): void
+    {
+        $rnd = new Randomizer(new FixedSequenceEngine(hex2bin('919108F752D13320'), hex2bin('5BACF847DB4148A8')));
+        $uuid = UuidFactory::v4($rnd);
+
+        self::assertEquals('919108f7-52d1-4320-9bac-f847db4148a8', $uuid->toString());
+    }
 }

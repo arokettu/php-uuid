@@ -78,4 +78,14 @@ class V6Test extends TestCase
 
         self::assertEquals($uuid1->toString(), $uuid6->toUuidV1()->toString());
     }
+
+    public function testRfcExample(): void
+    {
+        $time = new \DateTime('February 22, 2022 2:22:22.000000PM GMT-05:00');
+        $clock = new Randomizer(new FixedSequenceEngine("\x33\xc8"));
+        $node = StaticNode::fromHex('9E6BDECED846');
+
+        $uuid = UuidFactory::v6($node, new StaticClock($time), $clock);
+        self::assertEquals('1EC9414C-232A-6B00-B3C8-9F6BDECED846', strtoupper($uuid->toString()));
+    }
 }

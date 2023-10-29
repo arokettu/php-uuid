@@ -83,4 +83,13 @@ class V7Test extends TestCase
         self::assertGreaterThanOrEqual($before, $uuid->getDateTime());
         self::assertLessThanOrEqual($after, $uuid->getDateTime());
     }
+
+    public function testRfcExample(): void
+    {
+        $time = new \DateTime('February 22, 2022 2:22:22.000000PM GMT-05:00');
+        $rnd = new Randomizer(new FixedSequenceEngine(hex2bin('0CC3'), hex2bin('18C4DC0C0C07398F')));
+        $uuid = UuidFactory::v7(new StaticClock($time), $rnd);
+
+        self::assertEquals('017F22E2-79B0-7CC3-98C4-DC0C0C07398F', strtoupper($uuid->toString()));
+    }
 }

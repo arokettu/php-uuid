@@ -8,12 +8,18 @@ use Random\Engine;
 
 final class FixedSequenceEngine implements Engine
 {
-    public function __construct(
-        private readonly string $bytes,
-    ) {}
+    private readonly iterable $bytes;
+
+    public function __construct(string ...$bytes)
+    {
+        $this->bytes = new \InfiniteIterator(new \ArrayIterator($bytes));
+        $this->bytes->rewind();
+    }
 
     public function generate(): string
     {
-        return $this->bytes;
+        $bytes = $this->bytes->current();
+        $this->bytes->next();
+        return $bytes;
     }
 }
