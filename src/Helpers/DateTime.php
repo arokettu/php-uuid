@@ -109,7 +109,8 @@ final class DateTime
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
-            $ts = (gmp_init($tsS, 10) - self::V1_EPOCH) * 10_000_000 + \intval($tsUs) * 10 + $nsec100;
+            $ts = (gmp_init($tsS, 10) + gmp_init(self::V1_EPOCH_STR, 16)) * 10_000_000 +
+                \intval($tsUs) * 10 + $nsec100;
 
             // 60 bit (7.5 byte / 15 hex digit) timestamp
             if ($ts >= 0) {
