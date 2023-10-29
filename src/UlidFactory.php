@@ -12,7 +12,8 @@ use Random\Randomizer;
  */
 final class UlidFactory
 {
-    use Helpers\CachedFactoryObjects;
+    use Helpers\CachedClock;
+    use Helpers\CachedRandomizer;
 
     public static function sequence(
         bool $uuidV7Compatible = false,
