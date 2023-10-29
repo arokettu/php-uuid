@@ -115,7 +115,7 @@ final class DateTime
             if ($ts >= 0) {
                 $hexTS = gmp_strval($ts, 16);
             } else {
-                $hexTS = bin2hex(~gmp_export($ts + 1, 6, GMP_BIG_ENDIAN));
+                $hexTS = bin2hex(~gmp_export($ts + 1, 8, GMP_BIG_ENDIAN));
             }
             if (\strlen($hexTS) < 15) {
                 $hexTS = str_pad($hexTS, 15, '0', STR_PAD_LEFT);
