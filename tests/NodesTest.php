@@ -91,6 +91,12 @@ class NodesTest extends TestCase
         // test bit normalizer in random mode
         $node = StaticNode::random(new Randomizer(new PcgOneseq128XslRr64(111))); // d2f8f1d31aaad01b
         self::assertEquals('d3f8f1d31aaa', $node->getHex()); // 2 becomes 3
+
+        // random is random
+        $node1 = StaticNode::random();
+        $node2 = StaticNode::random();
+        self::assertNotEquals($node1->getHex(), $node2->getHex()); // not guaranteed but pretty much expected
+        self::assertEquals($node1->getHex(), $node1->getHex()); // but static stays static
     }
 
     public function testStaticNodeBitEnforced(): void
