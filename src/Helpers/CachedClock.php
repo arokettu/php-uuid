@@ -6,6 +6,9 @@ namespace Arokettu\Uuid\Helpers;
 
 use Arokettu\Clock\SystemClock;
 
+/**
+ * @internal
+ */
 trait CachedClock
 {
     private static SystemClock $clock;

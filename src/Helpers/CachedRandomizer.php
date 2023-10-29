@@ -7,6 +7,9 @@ namespace Arokettu\Uuid\Helpers;
 use Random\Engine\Secure;
 use Random\Randomizer;
 
+/**
+ * @internal
+ */
 trait CachedRandomizer
 {
     private static Randomizer $randomizer;

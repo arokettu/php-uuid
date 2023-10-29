@@ -7,6 +7,9 @@ namespace Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\Node\RandomNode;
 use Random\Randomizer;
 
+/**
+ * @internal
+ */
 trait CachedNode
 {
     abstract private static function rnd(): Randomizer;
