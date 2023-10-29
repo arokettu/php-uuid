@@ -12,7 +12,7 @@ use Arokettu\Unsigned as u;
 final class DateTime
 {
     private const V1_EPOCH = -12219292800; // (new DateTimeImmutable('1582-10-15 UTC'))->getTimestamp()
-    private const V1_EPOCH_STR = '2d8539c80'; // 12219292800. it's 34 bit so string for 32
+    private const V1_EPOCH_STR_NEG = '2d8539c80'; // 12219292800. it's 34 bit so string for 32
 
     public static function buildUlidHex(\DateTimeInterface $dt): string
     {
@@ -109,7 +109,7 @@ final class DateTime
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
-            $ts = (gmp_init($tsS, 10) + gmp_init(self::V1_EPOCH_STR, 16)) * 10_000_000 +
+            $ts = (gmp_init($tsS, 10) + gmp_init(self::V1_EPOCH_STR_NEG, 16)) * 10_000_000 +
                 \intval($tsUs) * 10 + $nsec100;
 
             // 60 bit (7.5 byte / 15 hex digit) timestamp
@@ -132,7 +132,7 @@ final class DateTime
             } else {
                 $ts = u\from_dec($tsS, 8);
             }
-            $ts = u\sub_int($ts, self::V1_EPOCH);
+            $ts = u\add($ts, u\from_hex(self::V1_EPOCH_STR_NEG, 8));
             $ts = u\mul_int($ts, 10_000_000);
             $ts = u\add_int($ts, \intval($tsUs) * 10 + $nsec100);
 
@@ -158,7 +158,7 @@ final class DateTime
         } elseif (\extension_loaded('gmp')) {
             $ts = gmp_init($hex, 16);
             [$tsES, $tsNs] = gmp_div_qr($ts, 10_000_000); // epoch and hundreds of nanoseconds
-            $tsS = $tsES - gmp_init(self::V1_EPOCH_STR, 16);
+            $tsS = $tsES - gmp_init(self::V1_EPOCH_STR_NEG, 16);
             $tsUs = gmp_div($tsNs, 10);
 
             return \DateTimeImmutable::createFromFormat(
@@ -168,7 +168,7 @@ final class DateTime
         } else {
             $ts = u\from_hex($hex, 8);
             [$tsES, $tsNs] = u\div_mod_int($ts, 10_000_000); // epoch and hundreds of nanoseconds
-            $tsS = u\add($tsES, u\neg(u\from_hex(self::V1_EPOCH_STR, 8)));
+            $tsS = u\sub($tsES, u\from_hex(self::V1_EPOCH_STR_NEG, 8));
             $tsUs = intdiv($tsNs, 10); // lose 1 decimal of precision
 
             return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %06d', u\to_dec($tsS), $tsUs)) ?:
