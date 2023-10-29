@@ -89,6 +89,28 @@ final class DateTime
         // @codeCoverageIgnoreEnd
     }
 
+    public static function buildUuidV1Hex(\DateTimeInterface $dt): string
+    {
+        $tsS  = $dt->format('U');
+        $tsUs = $dt->format('u');
+
+        if (PHP_INT_SIZE >= 8) {
+            $ts = (\intval($tsS) - self::V1_EPOCH) * 10_000_000 + \intval($tsUs) * 10;
+
+            // 60 bit (7.5 byte / 15 hex digit) timestamp
+            $hexTS = dechex($ts);
+            if (\strlen($hexTS) < 15) {
+                $hexTS = str_pad($hexTS, 15, '0', STR_PAD_LEFT);
+            } elseif (\strlen($hexTS) > 15) {
+                $hexTS = substr($hexTS, -15); // allow date to roll over on 5236-03-31 lol
+            }
+
+            return $hexTS;
+        } else {
+            throw new \LogicException('32 bit not implemented');
+        }
+    }
+
     public static function parseUuidV1Hex(string $hex): \DateTimeImmutable
     {
         // 100-nanosecond intervals since midnight 15 October 1582 UTC
