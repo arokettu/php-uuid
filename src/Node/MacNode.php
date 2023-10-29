@@ -30,6 +30,11 @@ final readonly class MacNode implements Node
             return new self(strtolower(str_replace('-', '', $mac)));
         }
 
+        // MAC-48 / EUI-48 in hex
+        if (preg_match('/^[0-9a-f]{12}$/i', $mac)) {
+            return new self(strtolower($mac));
+        }
+
         throw new \UnexpectedValueException('Unrecognized MAC format');
     }
 
