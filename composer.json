@@ -39,12 +39,12 @@
         "arokettu/unsigned": "^1.2"
     },
     "require-dev": {
-        "arokettu/clock": "^2.2",
-        "phpunit/phpunit": "^10.0",
+        "arokettu/clock": "^2.4",
+        "phpunit/phpunit": "^10.4.2",
         "psy/psysh": "*",
         "sandfox.dev/code-standard": "^1.2023.06.29",
         "squizlabs/php_codesniffer": "*",
-        "vimeo/psalm": "^5.13"
+        "vimeo/psalm": "^5.15"
     },
     "suggest": {
         "php-64bit": "The library is optimized for 64-bit systems",
