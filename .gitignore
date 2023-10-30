@@ -5,3 +5,4 @@
 /reports
 /.phpunit.result.cache
 /docs/build
+/docs/venv
