@@ -1,4 +1,4 @@
-.. uuidv1nodes:
+.. _uuidv1nodes:
 
 Node ID Generators
 ##################

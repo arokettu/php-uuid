@@ -39,7 +39,7 @@ The class can also be initialized directly with any 32 hexadecimal digits.
 RFC 4122
 ========
 
-Variant 1 versions described in the `RFC 4122`_ and in the `update draft <RFC 4122 draft_>`__.
+Variant 10xx versions described in the `RFC 4122`_ and in the `update draft <RFC 4122 draft_>`__.
 
 Any class can be initialized directly by 32 hexadecimal digits but the correct variant and version bits must be set.
 
@@ -106,7 +106,6 @@ Version 6
 ``Arokettu\Uuid\UuidV6``.
 
 Basically a rearrangement of UUIDv1 fields.
-The library does not support generation of these UUIDs since they are more or less legacy compatibility stuff.
 They are mostly useful as a conversion from UUIDv1.
 
 The class implements ``TimeBasedUuid`` interface.
@@ -218,5 +217,5 @@ You can do it at your own risk if you used ULIDs and then decided to move to a m
     var_dump($ulid->toString());    // 01H44RDYXJPFCF895N3BBXCZRC
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _RFC 4122 draft: https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format
+.. _RFC 4122 draft: https://datatracker.ietf.org/doc/html/draft-ietf-uuidrev-rfc4122bis
 .. _ULID spec: https://github.com/ulid/spec

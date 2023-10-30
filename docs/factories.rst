@@ -19,9 +19,35 @@ Max UUID
 RFC 4122
 ========
 
-This factory can create UUID versions 3, 4, 5, 7, 8.
-Versions 1, 2, 6 can be considered legacy and should not be used in any non-legacy purposes.
-I may add support for them later if there is demand or I have time.
+This factory can create UUID versions 1, 3, 4, 5, 6, 7, 8.
+Version 2 can be considered legacy and should not be used in any non-legacy purposes.
+Versions 1 and 6 are not recommended either.
+
+Version 1
+---------
+
+``Arokettu\Uuid\UuidFactory::v1($node)``
+
+Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
+You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+also you can override RNG by passing an instance of ``Random\Randomizer``::
+
+    <?php
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\Node\StaticNode;
+    use Arokettu\Uuid\UuidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $uuid = UuidFactory::v1(); // some random UUID
+
+    $node = StaticNode::fromHex('1234567890ab');
+    $rand = new Randomizer(new Xoshiro256StarStar(123));
+    $clock = new StaticClock(new DateTime('2023-10-30 12:00 UTC'));
+    $uuid = UuidFactory::v1($node, $clock, $rand);
+
+    var_dump($uuid->toString()); // d9fb2000-771b-11ee-b969-1334567890ab
 
 Version 3
 ---------
@@ -93,6 +119,32 @@ Version 5 is created from an UUID namespace and a string identifier.
     // use a predefined namespace
     $uuid = UuidFactory::v5(UuidNamespaces::url(), 'http://example.com');
     var_dump($uuid->toString()); // 8c9ddcb0-8084-5a7f-a988-1095ab18b5df
+
+Version 6
+---------
+
+``Arokettu\Uuid\UuidFactory::v6($node)``
+
+Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
+You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+also you can override RNG by passing an instance of ``Random\Randomizer``::
+
+    <?php
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\Node\StaticNode;
+    use Arokettu\Uuid\UuidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $uuid = UuidFactory::v6(); // some random UUID
+
+    $node = StaticNode::fromHex('1234567890ab');
+    $rand = new Randomizer(new Xoshiro256StarStar(123));
+    $clock = new StaticClock(new DateTime('2023-10-30 12:00 UTC'));
+    $uuid = UuidFactory::v6($node, $clock, $rand);
+
+    var_dump($uuid->toString()); // 1ee771bd-9fb2-6000-b969-1334567890ab
 
 Version 7
 ---------
