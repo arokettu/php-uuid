@@ -84,9 +84,6 @@ final class UuidV6Sequence implements IteratorAggregate
         return new UuidV6($hex);
     }
 
-    /**
-     * @return Generator<UuidV6, void>
-     */
     public function getIterator(): Generator
     {
         while (true) {

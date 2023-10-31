@@ -34,9 +34,6 @@ final class UuidV1Sequence implements UuidSequence
         return $this->innerSequence->next()->toUuidV1();
     }
 
-    /**
-     * @return Generator<UuidV1, void>
-     */
     public function getIterator(): Generator
     {
         while (true) {

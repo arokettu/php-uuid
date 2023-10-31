@@ -25,9 +25,6 @@ final class UuidV4Sequence implements UuidSequence
         return UuidFactory::v4($this->randomizer);
     }
 
-    /**
-     * @return Generator<UuidV4, void>
-     */
     public function getIterator(): Generator
     {
         while (true) {
