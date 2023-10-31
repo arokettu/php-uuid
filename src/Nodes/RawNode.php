@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Arokettu\Uuid\Node;
+namespace Arokettu\Uuid\Nodes;
 
 final readonly class RawNode extends AbstractNode
 {

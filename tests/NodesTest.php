@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
-use Arokettu\Uuid\Node\RandomNode;
-use Arokettu\Uuid\Node\RawNode;
-use Arokettu\Uuid\Node\StaticNode;
+use Arokettu\Uuid\Nodes\RandomNode;
+use Arokettu\Uuid\Nodes\RawNode;
+use Arokettu\Uuid\Nodes\StaticNode;
 use PHPUnit\Framework\TestCase;
 use Random\Engine\PcgOneseq128XslRr64;
 use Random\Engine\Xoshiro256StarStar;

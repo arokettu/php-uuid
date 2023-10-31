@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Arokettu\Uuid\Node;
+namespace Arokettu\Uuid\Nodes;
 
 use Random\Engine\Secure;
 use Random\Randomizer;

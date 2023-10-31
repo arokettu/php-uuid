@@ -8,7 +8,7 @@ use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers\DateTime;
 use Arokettu\Uuid\Helpers\UuidBytes;
 use Arokettu\Uuid\Helpers\UuidVariant;
-use Arokettu\Uuid\Node;
+use Arokettu\Uuid\Nodes;
 use Arokettu\Uuid\UuidV6;
 use DateInterval;
 use DateTimeImmutable;
@@ -33,11 +33,11 @@ final class UuidV6Sequence implements IteratorAggregate
     private int $counter;
 
     public function __construct(
-        private ?Node\Node $node = null,
+        private ?Nodes\Node $node = null,
         private ClockInterface $clock = new SystemClock(),
         private Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
-        $this->node ??= Node\StaticNode::random($this->randomizer);
+        $this->node ??= Nodes\StaticNode::random($this->randomizer);
 
         // init 'const' if not initialized
         self::$ONE_MICROSECOND ??= DateInterval::createFromDateString('1 microsecond');

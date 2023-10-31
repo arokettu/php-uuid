@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
-use Arokettu\Uuid\Node\MacNode;
+use Arokettu\Uuid\Nodes\MacNode;
 use PHPUnit\Framework\TestCase;
 
 class MacNodeTest extends TestCase

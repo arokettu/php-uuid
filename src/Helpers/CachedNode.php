@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Helpers;
 
-use Arokettu\Uuid\Node\RandomNode;
+use Arokettu\Uuid\Nodes\RandomNode;
 use Random\Randomizer;
 
 /**

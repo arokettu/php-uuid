@@ -27,7 +27,7 @@ final class UuidFactory
     }
 
     public static function v1(
-        ?Node\Node $node = null,
+        ?Nodes\Node $node = null,
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): UuidV1 {
@@ -86,7 +86,7 @@ final class UuidFactory
     }
 
     public static function v6(
-        ?Node\Node $node = null,
+        ?Nodes\Node $node = null,
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): UuidV6 {

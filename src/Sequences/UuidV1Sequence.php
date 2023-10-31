@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Sequences;
 
 use Arokettu\Clock\SystemClock;
-use Arokettu\Uuid\Node\Node;
+use Arokettu\Uuid\Nodes\Node;
 use Arokettu\Uuid\Uuid;
 use Arokettu\Uuid\UuidV1;
 use Generator;
