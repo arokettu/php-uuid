@@ -35,7 +35,7 @@ final class UuidV1Sequence implements UuidSequence
     }
 
     /**
-     * @return Generator<int, UuidV1, void>
+     * @return Generator<UuidV1, void>
      */
     public function getIterator(): Generator
     {
