@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
-use Arokettu\Uuid\Helpers\SystemMac;
 use Arokettu\Uuid\Node\MacNode;
 use PHPUnit\Framework\TestCase;
 

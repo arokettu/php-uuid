@@ -34,7 +34,7 @@ abstract readonly class AbstractNode implements Node
 
     public static function fromBytes(string $bytes): static
     {
-        if (strlen($bytes) !== 6) {
+        if (\strlen($bytes) !== 6) {
             throw new \UnexpectedValueException('$bytes must be 6 bytes');
         }
 
