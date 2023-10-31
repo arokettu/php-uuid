@@ -14,7 +14,7 @@ trait CachedRandomizer
 {
     private static Randomizer $randomizer;
 
-    private static function rnd(): Randomizer
+    private static function randomizer(): Randomizer
     {
         return self::$randomizer ??= new Randomizer(new Secure());
     }

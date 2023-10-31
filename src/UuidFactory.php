@@ -33,7 +33,7 @@ final class UuidFactory
     ): UuidV1 {
         $node ??= self::node();
         $clock ??= self::clock();
-        $randomizer ??= self::rnd();
+        $randomizer ??= self::randomizer();
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex($clock->now());
         $nodeHex = $node->getHex();
@@ -65,7 +65,7 @@ final class UuidFactory
 
     public static function v4(?Randomizer $randomizer = null): UuidV4
     {
-        $randomizer ??= self::rnd();
+        $randomizer ??= self::randomizer();
 
         $hex = bin2hex($randomizer->getBytes(16));
 
@@ -92,7 +92,7 @@ final class UuidFactory
     ): UuidV6 {
         $node ??= self::node();
         $clock ??= self::clock();
-        $randomizer ??= self::rnd();
+        $randomizer ??= self::randomizer();
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex($clock->now());
         $nodeHex = $node->getHex();
@@ -119,7 +119,7 @@ final class UuidFactory
         return new UuidV7MonotonicSequence(
             $reserveHighestCounterBit,
             $clock ?? self::clock(),
-            $randomizer ?? self::rnd(),
+            $randomizer ?? self::randomizer(),
         );
     }
 
@@ -128,7 +128,7 @@ final class UuidFactory
         ?Randomizer $randomizer = null,
     ): UuidV7 {
         $ts = Helpers\DateTime::buildUlidHex(($clock ?? self::clock())->now());
-        $rnd = bin2hex(($randomizer ?? self::rnd())->getBytes(10));
+        $rnd = bin2hex(($randomizer ?? self::randomizer())->getBytes(10));
         $hex = $ts . $rnd;
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);

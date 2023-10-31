@@ -20,7 +20,7 @@ final class SequenceFactory
         return new Sequences\UuidV1Sequence(
             $node ?? Nodes\StaticNode::random(),
             $clock ?? self::clock(),
-            $randomizer ?? self::rnd(),
+            $randomizer ?? self::randomizer(),
         );
     }
 
@@ -28,7 +28,7 @@ final class SequenceFactory
         ?Randomizer $randomizer = null,
     ): Sequences\UuidV4Sequence {
         return new Sequences\UuidV4Sequence(
-            $randomizer ?? self::rnd(),
+            $randomizer ?? self::randomizer(),
         );
     }
 
@@ -40,7 +40,7 @@ final class SequenceFactory
         return new Sequences\UuidV6Sequence(
             $node ?? Nodes\StaticNode::random(),
             $clock ?? self::clock(),
-            $randomizer ?? self::rnd(),
+            $randomizer ?? self::randomizer(),
         );
     }
 }

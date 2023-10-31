@@ -25,7 +25,7 @@ final class UlidFactory
             $uuidV7Compatible,
             $reserveHighestCounterBit,
             $clock ?? self::clock(),
-            $randomizer ?? self::rnd(),
+            $randomizer ?? self::randomizer(),
         );
     }
 
@@ -35,7 +35,7 @@ final class UlidFactory
         ?Randomizer $randomizer = null,
     ): Ulid {
         $ts = Helpers\DateTime::buildUlidHex(($clock ?? self::clock())->now());
-        $rnd = bin2hex(($randomizer ?? self::rnd())->getBytes(10));
+        $rnd = bin2hex(($randomizer ?? self::randomizer())->getBytes(10));
         $hex = $ts . $rnd;
 
         if ($uuidV7Compatible) {
