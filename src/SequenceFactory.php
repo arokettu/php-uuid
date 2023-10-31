@@ -17,10 +17,12 @@ final class SequenceFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): Sequences\UuidV1Sequence {
+        $randomizer ??= self::randomizer();
+
         return new Sequences\UuidV1Sequence(
-            $node ?? Nodes\StaticNode::random(),
+            $node ?? Nodes\StaticNode::random($randomizer),
             $clock ?? self::clock(),
-            $randomizer ?? self::randomizer(),
+            $randomizer,
         );
     }
 
@@ -37,10 +39,12 @@ final class SequenceFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): Sequences\UuidV6Sequence {
+        $randomizer ??= self::randomizer();
+
         return new Sequences\UuidV6Sequence(
-            $node ?? Nodes\StaticNode::random(),
+            $node ?? Nodes\StaticNode::random($randomizer),
             $clock ?? self::clock(),
-            $randomizer ?? self::randomizer(),
+            $randomizer,
         );
     }
 }
