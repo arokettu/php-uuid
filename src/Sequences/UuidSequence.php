@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arokettu\Uuid\Sequences;
 
 use Arokettu\Uuid\Uuid;
