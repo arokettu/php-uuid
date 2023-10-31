@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Arokettu\Uuid;
+namespace Arokettu\Uuid\Sequences;
 
 use Arokettu\Clock\SystemClock;
+use Arokettu\Uuid\Helpers;
+use Arokettu\Uuid\UuidV7;
 use Generator;
 use IteratorAggregate;
 use Psr\Clock\ClockInterface;
@@ -14,7 +16,7 @@ use Random\Randomizer;
 /**
  * @implements IteratorAggregate<int, UuidV7>
  */
-final class UuidV7MonotonicSequence implements IteratorAggregate
+final class UuidV7Sequence implements IteratorAggregate
 {
     private ?string $lastTimestamp = null;
     private int $counter = 0;
