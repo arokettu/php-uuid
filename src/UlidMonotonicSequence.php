@@ -8,6 +8,7 @@ use Arokettu\Clock\SystemClock;
 use Generator;
 use IteratorAggregate;
 use Psr\Clock\ClockInterface;
+use Random\Engine\Secure;
 use Random\Randomizer;
 
 /**
@@ -23,7 +24,7 @@ final class UlidMonotonicSequence implements IteratorAggregate
         private readonly bool $uuidV7Compatible = false,
         private readonly bool $reserveHighestCounterBit = true,
         private readonly ClockInterface $clock = new SystemClock(),
-        private readonly Randomizer $randomizer = new Randomizer(),
+        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
     }
 
@@ -63,7 +64,7 @@ final class UlidMonotonicSequence implements IteratorAggregate
     }
 
     /**
-     * @return \Traversable<int, Ulid>
+     * @return Generator<int, Ulid>
      */
     public function getIterator(): Generator
     {

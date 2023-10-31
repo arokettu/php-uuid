@@ -8,6 +8,7 @@ use Arokettu\Clock\SystemClock;
 use Generator;
 use IteratorAggregate;
 use Psr\Clock\ClockInterface;
+use Random\Engine\Secure;
 use Random\Randomizer;
 
 /**
@@ -21,7 +22,7 @@ final class UuidV7MonotonicSequence implements IteratorAggregate
     public function __construct(
         private readonly bool $reserveHighestCounterBit = true,
         private readonly ClockInterface $clock = new SystemClock(),
-        private readonly Randomizer $randomizer = new Randomizer(),
+        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
     }
 
