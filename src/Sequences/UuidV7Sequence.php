@@ -14,7 +14,7 @@ use Random\Engine\Secure;
 use Random\Randomizer;
 
 /**
- * @implements IteratorAggregate<int, UuidV7>
+ * @implements UuidSequence<UuidV7>
  */
 final class UuidV7Sequence implements IteratorAggregate
 {
@@ -22,7 +22,6 @@ final class UuidV7Sequence implements IteratorAggregate
     private int $counter = 0;
 
     public function __construct(
-        private readonly bool $reserveHighestCounterBit = true,
         private readonly ClockInterface $clock = new SystemClock(),
         private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
@@ -40,7 +39,7 @@ final class UuidV7Sequence implements IteratorAggregate
             }
         } else {
             $counter = hexdec(bin2hex($this->randomizer->getBytes(2)));
-            $counter &= $this->reserveHighestCounterBit ? 0x07ff : 0x0fff;
+            $counter &= 0x07ff;
 
             $this->counter = $counter;
             $this->lastTimestamp = $hexTS;
@@ -56,7 +55,7 @@ final class UuidV7Sequence implements IteratorAggregate
     }
 
     /**
-     * @return \Traversable<int, UuidV7>
+     * @return Generator<UuidV7, void>
      */
     public function getIterator(): Generator
     {
