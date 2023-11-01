@@ -34,6 +34,15 @@ test-8.2:
   stage: test
   image: php:8.2
 
+# lowest version with the lowest dependencies
+test-8.2-lowest:
+  extends: .test
+  stage: test
+  image: php:8.2
+  script:
+    - composer update --prefer-lowest
+    - vendor/bin/phpunit
+
 # latest 8
 test-8:
   extends: .test
