@@ -15,6 +15,10 @@ final class UlidFactory
     use Helpers\CachedClock;
     use Helpers\CachedRandomizer;
 
+    /**
+     * @deprecated
+     * @see \Arokettu\Uuid\SequenceFactory::ulid()
+     */
     public static function sequence(
         bool $uuidV7Compatible = false,
         bool $reserveHighestCounterBit = true,
