@@ -16,7 +16,7 @@ use Random\Randomizer;
 /**
  * @implements UuidSequence<UuidV1>
  */
-final class UuidV1Sequence implements UuidSequence
+final readonly class UuidV1Sequence implements UuidSequence
 {
     private UuidV6Sequence $innerSequence;
 

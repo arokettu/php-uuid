@@ -24,15 +24,16 @@ final class UlidSequence implements UuidSequence
 
     private static DateInterval $ONE_MS;
 
+    private readonly ClockInterface $clock;
+
     private DateTimeImmutable $time;
     private string $hex;
     private int $counter;
-    private ClockInterface $clock;
 
     public function __construct(
-        private bool $uuidV7Compatible = false,
+        private readonly bool $uuidV7Compatible = false,
         ClockInterface $clock = new SystemClock(),
-        private Randomizer $randomizer = new Randomizer(new Secure()),
+        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
         $this->clock = RoundingClock::toMilliseconds($clock); // we need to round to correctly compare datetime
 

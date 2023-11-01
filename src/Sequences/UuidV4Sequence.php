@@ -13,7 +13,7 @@ use Random\Randomizer;
 /**
  * @implements UuidSequence<UuidV4>
  */
-final class UuidV4Sequence implements UuidSequence
+final readonly class UuidV4Sequence implements UuidSequence
 {
     public function __construct(
         private Randomizer $randomizer = new Randomizer(new Secure()),

@@ -29,17 +29,19 @@ final class UuidV6Sequence implements IteratorAggregate
 
     private static DateInterval $ONE_MICROSECOND;
 
+    private readonly ClockInterface $clock;
+    private readonly Nodes\Node $node;
+
     private DateTimeImmutable $time;
     private int $nsec100Counter;
     private int $counter;
-    private ClockInterface $clock;
 
     public function __construct(
-        private ?Nodes\Node $node = null,
+        ?Nodes\Node $node = null,
         ClockInterface $clock = new SystemClock(),
-        private Randomizer $randomizer = new Randomizer(new Secure()),
+        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
-        $this->node ??= Nodes\StaticNode::random($this->randomizer);
+        $this->node = $node ?? Nodes\StaticNode::random($this->randomizer);
         $this->clock = RoundingClock::toMicroseconds($clock); // be defensive
 
         // init 'const' if not initialized

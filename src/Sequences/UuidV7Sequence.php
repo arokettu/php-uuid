@@ -26,13 +26,14 @@ final class UuidV7Sequence implements IteratorAggregate
 
     private static DateInterval $ONE_MS;
 
+    private readonly ClockInterface $clock;
+
     private DateTimeImmutable $time;
     private int $counter = 0;
-    private ClockInterface $clock;
 
     public function __construct(
         ClockInterface $clock = new SystemClock(),
-        private Randomizer $randomizer = new Randomizer(new Secure()),
+        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
         $this->clock = RoundingClock::toMilliseconds($clock); // we need to round to correctly compare datetime
 
