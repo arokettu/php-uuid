@@ -57,4 +57,16 @@ final class SequenceFactory
             $randomizer ?? self::randomizer(),
         );
     }
+
+    public static function ulid(
+        bool $uuidV7Compatible = false,
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
+    ): Sequences\UlidSequence {
+        return new Sequences\UlidSequence(
+            $uuidV7Compatible,
+            $clock ?? self::clock(),
+            $randomizer ?? self::randomizer(),
+        );
+    }
 }

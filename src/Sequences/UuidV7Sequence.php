@@ -44,7 +44,7 @@ final class UuidV7Sequence implements IteratorAggregate
     {
         $time = $this->clock->now();
 
-        if ($this->time < $time) {
+        if (!isset($this->time) || $this->time < $time) {
             $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER_GEN);
             $this->time = $time;
         } else {

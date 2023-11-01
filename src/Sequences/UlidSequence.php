@@ -4,66 +4,87 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Sequences;
 
+use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\Ulid;
+use DateInterval;
+use DateTimeImmutable;
 use Generator;
-use IteratorAggregate;
 use Psr\Clock\ClockInterface;
 use Random\Engine\Secure;
 use Random\Randomizer;
 
 /**
- * @implements IteratorAggregate<int, Ulid>
+ * @implements UuidSequence<Ulid>
  */
-final class UlidSequence implements IteratorAggregate
+final class UlidSequence implements UuidSequence
 {
-    private ?string $lastTimestamp = null;
-    private string $lastHex;
+    private const MAX_COUNTER = 0xff_ff_ff; // 3 last bytes to avoid signed int on 32-bit systems
+
+    private static DateInterval $ONE_MS;
+
+    private DateTimeImmutable $time;
+    private string $hex;
     private int $counter;
+    private ClockInterface $clock;
 
     public function __construct(
-        private readonly bool $uuidV7Compatible = false,
-        private readonly ClockInterface $clock = new SystemClock(),
-        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
+        private bool $uuidV7Compatible = false,
+        ClockInterface $clock = new SystemClock(),
+        private Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
+        $this->clock = RoundingClock::toMilliseconds($clock); // we need to round to correctly compare datetime
+
+        // init 'const' if not initialized
+        self::$ONE_MS ??= DateInterval::createFromDateString('1ms');
     }
 
     public function next(): Ulid
     {
-        $hexTS = Helpers\DateTime::buildUlidHex($this->clock->now());
+        $time = $this->clock->now();
 
-        if ($hexTS === $this->lastTimestamp) {
-            $this->counter++;
-            if ($this->counter > 0x00ff_ffff) {
-                // do not allow counter rollover
-                throw new \RuntimeException('Counter sequence overflow');
-            }
+        if (!isset($this->time) || $this->time < $time) {
+            $this->time = $time;
+
+            // a slightly nonstandard layout is used for the ULID here:
+            // 48 bit timestamp + 56 bit "constant" random sequence + 24 bit random initialized counter
+
+            $this->hex = $this->generateHex();
+            $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER);
         } else {
-            $hex = $this->randomizer->getBytes(10);
+            $this->counter++;
+            if ($this->counter > self::MAX_COUNTER) {
+                // do not allow counter rollover
 
-            if ($this->uuidV7Compatible) {
-                // set variant
-                $hex[2] = \chr(0b10 << 6 | \ord($hex[2]) & 0b111111); // Variant 1: set the highest 2 bits to bin 10
-                // set version
-                $hex[0] = \chr(0x7 << 4 | \ord($hex[0]) & 0b1111); // Version 7: set the highest 4 bits to hex '7'
+                $this->time = $this->time->add(self::$ONE_MS);
+                $this->hex = $this->generateHex();
+                $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER);
             }
-
-            $counter = hexdec(bin2hex(substr($hex, -3)));
-
-            $this->lastHex = bin2hex(substr($hex, 0, -3));
-            $this->counter = $counter;
-            $this->lastTimestamp = $hexTS;
         }
 
-        $hex = $hexTS . $this->lastHex . str_pad(dechex($this->counter), 6, '0');
+        $hex =
+            Helpers\DateTime::buildUlidHex($this->time) .
+            $this->hex .
+            str_pad(dechex($this->counter), 6, '0', STR_PAD_LEFT);
 
         return new Ulid($hex);
     }
 
-    /**
-     * @return Generator<int, Ulid>
-     */
+    private function generateHex(): string
+    {
+        $hex = bin2hex($this->randomizer->getBytes(7));
+
+        if ($this->uuidV7Compatible) {
+            // Version 7: set the highest 4 bits to hex '7'
+            $hex[0] = '7';
+            // Variant 1: set the highest 2 bits to bin 10
+            $hex[3] = dechex(0b1000 | hexdec($hex[3]) & 0b0011);
+        }
+
+        return $hex;
+    }
+
     public function getIterator(): Generator
     {
         while (true) {
