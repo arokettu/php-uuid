@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class V7SequenceTest extends TestCase
+class SequenceV7Test extends TestCase
 {
     public function testSequences(): void
     {
