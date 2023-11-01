@@ -25,7 +25,7 @@ final class UuidV1Sequence implements UuidSequence
         ClockInterface $clock = new SystemClock(),
         Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
-        // V1 sequences should be very rare, so I don't want to optimize
+        // just delegate to a newer version
         $this->innerSequence = new UuidV6Sequence($node, $clock, $randomizer);
     }
 

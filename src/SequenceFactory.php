@@ -47,4 +47,14 @@ final class SequenceFactory
             $randomizer,
         );
     }
+
+    public static function v7(
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
+    ): Sequences\UuidV7Sequence {
+        return new Sequences\UuidV7Sequence(
+            $clock ?? self::clock(),
+            $randomizer ?? self::randomizer(),
+        );
+    }
 }

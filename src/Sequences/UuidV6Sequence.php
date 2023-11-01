@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Sequences;
 
+use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers\DateTime;
 use Arokettu\Uuid\Helpers\UuidBytes;
@@ -31,13 +32,15 @@ final class UuidV6Sequence implements IteratorAggregate
     private DateTimeImmutable $time;
     private int $nsec100Counter;
     private int $counter;
+    private ClockInterface $clock;
 
     public function __construct(
         private ?Nodes\Node $node = null,
-        private ClockInterface $clock = new SystemClock(),
+        ClockInterface $clock = new SystemClock(),
         private Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
         $this->node ??= Nodes\StaticNode::random($this->randomizer);
+        $this->clock = RoundingClock::toMicroseconds($clock); // be defensive
 
         // init 'const' if not initialized
         self::$ONE_MICROSECOND ??= DateInterval::createFromDateString('1 microsecond');
@@ -47,7 +50,6 @@ final class UuidV6Sequence implements IteratorAggregate
     {
         $time = $this->clock->now();
 
-        // this will break if PHP ever goes beyond milliseconds
         if (!isset($this->time) || $this->time < $time) {
             // if time advanced, reset everything
             $this->time = $time;
@@ -73,13 +75,12 @@ final class UuidV6Sequence implements IteratorAggregate
 
         $hex =
             substr($tsHex, 0, 12) . // time_high + time_mid
-            '0' . // version placeholder
+            '6' . // version
             substr($tsHex, 12, 3) . // time_low
             $clockHex .
             $nodeHex;
 
         UuidBytes::setVariant($hex, UuidVariant::RFC4122);
-        UuidBytes::setVersion($hex, 6);
 
         return new UuidV6($hex);
     }
