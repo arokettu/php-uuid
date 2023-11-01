@@ -80,7 +80,7 @@ final class UlidSequence implements UuidSequence
             // Version 7: set the highest 4 bits to hex '7'
             $hex[0] = '7';
             // Variant 1: set the highest 2 bits to bin 10
-            $hex[3] = dechex(0b1000 | hexdec($hex[3]) & 0b0011);
+            $hex[4] = dechex(0b1000 | hexdec($hex[4]) & 0b0011);
         }
 
         return $hex;
