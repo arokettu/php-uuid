@@ -45,7 +45,7 @@ final class UuidV6Sequence implements IteratorAggregate
         $this->clock = RoundingClock::toMicroseconds($clock); // be defensive
 
         // init 'const' if not initialized
-        self::$ONE_MICROSECOND ??= DateInterval::createFromDateString('1 microsecond');
+        self::$ONE_MICROSECOND ??= DateInterval::createFromDateString('1usec');
     }
 
     public function next(): UuidV6
