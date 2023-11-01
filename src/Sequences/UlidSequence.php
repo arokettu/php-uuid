@@ -24,7 +24,6 @@ final class UlidSequence implements IteratorAggregate
 
     public function __construct(
         private readonly bool $uuidV7Compatible = false,
-        private readonly bool $reserveHighestCounterBit = true,
         private readonly ClockInterface $clock = new SystemClock(),
         private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
@@ -51,9 +50,6 @@ final class UlidSequence implements IteratorAggregate
             }
 
             $counter = hexdec(bin2hex(substr($hex, -3)));
-            if ($this->reserveHighestCounterBit) {
-                $counter &= 0x007f_ffff;
-            }
 
             $this->lastHex = bin2hex(substr($hex, 0, -3));
             $this->counter = $counter;
