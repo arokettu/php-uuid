@@ -10,6 +10,7 @@ use Arokettu\Clock\TickingClock;
 use Arokettu\Uuid\SequenceFactory;
 use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use PHPUnit\Framework\TestCase;
+use Random\Engine\PcgOneseq128XslRr64;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
@@ -80,6 +81,27 @@ class SequenceV7Test extends TestCase
         self::assertEquals('02000000-03e8-70de-aa28-295af8ebf9ff', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-03e8-70df-9b75-f8449b23c260', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-03e8-70e0-951a-7e9d570a1aa8', $sequence->next()->toRfc4122());
+
+        // if clock goes back, ignore the timestamp
+        $clock->dateTime->modify('-5 seconds');
+
+        self::assertEquals('02000000-03e8-70e1-94df-5c6daf02d3c2', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-70e2-b05c-234f8095766f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-70e3-ba37-4ea83797f7a6', $sequence->next()->toRfc4122());
+
+        // when time catches up, use it
+        $clock->dateTime->modify('+10 seconds');
+
+        self::assertEquals('02000000-1770-704d-852a-ff9189fcae09', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-704e-b434-29e798cd8c51', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-704f-b04c-ae215dcb0ca9', $sequence->next()->toRfc4122());
+
+        // the change below 1msec should not disrupt the counter
+        $clock->dateTime->modify('+500 usec');
+
+        self::assertEquals('02000000-1770-7050-93b3-3da29b3d812f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7051-b405-283f75a98a52', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7052-a645-4ba0df565fbc', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvanceEveryStep(): void
@@ -100,46 +122,40 @@ class SequenceV7Test extends TestCase
         self::assertEquals('02000000-0280-77ba-8d48-f3844e4600c4', $sequence->next()->toRfc4122());
     }
 
-    public function testOverflowWorstCase(): void
+    public function testOverflow(): void
     {
-        $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
+        $randomizer = new Randomizer(new PcgOneseq128XslRr64(123));
+        $clock = MutableClock::fromTimestamp(1698888001);
 
-        $sequence = SequenceFactory::v7(new StaticClock(), $randomizer);
-        $sequence->next();
+        $sequence = SequenceFactory::v7($clock, $randomizer);
 
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Counter sequence overflow');
-        $sequence->next();
-    }
+        self::assertEquals('018b8d9d-a5e8-773d-9282-2ff70f52cfc7', $sequence->next()->toString());
 
-    public function testOverflowGuaranteedWorstCase(): void
-    {
-        $randomizer = new Randomizer(new FixedSequenceEngine("\xff"));
-
-        $sequence = SequenceFactory::v7(new StaticClock(), $randomizer);
-
-        for ($i = 0; $i < 2049; $i++) { // 0x07ff - 0x0fff inclusive
-            $sequence->next();
+        for ($i = 0; $i < 2240; $i++) { // roll to an overflow
+            $sequence->next()->toString();
         }
 
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Counter sequence overflow');
-        var_dump($sequence->next()->toRfc4122());
-    }
+        self::assertEquals('018b8d9d-a5e8-7ffe-9bae-91c66e6911d5', $sequence->next()->toString());
+        self::assertEquals('018b8d9d-a5e8-7fff-921a-a26d89246907', $sequence->next()->toString());
+        // overflow
+        self::assertEquals('018b8d9d-a5e9-7535-a74c-22026bf76954', $sequence->next()->toString());
+        self::assertEquals('018b8d9d-a5e9-7536-aedb-8d836a766a26', $sequence->next()->toString());
 
-    public function testOverflowBestCase(): void
-    {
-        $randomizer = new Randomizer(new FixedSequenceEngine("\x00"));
-
-        $sequence = SequenceFactory::v7(new StaticClock(), $randomizer);
-
-        for ($i = 0; $i < 4096; $i++) {
-            $sequence->next();
+        for ($i = 0; $i < 2759; $i++) { // roll to another overflow
+            $sequence->next()->toString();
         }
 
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Counter sequence overflow');
-        var_dump($sequence->next()->toRfc4122());
+        self::assertEquals('018b8d9d-a5e9-7ffe-b0af-2e8c3dfa42c8', $sequence->next()->toString());
+        self::assertEquals('018b8d9d-a5e9-7fff-9a19-53e11bf3c1d8', $sequence->next()->toString());
+        // another overflow
+        self::assertEquals('018b8d9d-a5ea-70bb-9575-2c28cc59476d', $sequence->next()->toString());
+        self::assertEquals('018b8d9d-a5ea-70bc-906c-81640f3d9553', $sequence->next()->toString());
+
+        // advance 1msec. the timestamp should still be lower
+        $clock->dateTime->modify('+1msec');
+
+        // same clock seq continues
+        self::assertEquals('018b8d9d-a5ea-70bd-a219-8fb6203408f4', $sequence->next()->toString());
     }
 
     public function testIterator(): void
