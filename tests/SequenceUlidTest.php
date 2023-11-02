@@ -103,6 +103,30 @@ class SequenceUlidTest extends TestCase
         self::assertEquals('02000000-03e8-2fa6-f2c3-462baacf8207', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-03e8-2fa6-f2c3-462baacf8208', $sequence->next()->toRfc4122());
 
+        // if clock goes back, ignore the timestamp
+        $clock->dateTime->modify('-5 seconds');
+
+        self::assertEquals('02000000-03e8-2fa6-f2c3-462baacf8209', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-2fa6-f2c3-462baacf820a', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-2fa6-f2c3-462baacf820b', $sequence->next()->toRfc4122());
+
+        // when time catches up, use it
+        $clock->dateTime->modify('+10 seconds');
+
+        self::assertEquals('02000000-1770-de78-9d95-b3d87829286a', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-de78-9d95-b3d87829286b', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-de78-9d95-b3d87829286c', $sequence->next()->toRfc4122());
+
+        // the change below 1msec should not disrupt the counter
+        $clock->dateTime->modify('+500 usec');
+
+        self::assertEquals('02000000-1770-de78-9d95-b3d87829286d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-de78-9d95-b3d87829286e', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-de78-9d95-b3d87829286f', $sequence->next()->toRfc4122());
+    }
+
+    public function testProperRandomizerWithAdvanceV7Compatible(): void
+    {
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = new MutableClock(new \DateTime('2039-09-07 15:47:35.552'));
 
@@ -117,6 +141,27 @@ class SequenceUlidTest extends TestCase
         self::assertEquals('02000000-03e8-7fa6-b2c3-462baacf8206', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-03e8-7fa6-b2c3-462baacf8207', $sequence->next()->toRfc4122());
         self::assertEquals('02000000-03e8-7fa6-b2c3-462baacf8208', $sequence->next()->toRfc4122());
+
+        // if clock goes back, ignore the timestamp
+        $clock->dateTime->modify('-5 seconds');
+
+        self::assertEquals('02000000-03e8-7fa6-b2c3-462baacf8209', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7fa6-b2c3-462baacf820a', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7fa6-b2c3-462baacf820b', $sequence->next()->toRfc4122());
+
+        // when time catches up, use it
+        $clock->dateTime->modify('+10 seconds');
+
+        self::assertEquals('02000000-1770-7e78-9d95-b3d87829286a', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7e78-9d95-b3d87829286b', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7e78-9d95-b3d87829286c', $sequence->next()->toRfc4122());
+
+        // the change below 1msec should not disrupt the counter
+        $clock->dateTime->modify('+500 usec');
+
+        self::assertEquals('02000000-1770-7e78-9d95-b3d87829286d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7e78-9d95-b3d87829286e', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7e78-9d95-b3d87829286f', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvanceEveryStep(): void
