@@ -233,8 +233,12 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 Sequences
 =========
 
-UUIDv7 and ULID can create monotonic sequences for IDs created in the same millisecond if you need.
-Sequences implement ``Traversable``.
+Sequences are designed to be used in a case where you need a lot of UUIDs in a single process.
+Sequences for UUIDv1, v6, v7, and ULID also enforce extra monotonicity
+for IDs created in the same millisecond/microsecond.
+There are no sequences for UUIDv3 and UUIDv5 because they are not sequential by nature.
+The sequences are designed to provide a continuous supply of IDs, advancing the timestamp when clock sequences overflow.
+All sequences implement ``Traversable``.
 
 ::
 
@@ -247,6 +251,123 @@ Sequences implement ``Traversable``.
     foreach ($seq as $uuid) {
         echo $uuid, PHP_EOL; // infinite supply of monotonic UUIDs
     }
+
+UUIDv1
+------
+
+``Arokettu\Uuid\SequenceFactory::v1($node)``
+
+This sequence uses 14 bit of clock_seq and the lowest decimal of the timestamp as a clock sequence.
+The sequence is initialized with a randomly generated static node ID if another node ID generator is not supplied.
+
+Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
+and override RNG by passing an instance of ``Random\Randomizer``.
+
+::
+
+    <?php
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\SequenceFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $seq = SequenceFactory::v1(
+        clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+        randomizer: new Randomizer(new Xoshiro256StarStar(123)),
+    );
+
+    for ($i = 0; $i < 10; $i++) {
+        echo $seq->next(), PHP_EOL;
+    }
+
+    // cc79e000-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d5f-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d60-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d61-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d62-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d63-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d64-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d65-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d66-f969a0d1a18f
+    // cc79e000-1cbd-11ee-8d67-f969a0d1a18f
+
+UUIDv4
+------
+
+``Arokettu\Uuid\SequenceFactory::v4()``
+
+Just a sequence of random UUIDv4.
+This sequence is not monotonic and exists only for convenience.
+
+Like with the regular factory you can override RNG by passing an instance of ``Random\Randomizer``.
+
+::
+
+    <?php
+
+    use Arokettu\Uuid\SequenceFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $seq = SequenceFactory::v4(
+        randomizer: new Randomizer(new Xoshiro256StarStar(123)),
+    );
+
+    for ($i = 0; $i < 10; $i++) {
+        echo $seq->next(), PHP_EOL;
+    }
+
+    // f969a0d1-a18f-4a32-9e4d-6d65c7e335f8
+    // 2fa6f2c3-462b-4a77-8682-cfaa99028220
+    // de789d95-b3d8-4856-aa28-295af8ebf9ff
+    // 1b75f844-9b23-4260-951a-7e9d570a1aa8
+    // d4df5c6d-af02-43c2-b05c-234f8095766f
+    // ba374ea8-3797-47a6-8d48-f3844e4600c4
+    // c52aff91-89fc-4e09-b434-29e798cd8c51
+    // 704cae21-5dcb-4ca9-93b3-3da29b3d812f
+    // 3405283f-75a9-4a52-a645-4ba0df565fbc
+    // efebcd8e-c7ea-4486-8f66-63a8e581821f
+
+UUIDv6
+------
+
+``Arokettu\Uuid\SequenceFactory::v6($node)``
+
+This sequence uses 14 bit of clock_seq and the lowest decimal of the timestamp as a clock sequence.
+The sequence is initialized with a randomly generated static node ID if another node ID generator is not supplied.
+
+Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
+and override RNG by passing an instance of ``Random\Randomizer``.
+
+::
+
+    <?php
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\SequenceFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $seq = SequenceFactory::v6(
+        clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+        randomizer: new Randomizer(new Xoshiro256StarStar(123)),
+    );
+
+    for ($i = 0; $i < 10; $i++) {
+        echo $seq->next(), PHP_EOL;
+    }
+
+    // 1ee1cbdc-c79e-6000-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d5f-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d60-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d61-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d62-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d63-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d64-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d65-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d66-f969a0d1a18f
+    // 1ee1cbdc-c79e-6000-8d67-f969a0d1a18f
 
 UUIDv7
 ------
