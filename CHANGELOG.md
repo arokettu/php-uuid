@@ -6,6 +6,20 @@
 
 * Factory methods to generate UUIDv1 and UUIDv6
 * Speed up non-monotonic generation of UUIDv7 and ULID
+* UuidSequence interface, SequenceFactory and sequences for UUIDv1, v4, v6
+  * `\Arokettu\Uuid\SequenceFactory`
+  * `\Arokettu\Uuid\Sequences\UuidSequence`
+  * `\Arokettu\Uuid\Sequences\UuidV1Sequence`
+  * `\Arokettu\Uuid\Sequences\UuidV4Sequence`
+  * `\Arokettu\Uuid\Sequences\UuidV6Sequence`
+  * `\Arokettu\Uuid\Sequences\UlidSequence`
+* Sequence classes for UUIDv7 and ULID have been renamed, old class names and factories deprecated
+  * New factories are available in `\Arokettu\Uuid\SequenceFactory`
+  * `\Arokettu\Uuid\UuidV7MonotonicSequence` -> `\Arokettu\Uuid\Sequences\UuidV7Sequence`
+  * `\Arokettu\Uuid\UlidMonotonicSequence` -> `\Arokettu\Uuid\Sequences\UlidSequence`
+* Sequences no longer throw exception on counter overflow, they increase a timestamp by the lowest unit
+  * The bit reservation parameter was removed. The highest bit is always reserved for UUIDv7 and never reserved for ULID
+  * When used with statically initialized random number generators, the sequences will produce different values
 
 ### 1.2.1
 
