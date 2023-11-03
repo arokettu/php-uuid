@@ -48,8 +48,6 @@ Version 1
 
 ``Arokettu\Uuid\UuidV1``.
 
-The library does not support generation of these UUIDs since they are more or less legacy stuff.
-
 The class implements ``TimeBasedUuid`` interface.
 UUIDv1 timestamp is measured to 100 nsec precision which is more than DateTime can handle
 therefore the returned value will be truncated by one decimal.
