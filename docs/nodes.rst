@@ -47,7 +47,7 @@ This is the default generator for the sequences.
 Factories:
 
 ``StaticNode::fromBytes()``
-    to generate a node ID from and 6 bytes
+    to generate a node ID from any 6 bytes
 ``StaticNode::fromHex()``
     to generate a node ID from data in hex form (12 digits)
 ``StaticNode::random()``
