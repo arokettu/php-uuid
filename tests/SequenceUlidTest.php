@@ -67,23 +67,23 @@ class SequenceUlidTest extends TestCase
 
         $sequence = SequenceFactory::ulid(true, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-7969-a0d1-a18f5a6d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f5a6d4d5f', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f5a6d4d60', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f5a6d4d61', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f5a6d4d62', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f5a6d4d63', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-a18f556df38d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-a18f556e7593', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-a18f556eee71', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-a18f556f16db', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-a18f556f8bf6', $sequence->next()->toRfc4122());
 
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
 
         $sequence = SequenceFactory::ulid(false, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-f969-a0d1-a18f5a6d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f5a6d4d5f', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f5a6d4d60', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f5a6d4d61', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f5a6d4d62', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f5a6d4d63', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-a18f556df38d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-a18f556e7593', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-a18f556eee71', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-a18f556f16db', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-a18f556f8bf6', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvance(): void
