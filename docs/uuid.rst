@@ -13,7 +13,7 @@ Nil UUID
 
 ``{00000000-0000-0000-0000-000000000000}``
 
-Nil UUID as described in `RFC 4122`_.
+Nil UUID as described in the `RFC 4122`_.
 The class can be constructed directly, its constructor does not accept any parameters.
 
 Max UUID
@@ -23,7 +23,7 @@ Max UUID
 
 ``{ffffffff-ffff-ffff-ffff-ffffffffffff}``
 
-Max UUID as described in `RFC 4122`_.
+Max UUID as described in the `RFC 4122 update`_.
 The class can be constructed directly, its constructor does not accept any parameters.
 
 Generic UUID
@@ -39,7 +39,7 @@ The class can also be initialized directly with any 32 hexadecimal digits.
 RFC 4122
 ========
 
-Variant 10xx versions described in the `RFC 4122`_ and in the `update draft <RFC 4122 draft_>`__.
+Variant 10xx versions described in the `RFC 4122`_ and in the `update draft <RFC 4122 update_>`__.
 
 Any class can be initialized directly by 32 hexadecimal digits but the correct variant and version bits must be set.
 
@@ -215,5 +215,5 @@ You can do it at your own risk if you used ULIDs and then decided to move to a m
     var_dump($ulid->toString());    // 01H44RDYXJPFCF895N3BBXCZRC
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _RFC 4122 draft: https://datatracker.ietf.org/doc/html/draft-ietf-uuidrev-rfc4122bis
+.. _RFC 4122 update: https://datatracker.ietf.org/doc/html/draft-ietf-uuidrev-rfc4122bis
 .. _ULID spec: https://github.com/ulid/spec

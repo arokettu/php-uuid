@@ -375,7 +375,7 @@ UUIDv7
 ``Arokettu\Uuid\SequenceFactory::v7()``
 
 The chosen algorithm is 12 bit clock sequence in rand_a + random 'tail' in rand_b
-as described in `RFC 4122`_ (Draft 4) 6.2 Method 1.
+as described in `RFC 4122 update`_ (Draft 4) 6.2 Method 1.
 It gives a guaranteed sequence of 2049 UUIDs per millisecond (actual number is random, up to 4096).
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
@@ -418,7 +418,7 @@ ULID
 ``Arokettu\Uuid\SequenceFactory::ulid($uuidV7Compatible = false)``
 
 The algorithm is a simplified version of ULID standard algo, having the whole rand_a + rand_b as a counter,
-that also aligns with `RFC 4122`_ (Draft 4) 6.2 Method 2.
+that also aligns with `RFC 4122 update`_ (Draft 14) 6.2 Method 2.
 The simplification is that only the lowest 3 bytes act as a proper counter to simplify the 32 bit implementation.
 It gives a sequence up to 16'777'216 ULIDs per millisecond (actual number is random).
 
@@ -485,4 +485,33 @@ Among other uses (like the ability to switch to UUIDs in future) it allows you t
     // 01893039-2a00-7969-a0d1-a18f5a6d4d66
     // 01893039-2a00-7969-a0d1-a18f5a6d4d67
 
-.. _RFC 4122: https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format
+Custom UUIDs
+============
+
+``Arokettu\Uuid\NonStandard\CustomUuidFactory``
+
+A factory for useful nonstandard UUIDs.
+
+Sha256-based Namespace
+----------------------
+
+``Arokettu\Uuid\NonStandard\CustomUuidFactory::sha256($namespace, $identifier)``
+
+A namespace type UUID similar to versions 3 and 5 but using sha256 as a hashing function.
+The factory creates an instance of UUIDv8.
+This method is shown in the `RFC 4122 update`_ B.2 example.
+
+::
+
+    <?php
+
+    use Arokettu\Uuid\NonStandard\CustomUuidFactory;
+    use Arokettu\Uuid\UuidNamespaces;
+
+    echo CustomUuidFactory::sha256(
+        UuidNamespaces::dns(),
+        'www.example.com'
+    )->toString(); // 5c146b14-3c52-8afd-938a-375d0df1fbf6
+
+.. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
+.. _RFC 4122 update: https://datatracker.ietf.org/doc/html/draft-ietf-uuidrev-rfc4122bis
