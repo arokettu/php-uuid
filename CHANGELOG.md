@@ -2,8 +2,13 @@
 
 ## 1.x
 
-### next
+### 1.4.0
 
+*Nov 11, 2023*
+
+* UlidSequence now increases its counter with random values instead of 1 to decrease predictability
+  * When used with statically initialized pseudo-random number generators,
+    it will produce different values, obviously
 * `NonStandard\CustomUuidFactory` for non-standard UUIDs
   * `CustomUuidFactory::sha256()`
 
@@ -26,7 +31,8 @@
   * `\Arokettu\Uuid\UlidMonotonicSequence` -> `\Arokettu\Uuid\Sequences\UlidSequence`
 * Sequences no longer throw exception on counter overflow, they increase a timestamp by the lowest unit
   * The bit reservation parameter was removed. The highest bit is always reserved for UUIDv7 and never reserved for ULID
-  * When used with statically initialized random number generators, the sequences will produce different values
+  * When used with statically initialized pseudo-random number generators,
+    the sequences will produce different values
 
 ### 1.2.1
 
