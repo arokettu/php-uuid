@@ -20,7 +20,8 @@ use Random\Randomizer;
  */
 final class UlidSequence implements UuidSequence
 {
-    private const MAX_COUNTER = 0xff_ff_ff; // 3 last bytes to avoid signed int on 32-bit systems
+    private const MAX_COUNTER = 0x0fff_ffff; // 28 last bits to avoid signed int on 32-bit systems
+    private const MAX_INCREMENT = 0xffff; // increment with 2 bytes of randomness
 
     private static DateInterval $ONE_MS;
 
@@ -54,7 +55,7 @@ final class UlidSequence implements UuidSequence
             $this->hex = $this->generateHex();
             $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER);
         } else {
-            $this->counter++;
+            $this->counter += $this->randomizer->getInt(0, self::MAX_INCREMENT);
             if ($this->counter > self::MAX_COUNTER) {
                 // do not allow counter rollover
 
@@ -67,7 +68,7 @@ final class UlidSequence implements UuidSequence
         $hex =
             Helpers\DateTime::buildUlidHex($this->time) .
             $this->hex .
-            str_pad(dechex($this->counter), 6, '0', STR_PAD_LEFT);
+            str_pad(dechex($this->counter), 7, '0', STR_PAD_LEFT);
 
         return new Ulid($hex);
     }
@@ -83,7 +84,7 @@ final class UlidSequence implements UuidSequence
             $hex[4] = dechex(0b1000 | hexdec($hex[4]) & 0b0011);
         }
 
-        return $hex;
+        return substr($hex, 0, 13);
     }
 
     public function getIterator(): Generator
