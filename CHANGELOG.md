@@ -2,6 +2,11 @@
 
 ## 1.x
 
+### next
+
+* `NonStandard\CustomUuidFactory` for non-standard UUIDs
+  * `CustomUuidFactory::sha256()`
+
 ### 1.3.0
 
 *Nov 3, 2023*
