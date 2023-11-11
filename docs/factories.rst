@@ -410,8 +410,6 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     // 01893039-2a00-7201-b05c-234f8095766f
     // 01893039-2a00-7202-ba37-4ea83797f7a6
 
-.. note:: See ULID section for a way to generate a longer sequence than 2049.
-
 ULID
 ----
 
@@ -419,8 +417,8 @@ ULID
 
 The algorithm is a simplified version of ULID standard algo, having the whole rand_a + rand_b as a counter,
 that also aligns with `RFC 4122 update`_ (Draft 14) 6.2 Method 2.
-The simplification is that only the lowest 3 bytes act as a proper counter to simplify the 32 bit implementation.
-It gives a sequence up to 16'777'216 ULIDs per millisecond (actual number is random).
+The simplification is that only the lowest 28 bits act as a proper counter to simplify the 32 bit implementation.
+Each iteration increments with 2 bytes of randomness resulting in approximately 4096 ids/msec.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
@@ -443,19 +441,19 @@ and override RNG by passing an instance of ``Random\Randomizer``.
         echo $seq->next(), PHP_EOL;
     }
 
-    // 01H4R3JAG0Z5MT1MD1HXD6TKAY
-    // 01H4R3JAG0Z5MT1MD1HXD6TKAZ
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB0
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB1
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB2
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB3
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB4
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB5
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB6
-    // 01H4R3JAG0Z5MT1MD1HXD6TKB7
+    // 01H4R3JAG0Z5MT1MD1HXAPTKAY
+    // 01H4R3JAG0Z5MT1MD1HXAPVWWD
+    // 01H4R3JAG0Z5MT1MD1HXAPWXCK
+    // 01H4R3JAG0Z5MT1MD1HXAPXVKH
+    // 01H4R3JAG0Z5MT1MD1HXAPY5PV
+    // 01H4R3JAG0Z5MT1MD1HXAPZ2ZP
+    // 01H4R3JAG0Z5MT1MD1HXAPZ9JB
+    // 01H4R3JAG0Z5MT1MD1HXAQ11GZ
+    // 01H4R3JAG0Z5MT1MD1HXAQ1RMF
+    // 01H4R3JAG0Z5MT1MD1HXAQ26J9
 
 ``$uuidV7Compatible`` param allows you to create ULIDs that are bit-compatible with UUIDv7 by setting proper version and variant bits.
-Among other uses (like the ability to switch to UUIDs in future) it allows you to create UUIDv7 sequences longer than 2049 (but less random and more predictable)::
+Among other uses (like the ability to switch to UUIDs in future) it allows you to create UUIDv7 sequences::
 
     <?php
 
@@ -474,16 +472,16 @@ Among other uses (like the ability to switch to UUIDs in future) it allows you t
         echo $seq->next()->toUuidV7(), PHP_EOL;
     }
 
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d5e
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d5f
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d60
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d61
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d62
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d63
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d64
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d65
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d66
-    // 01893039-2a00-7969-a0d1-a18f5a6d4d67
+    // 01893039-2a00-7969-a0d1-a18f556d4d5e
+    // 01893039-2a00-7969-a0d1-a18f556df38d
+    // 01893039-2a00-7969-a0d1-a18f556e7593
+    // 01893039-2a00-7969-a0d1-a18f556eee71
+    // 01893039-2a00-7969-a0d1-a18f556f16db
+    // 01893039-2a00-7969-a0d1-a18f556f8bf6
+    // 01893039-2a00-7969-a0d1-a18f556fa64b
+    // 01893039-2a00-7969-a0d1-a18f5570861f
+    // 01893039-2a00-7969-a0d1-a18f5570e28f
+    // 01893039-2a00-7969-a0d1-a18f55711a49
 
 Custom UUIDs
 ============
