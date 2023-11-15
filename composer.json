@@ -35,10 +35,12 @@
     },
     "require": {
         "php": "^8.2",
-        "arokettu/clock": "^1.4 | ^2.4",
+        "arokettu/datetime-rounding": "^1.0",
+        "arokettu/system-clock": "^2.0",
         "arokettu/unsigned": "^1.2"
     },
     "require-dev": {
+        "arokettu/clock": "^2.4",
         "phpunit/phpunit": "^10.4.2",
         "psy/psysh": "*",
         "sandfox.dev/code-standard": "^1.2023.06.29",

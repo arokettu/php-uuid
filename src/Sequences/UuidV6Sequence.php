@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Sequences;
 
-use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers\DateTime;
 use Arokettu\Uuid\Helpers\UuidBytes;
@@ -29,7 +28,6 @@ final class UuidV6Sequence implements IteratorAggregate
 
     private static DateInterval $ONE_MICROSECOND;
 
-    private readonly ClockInterface $clock;
     private readonly Nodes\Node $node;
 
     private DateTimeImmutable $time;
@@ -38,11 +36,10 @@ final class UuidV6Sequence implements IteratorAggregate
 
     public function __construct(
         ?Nodes\Node $node = null,
-        ClockInterface $clock = new SystemClock(),
+        private readonly ClockInterface $clock = new SystemClock(),
         private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
         $this->node = $node ?? Nodes\StaticNode::random($this->randomizer);
-        $this->clock = RoundingClock::toMicroseconds($clock); // be defensive
 
         // init 'const' if not initialized
         self::$ONE_MICROSECOND ??= DateInterval::createFromDateString('1usec');

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Sequences;
 
-use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\SystemClock;
+use Arokettu\DateTime\DateTimeTruncate;
 use Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\Ulid;
 use DateInterval;
@@ -25,26 +25,22 @@ final class UlidSequence implements UuidSequence
 
     private static DateInterval $ONE_MS;
 
-    private readonly ClockInterface $clock;
-
     private DateTimeImmutable $time;
     private string $hex;
     private int $counter;
 
     public function __construct(
         private readonly bool $uuidV7Compatible = false,
-        ClockInterface $clock = new SystemClock(),
+        private readonly ClockInterface $clock = new SystemClock(),
         private readonly Randomizer $randomizer = new Randomizer(new Secure()),
     ) {
-        $this->clock = RoundingClock::toMilliseconds($clock); // we need to round to correctly compare datetime
-
         // init 'const' if not initialized
         self::$ONE_MS ??= DateInterval::createFromDateString('1ms');
     }
 
     public function next(): Ulid
     {
-        $time = $this->clock->now();
+        $time = DateTimeTruncate::toMilliseconds($this->clock->now()); // we need to round to correctly compare datetime
 
         if (!isset($this->time) || $this->time < $time) {
             $this->time = $time;
