@@ -2,6 +2,12 @@
 
 ## 1.x
 
+### 1.4.1
+
+*Nov 15, 2023*
+
+* Use a small date truncation lib
+
 ### 1.4.0
 
 *Nov 11, 2023*
