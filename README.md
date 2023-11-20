@@ -20,6 +20,8 @@ use Arokettu\Uuid\UuidNamespaces;
 use Arokettu\Uuid\UuidParser;
 
 // create UUIDs versions 1, 3, 4, 5, 6, 7, 8 and ULIDs
+$uuid1 = UuidFactory::v1(); // example: 9a289f42-87ca-11ee-9f2b-41a3b4016a63
+$uuid3 = UuidFactory::v3(UuidNamespaces::url(), 'http://example.com/'); // 773536a8-4b7b-383d-9106-697d4d366254
 $uuid4 = UuidFactory::v4(); // example: 5c24b036-6202-419f-a1f3-48cbe6ebf17a
 $uuid5 = UuidFactory::v5(UuidNamespaces::url(), 'http://example.com/'); // 0a300ee9-f9e4-5697-a51a-efc7fafaba67
 $uuid6 = UuidFactory::v6(); // example: 1ee771bd-9fb2-6000-b969-1334567890ab
