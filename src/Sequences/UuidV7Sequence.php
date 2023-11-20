@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Sequences;
 
-use Arokettu\Clock\RoundingClock;
 use Arokettu\Clock\SystemClock;
 use Arokettu\DateTime\DateTimeTruncate;
 use Arokettu\Uuid\Helpers;

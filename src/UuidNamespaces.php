@@ -14,10 +14,10 @@ final class UuidNamespaces
     public const OID    = '6ba7b812-9dad-11d1-80b4-00c04fd430c8';
     public const X500   = '6ba7b814-9dad-11d1-80b4-00c04fd430c8';
 
-    private const DNS_HEX   = "6ba7b8109dad11d180b400c04fd430c8";
-    private const URL_HEX   = "6ba7b8119dad11d180b400c04fd430c8";
-    private const OID_HEX   = "6ba7b8129dad11d180b400c04fd430c8";
-    private const X500_HEX  = "6ba7b8149dad11d180b400c04fd430c8";
+    private const DNS_HEX   = '6ba7b8109dad11d180b400c04fd430c8';
+    private const URL_HEX   = '6ba7b8119dad11d180b400c04fd430c8';
+    private const OID_HEX   = '6ba7b8129dad11d180b400c04fd430c8';
+    private const X500_HEX  = '6ba7b8149dad11d180b400c04fd430c8';
 
     public static function dns(): UuidV1
     {

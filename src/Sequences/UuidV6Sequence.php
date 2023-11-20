@@ -69,7 +69,7 @@ final class UuidV6Sequence implements IteratorAggregate
         }
 
         $tsHex = DateTime::buildUuidV1Hex($this->time, $this->nsec100Counter);
-        $clockHex = str_pad(dechex($this->counter), 4, '0', STR_PAD_LEFT); // 2 bytes
+        $clockHex = sprintf('%04x', $this->counter); // 2 bytes
         $nodeHex = $this->node->getHex();
 
         $hex =

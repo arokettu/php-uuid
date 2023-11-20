@@ -25,13 +25,11 @@ final class DateTime
 
             // 48 bit (6 byte) timestamp
             $hexTS = dechex($ts);
-            if (\strlen($hexTS) < 12) {
-                $hexTS = str_pad($hexTS, 12, '0', STR_PAD_LEFT);
-            } elseif (\strlen($hexTS) > 12) {
+            if (\strlen($hexTS) > 12) {
                 $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
             }
 
-            return $hexTS;
+            return sprintf('%012s', $hexTS);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
@@ -44,13 +42,11 @@ final class DateTime
             }
 
             // 48 bit (6 byte) timestamp
-            if (\strlen($hexTS) < 12) {
-                $hexTS = str_pad($hexTS, 12, '0', STR_PAD_LEFT);
-            } elseif (\strlen($hexTS) > 12) {
+            if (\strlen($hexTS) > 12) {
                 $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
             }
 
-            return $hexTS;
+            return sprintf('%012s', $hexTS);
         } else {
             // 32 bit, no gmp
 
@@ -99,13 +95,11 @@ final class DateTime
 
             // 60 bit (7.5 byte / 15 hex digit) timestamp
             $hexTS = dechex($ts);
-            if (\strlen($hexTS) < 15) {
-                $hexTS = str_pad($hexTS, 15, '0', STR_PAD_LEFT);
-            } elseif (\strlen($hexTS) > 15) {
+            if (\strlen($hexTS) > 15) {
                 $hexTS = substr($hexTS, -15); // allow date to roll over on 5236-03-31 lol
             }
 
-            return $hexTS;
+            return sprintf('%015s', $hexTS);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
@@ -118,13 +112,11 @@ final class DateTime
             } else {
                 $hexTS = bin2hex(~gmp_export($ts + 1, 8, GMP_BIG_ENDIAN));
             }
-            if (\strlen($hexTS) < 15) {
-                $hexTS = str_pad($hexTS, 15, '0', STR_PAD_LEFT);
-            } elseif (\strlen($hexTS) > 15) {
+            if (\strlen($hexTS) > 15) {
                 $hexTS = substr($hexTS, -15); // allow date to roll over on 5236-03-31 lol
             }
 
-            return $hexTS;
+            return sprintf('%015s', $hexTS);
         } else {
             if ($tsS[0] === '-') {
                 $tsS = substr($tsS, 1);

@@ -46,7 +46,7 @@ final class UlidSequence implements UuidSequence
             $this->time = $time;
 
             // a slightly nonstandard layout is used for the ULID here:
-            // 48 bit timestamp + 56 bit "constant" random sequence + 24 bit random initialized counter
+            // 48 bit timestamp + 52 bit "constant" random sequence + 28 bit random initialized counter
 
             $this->hex = $this->generateHex();
             $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER);
@@ -64,7 +64,7 @@ final class UlidSequence implements UuidSequence
         $hex =
             Helpers\DateTime::buildUlidHex($this->time) .
             $this->hex .
-            str_pad(dechex($this->counter), 7, '0', STR_PAD_LEFT);
+            sprintf('%07x', $this->counter);
 
         return new Ulid($hex);
     }

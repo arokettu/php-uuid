@@ -17,11 +17,10 @@ final readonly class UuidV6 extends AbstractUuid implements Rfc4122Variant10xxUu
 
     public function getDateTime(): DateTimeImmutable
     {
-        $timeHigh = substr($this->hex, 0, 8); // first 4 bytes
-        $timeMid = substr($this->hex, 8, 4); // next 2 bytes
+        $timeHighMid = substr($this->hex, 0, 12); // first 6 bytes
         $timeLow = substr($this->hex, 13, 3); // next 2 bytes, skip version
 
-        return Helpers\DateTime::parseUuidV1Hex($timeHigh . $timeMid . $timeLow);
+        return Helpers\DateTime::parseUuidV1Hex($timeHighMid . $timeLow);
     }
 
     /**

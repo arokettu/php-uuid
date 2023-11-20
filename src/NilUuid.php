@@ -6,7 +6,7 @@ namespace Arokettu\Uuid;
 
 final readonly class NilUuid extends AbstractUuid implements Rfc4122Uuid
 {
-    public const HEX = "00000000000000000000000000000000";
+    public const HEX = '00000000000000000000000000000000';
 
     public function __construct()
     {

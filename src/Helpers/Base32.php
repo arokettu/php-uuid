@@ -22,11 +22,7 @@ final class Base32
             $b2 = base_convert($h2, 16, 32);
             $b3 = base_convert($h3, 16, 32);
 
-            $num =
-                str_pad($b0, 2, '0', STR_PAD_LEFT) .
-                str_pad($b1, 8, '0', STR_PAD_LEFT) .
-                str_pad($b2, 8, '0', STR_PAD_LEFT) .
-                str_pad($b3, 8, '0', STR_PAD_LEFT);
+            $num = sprintf('%02s%08s%08s%08s', $b0, $b1, $b2, $b3);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } else {
@@ -46,14 +42,7 @@ final class Base32
             $b5 = base_convert($h5, 16, 32);
             $b6 = base_convert($h6, 16, 32);
 
-            $num =
-                str_pad($b0, 2, '0', STR_PAD_LEFT) .
-                str_pad($b1, 4, '0', STR_PAD_LEFT) .
-                str_pad($b2, 4, '0', STR_PAD_LEFT) .
-                str_pad($b3, 4, '0', STR_PAD_LEFT) .
-                str_pad($b4, 4, '0', STR_PAD_LEFT) .
-                str_pad($b5, 4, '0', STR_PAD_LEFT) .
-                str_pad($b6, 4, '0', STR_PAD_LEFT);
+            $num = sprintf('%02s%04s%04s%04s%04s%04s%04s', $b0, $b1, $b2, $b3, $b4, $b5, $b6);
         }
         // @codeCoverageIgnoreEnd
 
@@ -86,11 +75,7 @@ final class Base32
             $h2 = base_convert($b2, 32, 16);
             $h3 = base_convert($b3, 32, 16);
 
-            $hex =
-                str_pad($h0, 2, '0', STR_PAD_LEFT) .
-                str_pad($h1, 10, '0', STR_PAD_LEFT) .
-                str_pad($h2, 10, '0', STR_PAD_LEFT) .
-                str_pad($h3, 10, '0', STR_PAD_LEFT);
+            $hex = sprintf('%02s%010s%010s%010s', $h0, $h1, $h2, $h3);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } else {
@@ -110,14 +95,7 @@ final class Base32
             $h5 = base_convert($b5, 32, 16);
             $h6 = base_convert($b6, 32, 16);
 
-            $hex =
-                str_pad($h0, 2, '0', STR_PAD_LEFT) .
-                str_pad($h1, 5, '0', STR_PAD_LEFT) .
-                str_pad($h2, 5, '0', STR_PAD_LEFT) .
-                str_pad($h3, 5, '0', STR_PAD_LEFT) .
-                str_pad($h4, 5, '0', STR_PAD_LEFT) .
-                str_pad($h5, 5, '0', STR_PAD_LEFT) .
-                str_pad($h6, 5, '0', STR_PAD_LEFT);
+            $hex = sprintf('%02s%05s%05s%05s%05s%05s%05s', $h0, $h1, $h2, $h3, $h4, $h5, $h6);
         }
         // @codeCoverageIgnoreEnd
 
