@@ -2,6 +2,12 @@
 
 ## 1.x
 
+### 1.4.3
+
+*Nov 23, 2023*
+
+* Fixed UuidV6Sequence and UuidV7Sequence not implementing UuidSequence
+
 ### 1.4.2
 
 *Nov 23, 2023*
