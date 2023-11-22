@@ -42,12 +42,13 @@ abstract readonly class AbstractUuid implements Uuid
 
     final public function toRfc4122(): string
     {
-        return
-            substr($this->hex, 0, 8) . '-' .
-            substr($this->hex, 8, 4) . '-' .
-            substr($this->hex, 12, 4) . '-' .
-            substr($this->hex, 16, 4) . '-' .
-            substr($this->hex, 20);
+        $seg1 = substr($this->hex, 0, 8);
+        $seg2 = substr($this->hex, 8, 4);
+        $seg3 = substr($this->hex, 12, 4);
+        $seg4 = substr($this->hex, 16, 4);
+        $seg5 = substr($this->hex, 20);
+
+        return "$seg1-$seg2-$seg3-$seg4-$seg5";
     }
 
     final public function toBase32(): string
