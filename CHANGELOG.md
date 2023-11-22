@@ -2,6 +2,12 @@
 
 ## 1.x
 
+### 1.4.2
+
+*Nov 23, 2023*
+
+* Speed optimizations
+
 ### 1.4.1
 
 *Nov 15, 2023*
@@ -78,7 +84,7 @@
 * The library no longer throws ValueError
 * Added fromHex() and toHex()
 * Timestamp on ULID & UUIDv7 is interpreted as unsigned
-* Extract UlidParser and UlidFactory 
+* Extract UlidParser and UlidFactory
 
 ### 0.1.0
 
