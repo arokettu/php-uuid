@@ -11,10 +11,9 @@ final class UuidBytes
 {
     public static function getVariant(string $hex): ?UuidVariant
     {
-        $bits = hexdec($hex[16]) >> 2;
-
-        if ($bits === 0b10) {
-            return UuidVariant::RFC4122; // RFC 4122
+        // $hex[16] >> 2 === 0b10
+        if ($hex[16] === '8' || $hex[16] === '9' || $hex[16] === 'a' || $hex[16] === 'b') {
+            return UuidVariant::v10xx; // RFC 4122
         }
 
         return null; // non RFC 4122 UUIDs are irrelevant
