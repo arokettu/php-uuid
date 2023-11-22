@@ -11,7 +11,6 @@ use Arokettu\Uuid\UuidV7;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;
-use IteratorAggregate;
 use Psr\Clock\ClockInterface;
 use Random\Engine\Secure;
 use Random\Randomizer;
@@ -19,7 +18,7 @@ use Random\Randomizer;
 /**
  * @implements UuidSequence<UuidV7>
  */
-final class UuidV7Sequence implements IteratorAggregate
+final class UuidV7Sequence implements UuidSequence
 {
     private const MAX_COUNTER = 0x0fff;
     private const MAX_COUNTER_GEN = 0x07ff; // do not fill the highest bit to allow more ids in the same msec

@@ -13,15 +13,14 @@ use Arokettu\Uuid\UuidV6;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;
-use IteratorAggregate;
 use Psr\Clock\ClockInterface;
 use Random\Engine\Secure;
 use Random\Randomizer;
 
 /**
- * @implements IteratorAggregate<int, UuidV6>
+ * @implements UuidSequence<UuidV6>
  */
-final class UuidV6Sequence implements IteratorAggregate
+final class UuidV6Sequence implements UuidSequence
 {
     private const MAX_COUNTER = 0x3fff; // 14 bit
     private const MAX_NSEC100_COUNTER = 9; // one decimal
