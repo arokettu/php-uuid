@@ -40,9 +40,14 @@ final class UuidBytes
             // @codeCoverageIgnoreEnd
         }
 
-        $hexDigit = hexdec($hex[16]);
-        $hexDigit = $hexDigit & 0b00_11 | 0b10_00;
-        $hex[16] = dechex($hexDigit);
+        // $hex[16] & 0b00_11 | 0b10_00
+        // 10 times faster than actually doing math
+        $hex[16] = match ($hex[16]) {
+            '0', '4', '8', 'c' => '8',
+            '1', '5', '9', 'd' => '9',
+            '2', '6', 'a', 'e' => 'a',
+            '3', '7', 'b', 'f' => 'b',
+        };
     }
 
     public static function setVersion(string &$hex, int $version): void
