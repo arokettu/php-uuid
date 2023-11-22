@@ -72,12 +72,10 @@ final class UuidV6Sequence implements IteratorAggregate
         $clockHex = sprintf('%04x', $this->counter); // 2 bytes
         $nodeHex = $this->node->getHex();
 
-        $hex =
-            substr($tsHex, 0, 12) . // time_high + time_mid
-            '6' . // version
-            substr($tsHex, 12, 3) . // time_low
-            $clockHex .
-            $nodeHex;
+        $timeHiMid = substr($tsHex, 0, 12);
+        $timeLow   = substr($tsHex, 12, 3);
+
+        $hex = "{$timeHiMid}6{$timeLow}{$clockHex}{$nodeHex}";
 
         UuidBytes::setVariant($hex, UuidVariant::RFC4122);
 

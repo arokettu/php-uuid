@@ -28,16 +28,13 @@ final readonly class UuidV6 extends AbstractUuid implements Rfc4122Variant10xxUu
      */
     public function toUuidV1(): UuidV1
     {
-        // 32 bit friendly
         // rearrange time fields
-        $time =
-            substr($this->hex, 7, 5) .
-            substr($this->hex, 13, 3) .
-            substr($this->hex, 3, 4) .
-            '1' . // version
-            substr($this->hex, 0, 3);
-        $tail = substr($this->hex, 16);
+        $time1 = substr($this->hex, 7, 5);
+        $time2 = substr($this->hex, 13, 3);
+        $time3 = substr($this->hex, 3, 4);
+        $time4 = substr($this->hex, 0, 3);
+        $tail  = substr($this->hex, 16); // clock + node
 
-        return new UuidV1($time . $tail);
+        return new UuidV1("{$time1}{$time2}{$time3}1{$time4}{$tail}");
     }
 }
