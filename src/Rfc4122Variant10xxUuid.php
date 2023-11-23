@@ -8,5 +8,3 @@ interface Rfc4122Variant10xxUuid extends Rfc4122Uuid
 {
     public function getRfc4122Version(): int;
 }
-
-class_exists(Rfc4122Variant1Uuid::class); // load alias

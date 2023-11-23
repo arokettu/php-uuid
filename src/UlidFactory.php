@@ -15,24 +15,6 @@ final class UlidFactory
     use Helpers\CachedClock;
     use Helpers\CachedRandomizer;
 
-    /**
-     * @deprecated
-     * @see \Arokettu\Uuid\SequenceFactory::ulid()
-     */
-    public static function sequence(
-        bool $uuidV7Compatible = false,
-        bool $reserveHighestCounterBit = true,
-        ?ClockInterface $clock = null,
-        ?Randomizer $randomizer = null,
-    ): UlidMonotonicSequence {
-        return new UlidMonotonicSequence(
-            $uuidV7Compatible,
-            $reserveHighestCounterBit,
-            $clock ?? self::clock(),
-            $randomizer ?? self::randomizer(),
-        );
-    }
-
     public static function ulid(
         bool $uuidV7Compatible = false,
         ?ClockInterface $clock = null,

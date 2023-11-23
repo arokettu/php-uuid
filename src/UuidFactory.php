@@ -111,22 +111,6 @@ final class UuidFactory
         return new UuidV6($hex);
     }
 
-    /**
-     * @deprecated
-     * @see \Arokettu\Uuid\SequenceFactory::v7()
-     */
-    public static function v7Sequence(
-        bool $reserveHighestCounterBit = true,
-        ?ClockInterface $clock = null,
-        ?Randomizer $randomizer = null,
-    ): UuidV7MonotonicSequence {
-        return new UuidV7MonotonicSequence(
-            $reserveHighestCounterBit,
-            $clock ?? self::clock(),
-            $randomizer ?? self::randomizer(),
-        );
-    }
-
     public static function v7(
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
