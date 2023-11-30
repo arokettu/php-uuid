@@ -2,6 +2,12 @@
 
 ## 1.x
 
+### 1.4.4
+
+*Nov 30, 2023*
+
+* Fixed alternative characters (i,l,o) not recognized in the first position of Base32
+
 ### 1.4.3
 
 *Nov 23, 2023*
