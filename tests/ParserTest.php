@@ -101,4 +101,35 @@ class ParserTest extends TestCase
 
         UlidParser::fromBase32('7ZZZZZZZZZZZUZZZZZZZZZZZZZ');
     }
+
+    public function testBase32FirstChar(): void
+    {
+        // all valid first digits are correctly parsed
+        $values = [
+            ['10842108-4210-8421-0842-108421084210', '0ggggggggggggggggggggggggg'],
+            ['30842108-4210-8421-0842-108421084210', '1ggggggggggggggggggggggggg'],
+            ['50842108-4210-8421-0842-108421084210', '2ggggggggggggggggggggggggg'],
+            ['70842108-4210-8421-0842-108421084210', '3ggggggggggggggggggggggggg'],
+            ['90842108-4210-8421-0842-108421084210', '4ggggggggggggggggggggggggg'],
+            ['b0842108-4210-8421-0842-108421084210', '5ggggggggggggggggggggggggg'],
+            ['d0842108-4210-8421-0842-108421084210', '6ggggggggggggggggggggggggg'],
+            ['f0842108-4210-8421-0842-108421084210', '7ggggggggggggggggggggggggg'],
+            // alt
+            ['10842108-4210-8421-0842-108421084210', 'oggggggggggggggggggggggggg'],
+            ['30842108-4210-8421-0842-108421084210', 'iggggggggggggggggggggggggg'],
+            ['30842108-4210-8421-0842-108421084210', 'lggggggggggggggggggggggggg'],
+        ];
+
+        foreach ($values as [$rfc, $base32]) {
+            self::assertEquals($rfc, UlidParser::fromBase32($base32)->toRfc4122());
+        }
+    }
+
+    public function testBase32AltChars(): void
+    {
+        $ulid1 = UlidParser::fromBase32('01101101101101101101101101');
+        $ulid2 = UlidParser::fromBase32('OILOILOILOILOILOILOILOILOI');
+
+        self::assertEquals($ulid1, $ulid2);
+    }
 }
