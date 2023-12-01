@@ -279,4 +279,18 @@ class SequenceUlidTest extends TestCase
             }
         }
     }
+
+    public function testNoZeroIncrement(): void
+    {
+        // since ulid is the only sequence with random increment, test that it is never zero
+        $clock = StaticClock::fromTimestamp(1701394201);
+        $randomizer = new Randomizer(new FixedSequenceEngine("\0"));
+
+        $seq = SequenceFactory::ulid(false, $clock, $randomizer);
+
+        self::assertEquals('01HGHFYED80000000000000000', $seq->next()->toString());
+        self::assertEquals('01HGHFYED80000000000000001', $seq->next()->toString()); // +1
+        self::assertEquals('01HGHFYED80000000000000002', $seq->next()->toString()); // +1
+        self::assertEquals('01HGHFYED80000000000000003', $seq->next()->toString()); // +1
+    }
 }
