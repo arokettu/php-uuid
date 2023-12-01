@@ -92,9 +92,15 @@ abstract readonly class AbstractUuid implements Uuid
 
     public function __debugInfo(): array
     {
-        return [
-            'value' => $this->toString(),
-            'hex' => $this->hex,
+        $data = [
+            'rfc4122' => $this->toRfc4122(),
+            'base32' => $this->toBase32(),
         ];
+
+        if ($this instanceof TimeBasedUuid) {
+            $data['timestamp'] = $this->getDateTime()->format('c');
+        }
+
+        return $data;
     }
 }
