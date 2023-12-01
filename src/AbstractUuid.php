@@ -89,4 +89,12 @@ abstract readonly class AbstractUuid implements Uuid
     {
         [$this->hex] = $data;
     }
+
+    public function __debugInfo(): array
+    {
+        return [
+            'value' => $this->toString(),
+            'hex' => $this->hex,
+        ];
+    }
 }
