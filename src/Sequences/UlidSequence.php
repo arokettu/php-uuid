@@ -21,7 +21,7 @@ use Random\Randomizer;
 final class UlidSequence implements UuidSequence
 {
     private const MAX_COUNTER = 0x0fff_ffff; // 28 last bits to avoid signed int on 32-bit systems
-    private const MAX_INCREMENT = 0xffff; // increment with 2 bytes of randomness
+    private const MAX_INCREMENT = 0x0fff; // increment with 12 bits of randomness
 
     private static DateInterval $ONE_MS;
 
@@ -51,7 +51,7 @@ final class UlidSequence implements UuidSequence
             $this->hex = $this->generateHex();
             $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER);
         } else {
-            $this->counter += $this->randomizer->getInt(0, self::MAX_INCREMENT);
+            $this->counter += 1 + $this->randomizer->getInt(0, self::MAX_INCREMENT);
             if ($this->counter > self::MAX_COUNTER) {
                 // do not allow counter rollover
 
