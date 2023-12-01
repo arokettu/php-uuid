@@ -72,15 +72,7 @@ abstract readonly class AbstractUuid implements Uuid
 
     final public function compare(Uuid $uuid): int
     {
-        $compare = strcmp($this->hex, $uuid->toHex());
-        return match (true) {
-            $compare === 0
-                => 0,
-            $compare > 0
-                => 1,
-            $compare < 0
-                => -1,
-        };
+        return strcmp($this->hex, $uuid->toHex()) <=> 0;
     }
 
     final public function __toString(): string
