@@ -2,6 +2,14 @@
 
 ## 1.x
 
+### 1.4.5
+
+*Dec 1, 2023*
+
+* Fixed UlidSequence may advance counter by zero and produce the same Ulid.
+  * When used with statically initialized pseudo-random number generators,
+    it will produce different values, obviously
+
 ### 1.4.4
 
 *Nov 30, 2023*
