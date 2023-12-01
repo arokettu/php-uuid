@@ -418,7 +418,7 @@ ULID
 The algorithm is a simplified version of ULID standard algo, having the whole rand_a + rand_b as a counter,
 that also aligns with `RFC 4122 update`_ (Draft 14) 6.2 Method 2.
 The simplification is that only the lowest 28 bits act as a proper counter to simplify the 32 bit implementation.
-Each iteration increments with 2 bytes of randomness resulting in approximately 4096 ids/msec.
+Each iteration increments with 12 bits of randomness resulting in approximately 65536 ids/msec.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
@@ -442,15 +442,15 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     }
 
     // 01H4R3JAG0Z5MT1MD1HXAPTKAY
-    // 01H4R3JAG0Z5MT1MD1HXAPVWWD
-    // 01H4R3JAG0Z5MT1MD1HXAPWXCK
-    // 01H4R3JAG0Z5MT1MD1HXAPXVKH
-    // 01H4R3JAG0Z5MT1MD1HXAPY5PV
-    // 01H4R3JAG0Z5MT1MD1HXAPZ2ZP
-    // 01H4R3JAG0Z5MT1MD1HXAPZ9JB
-    // 01H4R3JAG0Z5MT1MD1HXAQ11GZ
-    // 01H4R3JAG0Z5MT1MD1HXAQ1RMF
-    // 01H4R3JAG0Z5MT1MD1HXAQ26J9
+    // 01H4R3JAG0Z5MT1MD1HXAPTMWE
+    // 01H4R3JAG0Z5MT1MD1HXAPTNCN
+    // 01H4R3JAG0Z5MT1MD1HXAPTQKM
+    // 01H4R3JAG0Z5MT1MD1HXAPTSPZ
+    // 01H4R3JAG0Z5MT1MD1HXAPTTZV
+    // 01H4R3JAG0Z5MT1MD1HXAPTXJH
+    // 01H4R3JAG0Z5MT1MD1HXAPV1H6
+    // 01H4R3JAG0Z5MT1MD1HXAPV4MQ
+    // 01H4R3JAG0Z5MT1MD1HXAPV6JJ
 
 ``$uuidV7Compatible`` param allows you to create ULIDs that are bit-compatible with UUIDv7 by setting proper version and variant bits.
 Among other uses (like the ability to switch to UUIDs in future) it allows you to create UUIDv7 sequences::
@@ -473,15 +473,15 @@ Among other uses (like the ability to switch to UUIDs in future) it allows you t
     }
 
     // 01893039-2a00-7969-a0d1-a18f556d4d5e
-    // 01893039-2a00-7969-a0d1-a18f556df38d
-    // 01893039-2a00-7969-a0d1-a18f556e7593
-    // 01893039-2a00-7969-a0d1-a18f556eee71
-    // 01893039-2a00-7969-a0d1-a18f556f16db
-    // 01893039-2a00-7969-a0d1-a18f556f8bf6
-    // 01893039-2a00-7969-a0d1-a18f556fa64b
-    // 01893039-2a00-7969-a0d1-a18f5570861f
-    // 01893039-2a00-7969-a0d1-a18f5570e28f
-    // 01893039-2a00-7969-a0d1-a18f55711a49
+    // 01893039-2a00-7969-a0d1-a18f556d538e
+    // 01893039-2a00-7969-a0d1-a18f556d5595
+    // 01893039-2a00-7969-a0d1-a18f556d5e74
+    // 01893039-2a00-7969-a0d1-a18f556d66df
+    // 01893039-2a00-7969-a0d1-a18f556d6bfb
+    // 01893039-2a00-7969-a0d1-a18f556d7651
+    // 01893039-2a00-7969-a0d1-a18f556d8626
+    // 01893039-2a00-7969-a0d1-a18f556d9297
+    // 01893039-2a00-7969-a0d1-a18f556d9a52
 
 Custom UUIDs
 ============
