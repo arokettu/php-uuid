@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.x
+
+### 2.0.0
+
+Forked from 1.4.5
+
+* Removed deprecations:
+  * `Rfc4122Variant10xxUuid`
+  * `UlidFactory::sequence()`
+  * `UlidMonotonicSequence`
+  * `UuidFactory::v7Sequence()`
+  * `UuidV7MonotonicSequence`
+
 ## 1.x
 
 ### 1.4.5
