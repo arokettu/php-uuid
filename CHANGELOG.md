@@ -4,6 +4,8 @@
 
 ### 2.0.0
 
+*Dec 7, 2023*
+
 Forked from 1.4.5
 
 * Removed deprecations:
