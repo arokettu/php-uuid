@@ -24,6 +24,7 @@ Documentation
    factories
    nodes
    doctrine
+   upgrade
 
 License
 =======
