@@ -28,11 +28,16 @@ cache:
     - composer update
     - vendor/bin/phpunit
 
-# lowest version
-test-8.2:
+# main matrix
+test:
   extends: .test
   stage: test
-  image: php:8.2
+  image: php:${PHP_VERSION}
+  parallel:
+    matrix:
+      - PHP_VERSION:
+          - '8.2' # lowest version
+          - '8' # latest 8
 
 # lowest version with the lowest dependencies
 test-8.2-lowest:
@@ -42,12 +47,6 @@ test-8.2-lowest:
   script:
     - composer update --prefer-lowest
     - vendor/bin/phpunit
-
-# latest 8
-test-8:
-  extends: .test
-  stage: test
-  image: php:8
 
 # 32 bit
 test-8-32bit:
