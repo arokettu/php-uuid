@@ -2,6 +2,12 @@
 
 ## 2.x
 
+### 2.1.1
+
+*Dec 17, 2023*
+
+* Fixed: when overriding RNG in the v1/v6 factory, RNG was not applied to the default random node
+
 ### 2.1.0
 
 *Dec 17, 2023*
