@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Arokettu\Uuid;
 
 use Arokettu\Uuid\Helpers\UuidVariant;
-use UnexpectedValueException;
 
 final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
 {
@@ -41,7 +40,7 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
         }
 
         if ($lossy === false) {
-            throw new UnexpectedValueException('This ULID cannot be converted to UUID v7 losslessly');
+            throw new \DomainException('This ULID cannot be converted to UUID v7 losslessly');
         }
 
         $hex = $this->hex;

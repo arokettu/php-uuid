@@ -15,7 +15,7 @@ final class UlidParser extends AbstractParser
     public static function fromHex(string $hex): Ulid
     {
         if (preg_match('/^[0-9a-f]{32}$/i', $hex) !== 1) {
-            throw new \UnexpectedValueException('ULID must be 32 hexadecimal digits');
+            throw new \DomainException('ULID must be 32 hexadecimal digits');
         }
 
         return new Ulid(strtolower($hex));

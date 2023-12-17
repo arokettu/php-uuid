@@ -12,7 +12,7 @@ final readonly class StaticNode extends AbstractNode
     protected function assertValid(string $hex): void
     {
         if ((hexdec($hex[1]) & 1) === 0) {
-            throw new \UnexpectedValueException('The lowest bit of the first byte must be set for non-MAC nodes');
+            throw new \DomainException('The lowest bit of the first byte must be set for non-MAC nodes');
         }
     }
 

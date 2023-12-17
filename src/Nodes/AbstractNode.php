@@ -12,7 +12,7 @@ abstract readonly class AbstractNode implements Node
         protected string $hex,
     ) {
         if (preg_match('/^[0-9a-f]{12}$/', $this->hex) !== 1) {
-            throw new \UnexpectedValueException('$hex must be 12 lowercase hexadecimal digits');
+            throw new \DomainException('$hex must be 12 lowercase hexadecimal digits');
         }
 
         $this->assertValid($this->hex);
@@ -26,7 +26,7 @@ abstract readonly class AbstractNode implements Node
     public static function fromHex(string $hex): static
     {
         if (preg_match('/^[0-9a-f]{12}$/i', $hex) !== 1) {
-            throw new \UnexpectedValueException('$hex must be 12 hexadecimal digits');
+            throw new \DomainException('$hex must be 12 hexadecimal digits');
         }
 
         return new static(static::normalize(strtolower($hex)));
@@ -35,7 +35,7 @@ abstract readonly class AbstractNode implements Node
     public static function fromBytes(string $bytes): static
     {
         if (\strlen($bytes) !== 6) {
-            throw new \UnexpectedValueException('$bytes must be 6 bytes');
+            throw new \DomainException('$bytes must be 6 bytes');
         }
 
         return new static(static::normalize(bin2hex($bytes)));

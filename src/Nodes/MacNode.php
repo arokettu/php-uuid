@@ -35,7 +35,7 @@ final readonly class MacNode implements Node
             return new self(strtolower($mac));
         }
 
-        throw new \UnexpectedValueException('Unrecognized MAC format');
+        throw new \DomainException('Unrecognized MAC format');
     }
 
     public static function system(): self

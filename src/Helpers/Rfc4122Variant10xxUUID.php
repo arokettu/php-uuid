@@ -14,10 +14,10 @@ trait Rfc4122Variant10xxUUID
     final protected function assertValid(string $hex): void
     {
         if (UuidBytes::getVariant($hex) !== UuidVariant::RFC4122) {
-            throw new \UnexpectedValueException('The supplied UUID is not a valid RFC 4122 UUID');
+            throw new \DomainException('The supplied UUID is not a valid RFC 4122 UUID');
         }
         if (UuidBytes::getVersion($hex) !== $this->getRfc4122Version()) {
-            throw new \UnexpectedValueException(
+            throw new \DomainException(
                 sprintf('The supplied UUID is not a valid RFC 4122 version %d UUID', $this->getRfc4122Version())
             );
         }

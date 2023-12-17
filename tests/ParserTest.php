@@ -56,7 +56,7 @@ class ParserTest extends TestCase
 
     public function testBytesWrongLength(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('UUID must be 16 bytes long');
 
         UuidParser::fromBytes('12345678901234567');
@@ -64,7 +64,7 @@ class ParserTest extends TestCase
 
     public function testHexWrongLength(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('UUID must be 32 hexadecimal digits');
 
         UuidParser::fromHex('3132333435363738393031323334353637');
@@ -72,7 +72,7 @@ class ParserTest extends TestCase
 
     public function testHexWrongLengthUlid(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('ULID must be 32 hexadecimal digits');
 
         UlidParser::fromHex('3132333435363738393031323334353637');
@@ -80,7 +80,7 @@ class ParserTest extends TestCase
 
     public function testRfcWrongChars(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('Not a valid RFC 4122 UUID notation');
 
         UuidParser::fromRfc4122('000003e8-113f-21ee-8z00-2eb5a363657c');
@@ -88,7 +88,7 @@ class ParserTest extends TestCase
 
     public function testBase32WrongChars1(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
         UlidParser::fromBase32('ZZZZZZZZZZZZZZZZZZZZZZZZZZ');
@@ -96,7 +96,7 @@ class ParserTest extends TestCase
 
     public function testBase32WrongCharsU(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
         UlidParser::fromBase32('7ZZZZZZZZZZZUZZZZZZZZZZZZZ');

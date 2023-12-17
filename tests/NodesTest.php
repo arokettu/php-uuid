@@ -43,21 +43,21 @@ class NodesTest extends TestCase
 
     public function testRawNodeFormatEnforced(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('$hex must be 12 lowercase hexadecimal digits');
         new RawNode('1234567890AB');
     }
 
     public function testRawNodeFromHexFormatEnforced(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('$hex must be 12 hexadecimal digits');
         RawNode::fromHex('must be hex!');
     }
 
     public function testRawNodeFromBytesLengthEnforced(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('$bytes must be 6 bytes');
         RawNode::fromBytes('123');
     }
@@ -101,28 +101,28 @@ class NodesTest extends TestCase
 
     public function testStaticNodeBitEnforced(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('The lowest bit of the first byte must be set for non-MAC nodes');
         new StaticNode('222222222222');
     }
 
     public function testStaticNodeFormatEnforced(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('$hex must be 12 lowercase hexadecimal digits');
         new StaticNode('1234567890AB');
     }
 
     public function testStaticNodeFromHexFormatEnforced(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('$hex must be 12 hexadecimal digits');
         StaticNode::fromHex('must be hex!');
     }
 
     public function testStaticNodeFromBytesLengthEnforced(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('$bytes must be 6 bytes');
         StaticNode::fromBytes('123');
     }

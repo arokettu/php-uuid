@@ -24,7 +24,7 @@ abstract class AbstractParser
     public static function fromBytes(string $bytes): Uuid
     {
         if (\strlen($bytes) !== 16) {
-            throw new \UnexpectedValueException(static::TYPE . ' must be 16 bytes long');
+            throw new \DomainException(static::TYPE . ' must be 16 bytes long');
         }
 
         return static::fromHex(bin2hex($bytes));
@@ -37,7 +37,7 @@ abstract class AbstractParser
     public static function fromGuidBytes(string $bytes): Uuid
     {
         if (\strlen($bytes) !== 16) {
-            throw new \UnexpectedValueException('GUID representation must be 16 bytes long');
+            throw new \DomainException('GUID representation must be 16 bytes long');
         }
 
         $seg1 = substr($bytes, 0, 4);
@@ -68,7 +68,7 @@ abstract class AbstractParser
         );
 
         if (!$match) {
-            throw new \UnexpectedValueException('Not a valid RFC 4122 UUID notation');
+            throw new \DomainException('Not a valid RFC 4122 UUID notation');
         }
 
         $hex = preg_replace('/[{}-]/', '', $string);
@@ -85,7 +85,7 @@ abstract class AbstractParser
         $match = preg_match('/^[0-7OIL][0-9A-TV-Z]{25}$/i', $string);
 
         if (!$match) {
-            throw new \UnexpectedValueException('Not a valid Base32 encoded ' . static::TYPE);
+            throw new \DomainException('Not a valid Base32 encoded ' . static::TYPE);
         }
 
         return static::fromHex(Helpers\Base32::decode($string));
@@ -100,7 +100,7 @@ abstract class AbstractParser
         return match (\strlen($string)) {
             32, 34, 36, 38 => self::fromRfc4122($string),
             26 => self::fromBase32($string),
-            default => throw new \UnexpectedValueException('Format not recognized'),
+            default => throw new \DomainException('Format not recognized'),
         };
     }
 }

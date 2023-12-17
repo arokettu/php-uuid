@@ -26,7 +26,7 @@ class GuidTest extends TestCase
     {
         $bytes = hex2bin('33221100554477668899aabbccddee');
 
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('GUID representation must be 16 bytes long');
         UuidParser::fromGuidBytes($bytes);
     }

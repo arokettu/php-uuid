@@ -31,7 +31,7 @@ class UlidV7ConversionTest extends TestCase
 
     public function testLosslessConversionNotPossible(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('This ULID cannot be converted to UUID v7 losslessly');
 
         $ulid1 = UlidParser::fromString('01HF7YAT00Z5MT1MD1HXD34QJD');
