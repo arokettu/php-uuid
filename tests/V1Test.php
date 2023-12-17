@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Clock\StaticClock;
+use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\Nodes\StaticNode;
 use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UuidFactory;
@@ -92,5 +93,24 @@ class V1Test extends TestCase
 
         $uuid = UuidFactory::v1($node, new StaticClock($time), $clock);
         self::assertEquals('C232AB00-9414-11EC-B3C8-9F6BDECED846', strtoupper($uuid->toString()));
+    }
+
+    // if RNG was overridden in a factory, do not use global randomizer for the node
+    public function testRandomizerOverridden(): void
+    {
+        $engine = new Xoshiro256StarStar(); // any seed
+        $r1 = new Randomizer(clone $engine);
+        $r2 = new Randomizer(clone $engine);
+        $r3 = new Randomizer(clone $engine);
+
+        $clock = new StaticClock();
+
+        $uuid1 = UuidFactory::v1(clock: $clock, randomizer: $r1)->toString();
+        $uuid2 = UuidFactory::v1(node: new RandomNode($r2), clock: $clock, randomizer: $r2)->toString();
+        // for a single generation this should work too
+        $uuid3 = UuidFactory::v1(node: StaticNode::random($r3), clock: $clock, randomizer: $r3)->toString();
+
+        self::assertEquals($uuid1, $uuid2);
+        self::assertEquals($uuid1, $uuid3);
     }
 }
