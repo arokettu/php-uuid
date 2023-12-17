@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Uuid\Ulid;
-use Arokettu\Uuid\UlidParser;
 use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\UuidV7;
@@ -57,7 +56,7 @@ class BaseMethodsTest extends TestCase
         ];
 
         foreach ($values as [$rfc, $decimal]) {
-            self::assertEquals($decimal, UlidParser::fromString($rfc)->toDecimal());
+            self::assertEquals($decimal, UuidParser::fromString($rfc)->toDecimal());
         }
     }
 }

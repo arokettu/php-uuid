@@ -146,7 +146,7 @@ class ParserTest extends TestCase
         ];
 
         foreach ($values as [$rfc, $decimal]) {
-            self::assertEquals($rfc, UlidParser::fromDecimal($decimal)->toRfc4122());
+            self::assertEquals($rfc, UuidParser::fromDecimal($decimal)->toRfc4122());
         }
     }
 
