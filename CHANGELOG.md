@@ -9,7 +9,7 @@
 Forked from 1.4.5
 
 * Removed deprecations:
-  * `Rfc4122Variant10xxUuid`
+  * `Rfc4122Variant1Uuid`
   * `UlidFactory::sequence()`
   * `UlidMonotonicSequence`
   * `UuidFactory::v7Sequence()`
