@@ -38,11 +38,23 @@ Methods to convert UUID object to a byte sequence:
 Conversion to String
 --------------------
 
+.. versionadded:: 2.1 ``toDecimal()``
+
 Methods to convert UUID object to string:
 
+* ``toString()``. Converts UUIDs to RFC 4122 and ULIDs to Base32.
 * ``toRfc4122()`` to `RFC 4122`_ form. Example: ``"6ba7b811-9dad-11d1-80b4-00c04fd430c8"``
 * ``toBase32()`` to Base32. Example: ``"3BMYW137DD278R1D00R17X8C68"``
-* ``toString()``. Converts UUIDs to RFC 4122 and ULIDs to Base32.
+* ``toDecimal()`` to decimal. Example: ``"143098242483405524118141958906375844040"``
+
+.. note::
+
+    ``toDecimal()`` can be used to create OID representation of the UUID::
+
+        <?php
+
+        // add OID UUID prefix: 2.25
+        $oid = '2.25.' . $uuid->toDecimal(); // 2.25.143098242483405524118141958906375844040
 
 Comparison
 ----------

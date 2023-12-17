@@ -124,3 +124,21 @@ fromString()
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
 .. _ULID spec: https://github.com/ulid/spec
+
+fromDecimal()
+=============
+
+Parses a decimal string that represents UUID as an unsigned 128-bit big-endian integer.
+
+.. versionadded:: 2.1
+
+::
+
+    <?php
+
+    use Arokettu\Uuid\UuidFactory;
+    use Arokettu\Uuid\UuidParser;
+
+    $uuid = UuidParser::fromDecimal('24197857203266357084698060135742627568');
+
+    var_dump($uuid->toString()); // 12345678-9abc-8ef0-9234-56789abcdef0
