@@ -132,4 +132,53 @@ class ParserTest extends TestCase
 
         self::assertEquals($ulid1, $ulid2);
     }
+
+    public function testDecimal(): void
+    {
+        $values = [
+            ['f81d4fae-7dec-11d0-a765-00a0c91e6bf6', '329800735698586629295641978511506172918'],
+            ['00000000-0000-0000-0000-000000000000', '0'],
+            ['ffffffff-ffff-ffff-ffff-ffffffffffff', '340282366920938463463374607431768211455'],
+            ['00000000-0000-0000-7fff-ffffffffffff', '9223372036854775807'], // PHP_INT_MAX
+            ['6ba7b812-9dad-11d1-80b4-00c04fd430c8', '143098242562633686632406296499919794376'],
+        ];
+
+        foreach ($values as [$rfc, $decimal]) {
+            self::assertEquals($rfc, UlidParser::fromDecimal($decimal)->toRfc4122());
+        }
+    }
+
+    public function testDecimalNonNegative(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage(
+            'Invalid decimal string. ' .
+            '$decimal must represent an unsigned 128-bit integer without leading zeros'
+        );
+
+        UlidParser::fromDecimal('-1');
+    }
+
+    public function testDecimalOverflow(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage(
+            'Overflow or leading zeros: got 784531231484897451231354848645211654874566, ' .
+            'decoded as 180375732134292948276378514985927468486. ' .
+            '$decimal must represent an unsigned 128-bit integer without leading zeros'
+        );
+
+        UlidParser::fromDecimal('784531231484897451231354848645211654874566');
+    }
+
+    public function testDecimalOverflowMin(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage(
+            'Overflow or leading zeros: got 340282366920938463463374607431768211456, decoded as 0. ' .
+            '$decimal must represent an unsigned 128-bit integer without leading zeros'
+        );
+
+        UlidParser::fromDecimal('340282366920938463463374607431768211456'); // max + 1
+    }
 }

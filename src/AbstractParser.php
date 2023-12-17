@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use function Arokettu\Unsigned\from_dec;
+use function Arokettu\Unsigned\to_dec;
+
 /**
  * @template T
  */
@@ -102,5 +105,33 @@ abstract class AbstractParser
             26 => self::fromBase32($string),
             default => throw new \DomainException('Format not recognized'),
         };
+    }
+
+    public static function fromDecimal(string $decimal): Uuid
+    {
+        try {
+            $bytes = from_dec($decimal, 16);
+        } catch (\DomainException $e) {
+            throw new \DomainException(
+                'Invalid decimal string. ' .
+                '$decimal must represent an unsigned 128-bit integer without leading zeros',
+                previous: $e
+            );
+        }
+
+        $rev = to_dec($bytes);
+
+        if ($rev !== $decimal) {
+            throw new \DomainException(
+                sprintf(
+                    'Overflow or leading zeros: got %s, decoded as %s. ' .
+                    '$decimal must represent an unsigned 128-bit integer without leading zeros',
+                    $decimal,
+                    $rev
+                )
+            );
+        }
+
+        return self::fromBytes(strrev($bytes));
     }
 }
