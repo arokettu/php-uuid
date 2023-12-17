@@ -2,6 +2,12 @@
 
 ## 2.x
 
+### 2.1.0
+
+*Dec 17, 2023*
+
+* Added decimal parser and decimal exporter
+
 ### 2.0.0
 
 *Dec 7, 2023*
