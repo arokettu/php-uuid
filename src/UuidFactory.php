@@ -13,7 +13,6 @@ use Random\Randomizer;
 final class UuidFactory
 {
     use Helpers\CachedClock;
-    use Helpers\CachedNode;
     use Helpers\CachedRandomizer;
 
     public static function nil(): NilUuid
@@ -31,9 +30,9 @@ final class UuidFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): UuidV1 {
-        $node ??= self::node();
         $clock ??= self::clock();
         $randomizer ??= self::randomizer();
+        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex($clock->now());
         $nodeHex = $node->getHex();
@@ -90,9 +89,9 @@ final class UuidFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): UuidV6 {
-        $node ??= self::node();
         $clock ??= self::clock();
         $randomizer ??= self::randomizer();
+        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex($clock->now());
         $nodeHex = $node->getHex();
