@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use function Arokettu\Unsigned\to_dec;
+
 abstract readonly class AbstractUuid implements Uuid
 {
     public function __construct(
@@ -54,6 +56,11 @@ abstract readonly class AbstractUuid implements Uuid
     final public function toBase32(): string
     {
         return Helpers\Base32::encode($this->hex);
+    }
+
+    final public function toDecimal(): string
+    {
+        return to_dec(strrev(hex2bin($this->hex)));
     }
 
     public function toString(): string

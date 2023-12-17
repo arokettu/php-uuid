@@ -141,6 +141,8 @@ class ParserTest extends TestCase
             ['ffffffff-ffff-ffff-ffff-ffffffffffff', '340282366920938463463374607431768211455'],
             ['00000000-0000-0000-7fff-ffffffffffff', '9223372036854775807'], // PHP_INT_MAX
             ['6ba7b812-9dad-11d1-80b4-00c04fd430c8', '143098242562633686632406296499919794376'],
+            ['12345678-9abc-def0-1234-56789abcdef0', '24197857203266734864793317670504947440'],
+            ['5ce0e9a5-6015-fec5-aadf-a328ae398115', '123456789012345678901234567890123456789'],
         ];
 
         foreach ($values as [$rfc, $decimal]) {
