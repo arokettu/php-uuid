@@ -105,7 +105,9 @@ abstract readonly class AbstractUuid implements Uuid
         ];
 
         if ($this instanceof TimeBasedUuid) {
-            $data['timestamp'] = $this->getDateTime()->format('c');
+            $data['timestamp'] = $this->getDateTime()->format(
+                'Y-m-d\TH:i:s.uP' // like DATE_RFC3339_EXTENDED but with microseconds
+            );
         }
 
         return $data;
