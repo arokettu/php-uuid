@@ -37,7 +37,7 @@ class DebugInfoTest extends TestCase
         $this->assertEquals([
             'rfc4122' => '1ee9537c-f605-6180-b07a-f12110cb92a7',
             'base32' => '0YX59QSXG5C60B0YQH448CQ4N7',
-            'timestamp' => '2023-12-07T19:35:43+00:00',
+            'timestamp' => '2023-12-07T19:35:43.000000+00:00',
         ], $uuid->__debugInfo());
     }
 
@@ -51,7 +51,7 @@ class DebugInfoTest extends TestCase
         $this->assertEquals([
             'rfc4122' => '018c45c7-5e98-f121-10cb-92a74394307a',
             'base32' => '01HH2WEQMRY4GH1JWJMX1S8C3T',
-            'timestamp' => '2023-12-07T19:35:43+00:00',
+            'timestamp' => '2023-12-07T19:35:43.000000+00:00',
         ], $ulid->__debugInfo());
     }
 }
