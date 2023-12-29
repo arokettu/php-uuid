@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
+use Arokettu\Uuid\Helpers\SystemMac;
 use Arokettu\Uuid\Nodes\MacNode;
 use PHPUnit\Framework\TestCase;
 
@@ -42,10 +43,28 @@ class MacNodeTest extends TestCase
     {
         // this test will likely fail on Windows
         // todo: detect and disable
-        $node1 = MacNode::system();
-        self::assertEquals(12, \strlen($node1->getHex())); // we can't predict what mac do we have
+        $mac = strtolower(SystemMac::determine());
+        $macHex = str_replace([':', '-'], ['', ''], $mac);
 
-        $node2 = MacNode::system();
+        $node1 = MacNode::system();
+        self::assertEquals($macHex, $node1->getHex()); // we can't predict what mac do we have
+
+        $node2 = MacNode::trySystem();
         self::assertEquals($node1->getHex(), $node2->getHex());
+
+        self::assertEquals(['mac' => $mac], $node1->__debugInfo());
+    }
+
+    public function testSystemMacNotDetermined(): void
+    {
+        \Closure::bind(function () {
+            self::$mac = '';
+        }, null, SystemMac::class)();
+
+        self::assertNull(MacNode::trySystem());
+
+        \Closure::bind(function () {
+            self::$mac = self::determine();
+        }, null, SystemMac::class)();
     }
 }

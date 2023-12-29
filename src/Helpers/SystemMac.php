@@ -34,7 +34,9 @@ final class SystemMac
             foreach ($finfo as $f) {
                 /** @var SplFileInfo $f */
                 if ($f->getFilename() === 'lo') {
+                    // @codeCoverageIgnoreStart
                     continue; // skip localhost
+                    // @codeCoverageIgnoreEnd
                 }
 
                 $mac = trim(@file_get_contents($f->getPathname() . '/address'));

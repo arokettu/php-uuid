@@ -49,12 +49,9 @@ final readonly class MacNode implements Node
     public static function trySystem(): ?self
     {
         $mac = SystemMac::get();
-        // @codeCoverageIgnoreStart
-        // we can't test success and failure in the same process
         if ($mac === '') {
             return null;
         }
-        // @codeCoverageIgnoreEnd
         return self::parse($mac);
     }
 
