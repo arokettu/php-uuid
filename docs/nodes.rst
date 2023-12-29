@@ -58,6 +58,8 @@ Like a random node, static nodes have multicast bit set.
 MAC Node
 ========
 
+.. versionadded:: 2.2 ``MacNode::trySystem()``
+
 ``Arokettu\Uuid\Node\MacNode``
 
 This is a node containing a MAC address (MAC-48/EUI-48).
@@ -73,6 +75,13 @@ Factories:
 ``MacNode::system()``
     Tries to determine the system MAC address.
     This method works only on Linux and may be unreliable.
+``MacNode::trySystem()``
+    Tries to determine the system MAC address and returns null on failure.
+    It can be used with a safe fallback::
+
+        <?php
+
+        $mac = MacNode::trySystem() ?? StaticNode::random();
 
 Raw Node
 ========
