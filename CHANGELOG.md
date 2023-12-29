@@ -2,6 +2,13 @@
 
 ## 2.x
 
+### 2.2.0
+
+*Dec 30, 2023*
+
+* ``MacNode::system()`` no longer depends on ``getmac``
+* Added ``MacNode::trySystem()``
+
 ### 2.1.1
 
 *Dec 17, 2023*
