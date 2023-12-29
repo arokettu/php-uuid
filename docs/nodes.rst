@@ -72,7 +72,7 @@ Factories:
     and a hex string without any separators (``1234567890ab``)
 ``MacNode::system()``
     Tries to determine the system MAC address.
-    This factory requires getmac_ tool installed and may be unreliable.
+    This method works only on Linux and may be unreliable.
 
 Raw Node
 ========

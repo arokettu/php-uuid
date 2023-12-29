@@ -22,8 +22,6 @@ cache:
     - rm /tmp/composer-setup.php /tmp/composer.sig
     # cache dependencies
     - composer config -g cache-dir "$(pwd)/.composer-cache"
-    - printf '#!/bin/sh\necho ca:69:4d:f5:ee:54\n' > /usr/bin/getmac
-    - chmod +x /usr/bin/getmac
   script:
     - composer update
     - vendor/bin/phpunit

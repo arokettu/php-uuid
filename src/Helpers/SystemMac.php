@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Helpers;
 
+use FilesystemIterator;
+use SplFileInfo;
+
 /**
  * @internal
  */
@@ -19,15 +22,32 @@ final class SystemMac
 
     public static function determine(): string
     {
-        $mac = shell_exec('getmac');
+        if (is_dir('/sys/class/net')) {
+            $it = new FilesystemIterator('/sys/class/net', FilesystemIterator::SKIP_DOTS);
 
-        if ($mac === null) {
-            // @codeCoverageIgnoreStart
-            // we can't test success and failure in the same process
-            throw new \RuntimeException('Unable to determine system MAC address');
-            // @codeCoverageIgnoreEnd
+            $finfo = iterator_to_array($it);
+            usort($finfo, function (SplFileInfo $a, SplFileInfo $b) {
+                // search for the oldest created interface
+                return $a->getMTime() <=> $b->getMTime();
+            });
+
+            foreach ($finfo as $f) {
+                /** @var SplFileInfo $f */
+                if ($f->getFilename() === 'lo') {
+                    continue; // skip localhost
+                }
+
+                $mac = trim(@file_get_contents($f->getPathname() . '/address'));
+
+                if ($mac) {
+                    return $mac;
+                }
+            }
         }
 
-        return trim($mac);
+        // @codeCoverageIgnoreStart
+        // we can't test success and failure in the same process
+        throw new \RuntimeException('Unable to determine system MAC address');
+        // @codeCoverageIgnoreEnd
     }
 }
