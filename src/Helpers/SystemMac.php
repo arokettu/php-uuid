@@ -47,7 +47,7 @@ final class SystemMac
 
         // @codeCoverageIgnoreStart
         // we can't test success and failure in the same process
-        throw new \RuntimeException('Unable to determine system MAC address');
+        return '';
         // @codeCoverageIgnoreEnd
     }
 }
