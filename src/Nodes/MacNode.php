@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Nodes;
 
+use Arokettu\Uuid\Helpers\NodeStringTrait;
 use Arokettu\Uuid\Helpers\SystemMac;
 
 final readonly class MacNode implements Node
 {
+    use NodeStringTrait;
+
     private function __construct(
         private string $hex,
     ) {
@@ -41,5 +44,10 @@ final readonly class MacNode implements Node
     public static function system(): self
     {
         return self::parse(SystemMac::get());
+    }
+
+    public function __debugInfo(): array
+    {
+        return ['mac' => $this->toString()];
     }
 }

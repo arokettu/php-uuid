@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Nodes;
 
+use Arokettu\Uuid\Helpers\NodeStringTrait;
 use Random\Engine\Secure;
 use Random\Randomizer;
 
 final class RandomNode implements Node
 {
+    use NodeStringTrait;
+
     public function __construct(
         private ?Randomizer $randomizer = null,
     ) {

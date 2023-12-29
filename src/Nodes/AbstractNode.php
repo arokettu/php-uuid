@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Nodes;
 
+use Arokettu\Uuid\Helpers\NodeStringTrait;
+
 abstract readonly class AbstractNode implements Node
 {
+    use NodeStringTrait;
+
     abstract protected function assertValid(string $hex): void;
 
-    public function __construct(
+    final public function __construct(
         protected string $hex,
     ) {
         if (preg_match('/^[0-9a-f]{12}$/', $this->hex) !== 1) {
@@ -23,7 +27,7 @@ abstract readonly class AbstractNode implements Node
         return $hex;
     }
 
-    public static function fromHex(string $hex): static
+    final public static function fromHex(string $hex): static
     {
         if (preg_match('/^[0-9a-f]{12}$/i', $hex) !== 1) {
             throw new \DomainException('$hex must be 12 hexadecimal digits');
@@ -32,7 +36,7 @@ abstract readonly class AbstractNode implements Node
         return new static(static::normalize(strtolower($hex)));
     }
 
-    public static function fromBytes(string $bytes): static
+    final public static function fromBytes(string $bytes): static
     {
         if (\strlen($bytes) !== 6) {
             throw new \DomainException('$bytes must be 6 bytes');
@@ -41,8 +45,13 @@ abstract readonly class AbstractNode implements Node
         return new static(static::normalize(bin2hex($bytes)));
     }
 
-    public function getHex(): string
+    final public function getHex(): string
     {
         return $this->hex;
+    }
+
+    final public function __debugInfo(): array
+    {
+        return ['mac' => $this->toString()];
     }
 }
