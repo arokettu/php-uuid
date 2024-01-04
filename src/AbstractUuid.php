@@ -99,10 +99,14 @@ abstract readonly class AbstractUuid implements Uuid
 
     public function __debugInfo(): array
     {
-        $data = [
-            'rfc4122' => $this->toRfc4122(),
-            'base32' => $this->toBase32(),
-        ];
+        $data = [];
+
+        if ($this instanceof Rfc4122Variant10xxUuid) {
+            $data['version'] = $this->getRfc4122Version();
+        }
+
+        $data['rfc4122'] = $this->toRfc4122();
+        $data['base32'] = $this->toBase32();
 
         if ($this instanceof TimeBasedUuid) {
             $data['timestamp'] = $this->getDateTime()->format(

@@ -58,7 +58,7 @@ final class UuidFactory
         ?Nodes\Node $node = null,
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
-    ): UuidV1 {
+    ): UuidV2 {
         if ($domain < 0 || $domain > 0xff) {
             throw new \DomainException('Domain must be in range 0-255');
         }
@@ -86,9 +86,9 @@ final class UuidFactory
             $nodeHex;
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
-        Helpers\UuidBytes::setVersion($hex, 1);
+        Helpers\UuidBytes::setVersion($hex, 2);
 
-        return new UuidV1($hex);
+        return new UuidV2($hex);
     }
 
     public static function v3(Uuid $namespace, string $identifier): UuidV3
