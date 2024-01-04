@@ -67,14 +67,29 @@ Use the ``toUuidV6()`` method for that::
 Version 2
 ---------
 
+.. versionadded:: 2.3 ``getDomain()`` and ``getIdentifier()``
+
 ``Arokettu\Uuid\UuidV2``.
 
 "DCE security" legacy UUID.
-The library does not support generation of these UUIDs and preferably they should never be used.
+Preferably they should never be used.
 
 The class implements ``TimeBasedUuid`` interface with 429'496'729'600 nsec precision (approximately 7 minutes)
 due to truncated timestamp field compared to V1.
 The range is ``1582-10-15 00:00:00.0 +00:00`` -- ``5236-03-31 21:13:51.187968 +00:00``.
+
+The library allows you to retrieve domain and identifier values::
+
+    <?php
+
+    use Arokettu\Uuid\UuidParser;
+
+    $uuid = UuidParser::fromString('000004d2-92e8-21ed-8100-3fdb0085247e');
+
+    var_dump($uuid->getDomain()); // 0
+    var_dump($uuid->getIdentifier()); // 1234
+
+.. warning:: Identifier is an unsigned 32-bit value, it is possible to get an overflow error on a 32-bit system.
 
 Version 3
 ---------
