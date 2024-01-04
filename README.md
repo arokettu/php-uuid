@@ -1,10 +1,21 @@
 # PHP UUID Library
 
-[![Packagist](https://img.shields.io/packagist/v/arokettu/uuid.svg?style=flat-square)](https://packagist.org/packages/arokettu/uuid)
-[![PHP](https://img.shields.io/packagist/php-v/arokettu/uuid.svg?style=flat-square)](https://packagist.org/packages/arokettu/uuid)
-[![License](https://img.shields.io/packagist/l/arokettu/uuid.svg?style=flat-square)](LICENSE.md)
-[![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/sandfox/php-uuid/master.svg?style=flat-square)](https://gitlab.com/sandfox/php-uuid/-/pipelines)
-[![Codecov](https://img.shields.io/codecov/c/gl/sandfox/php-uuid?style=flat-square)](https://codecov.io/gl/sandfox/php-uuid/)
+[![Packagist]][Packagist Link]
+[![PHP]][Packagist Link]
+[![License]][License Link]
+[![Gitlab CI]][Gitlab CI Link]
+[![Codecov]][Codecov Link]
+
+[Packagist]: https://img.shields.io/packagist/v/arokettu/uuid.svg?style=flat-square
+[PHP]: https://img.shields.io/packagist/php-v/arokettu/uuid.svg?style=flat-square
+[License]: https://img.shields.io/packagist/l/arokettu/uuid.svg?style=flat-square
+[Gitlab CI]: https://img.shields.io/gitlab/pipeline/sandfox/php-uuid/master.svg?style=flat-square
+[Codecov]: https://img.shields.io/codecov/c/gl/sandfox/php-uuid?style=flat-square
+
+[Packagist Link]: https://packagist.org/packages/arokettu/uuid
+[License Link]: LICENSE.md
+[Gitlab CI Link]: https://gitlab.com/sandfox/php-uuid/-/pipelines
+[Codecov Link]: https://codecov.io/gl/sandfox/php-uuid/
 
 UUID and ULID classes for PHP.
 
@@ -68,4 +79,4 @@ Feel free to ask any questions in our room on Gitter: <https://gitter.im/arokett
 
 ## License
 
-The library is available as open source under the terms of the [MIT License](LICENSE.md).
+The library is available as open source under the terms of the [MIT License][License Link].
