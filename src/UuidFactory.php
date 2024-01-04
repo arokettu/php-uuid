@@ -52,6 +52,45 @@ final class UuidFactory
         return new UuidV1($hex);
     }
 
+    public static function v2(
+        int $domain,
+        int $identifier,
+        ?Nodes\Node $node = null,
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
+    ): UuidV1 {
+        if ($domain < 0 || $domain > 0xff) {
+            throw new \DomainException('Domain must be in range 0-255');
+        }
+        if ($identifier < 0 || $identifier >= 2**32) {
+            throw new \DomainException("Identifier must be in range 0-4'294'967'295");
+        }
+
+        $clock ??= self::clock();
+        $randomizer ??= self::randomizer();
+        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
+
+        $tsHex = Helpers\DateTime::buildUuidV1Hex($clock->now());
+        $nodeHex = $node->getHex();
+        $clockSequenceHex = bin2hex($randomizer->getBytes(1));
+        $domainHex = sprintf('%02x', $domain);
+        $identifierHex = sprintf('%08x', $identifier);
+
+        $hex =
+            $identifierHex .
+            substr($tsHex, 3, 4) . // time_mid
+            '0' . // version placeholder
+            substr($tsHex, 0, 3) . // time_high
+            $clockSequenceHex .
+            $domainHex .
+            $nodeHex;
+
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVersion($hex, 1);
+
+        return new UuidV1($hex);
+    }
+
     public static function v3(Uuid $namespace, string $identifier): UuidV3
     {
         $hex = md5($namespace->toBytes() . $identifier);
