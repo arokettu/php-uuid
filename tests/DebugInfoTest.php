@@ -21,6 +21,7 @@ class DebugInfoTest extends TestCase
         $uuid = UuidFactory::v4($rnd);
 
         $this->assertEquals([
+            'version' => 4,
             'rfc4122' => 'f12110cb-92a7-4394-b07a-cca458e99374',
             'base32' => '7H448CQ4N78EAB0YPCMHCEK4VM',
         ], $uuid->__debugInfo());
@@ -35,6 +36,7 @@ class DebugInfoTest extends TestCase
         $uuid = UuidFactory::v6($node, $clock, $rnd);
 
         $this->assertEquals([
+            'version' => 6,
             'rfc4122' => '1ee9537c-f605-6180-b07a-f12110cb92a7',
             'base32' => '0YX59QSXG5C60B0YQH448CQ4N7',
             'timestamp' => '2023-12-07T19:35:43.000000+00:00',
