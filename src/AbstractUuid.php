@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use DomainException;
+
 use function Arokettu\Unsigned\to_dec;
 
 abstract readonly class AbstractUuid implements Uuid
@@ -12,7 +14,7 @@ abstract readonly class AbstractUuid implements Uuid
         protected string $hex,
     ) {
         if (preg_match('/^[0-9a-f]{32}$/', $this->hex) !== 1) {
-            throw new \DomainException('$hex must be 32 lowercase hexadecimal digits');
+            throw new DomainException('$hex must be 32 lowercase hexadecimal digits');
         }
 
         $this->assertValid($this->hex);

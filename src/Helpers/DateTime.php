@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Helpers;
 
 use Arokettu\Unsigned as u;
+use DateTimeImmutable;
+use DateTimeInterface;
+use RuntimeException;
 
 /**
  * @internal
@@ -14,7 +17,7 @@ final class DateTime
     private const V1_EPOCH = -12219292800; // (new DateTimeImmutable('1582-10-15 UTC'))->getTimestamp()
     private const V1_EPOCH_STR_NEG = '2d8539c80'; // 12219292800. it's 34 bit so string for 32
 
-    public static function buildUlidHex(\DateTimeInterface $dt): string
+    public static function buildUlidHex(DateTimeInterface $dt): string
     {
         $tsS  = $dt->format('U');
         $tsMs = $dt->format('v');
@@ -61,31 +64,31 @@ final class DateTime
         // @codeCoverageIgnoreEnd
     }
 
-    public static function parseUlidHex(string $hex): \DateTimeImmutable
+    public static function parseUlidHex(string $hex): DateTimeImmutable
     {
         if (PHP_INT_SIZE >= 8) { // 64 bit - a simple way
             $tsMs = hexdec($hex);
             $ts = intdiv($tsMs, 1000);
             $ms = $tsMs % 1000;
-            return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms)) ?:
-                throw new \RuntimeException('Error creating DateTime object');
+            return DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms)) ?:
+                throw new RuntimeException('Error creating DateTime object');
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
             $tsMs = gmp_init($hex, 16);
             [$ts, $ms] = gmp_div_qr($tsMs, 1000);
-            return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
-                throw new \RuntimeException('Error creating DateTime object');
+            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
+                throw new RuntimeException('Error creating DateTime object');
         } else {
             $tsMs = u\from_hex($hex, 6);
             [$ts, $ms] = u\div_mod_int($tsMs, 1000);
-            return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
-                throw new \RuntimeException('Error creating DateTime object');
+            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
+                throw new RuntimeException('Error creating DateTime object');
         }
         // @codeCoverageIgnoreEnd
     }
 
-    public static function buildUuidV1Hex(\DateTimeInterface $dt, int $nsec100 = 0): string
+    public static function buildUuidV1Hex(DateTimeInterface $dt, int $nsec100 = 0): string
     {
         $tsS  = $dt->format('U');
         $tsUs = $dt->format('u');
@@ -133,7 +136,7 @@ final class DateTime
         // @codeCoverageIgnoreEnd
     }
 
-    public static function parseUuidV1Hex(string $hex): \DateTimeImmutable
+    public static function parseUuidV1Hex(string $hex): DateTimeImmutable
     {
         // 100-nanosecond intervals since midnight 15 October 1582 UTC
 
@@ -143,8 +146,8 @@ final class DateTime
             $tsS = intdiv($ts, 10_000_000) + self::V1_EPOCH; // convert to unix timestamp
             $tsUs = intdiv($ts % 10_000_000, 10); // lose 1 decimal of precision
 
-            return \DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs)) ?:
-                throw new \RuntimeException('Error creating DateTime object');
+            return DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs)) ?:
+                throw new RuntimeException('Error creating DateTime object');
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
@@ -153,18 +156,18 @@ final class DateTime
             $tsS = $tsES - gmp_init(self::V1_EPOCH_STR_NEG, 16);
             $tsUs = gmp_div($tsNs, 10);
 
-            return \DateTimeImmutable::createFromFormat(
+            return DateTimeImmutable::createFromFormat(
                 'U u',
                 sprintf('%s %06s', gmp_strval($tsS), gmp_strval($tsUs))
-            ) ?: throw new \RuntimeException('Error creating DateTime object');
+            ) ?: throw new RuntimeException('Error creating DateTime object');
         } else {
             $ts = u\from_hex($hex, 8);
             [$tsES, $tsNs] = u\div_mod_int($ts, 10_000_000); // epoch and hundreds of nanoseconds
             $tsS = u\sub($tsES, u\from_hex(self::V1_EPOCH_STR_NEG, 8));
             $tsUs = intdiv($tsNs, 10); // lose 1 decimal of precision
 
-            return \DateTimeImmutable::createFromFormat('U u', sprintf('%s %06d', u\to_dec($tsS), $tsUs)) ?:
-                throw new \RuntimeException('Error creating DateTime object');
+            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %06d', u\to_dec($tsS), $tsUs)) ?:
+                throw new RuntimeException('Error creating DateTime object');
         }
         // @codeCoverageIgnoreEnd
     }

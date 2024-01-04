@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Sequences;
 
 use Arokettu\Clock\SystemClock;
-use Arokettu\Uuid\Helpers\DateTime;
-use Arokettu\Uuid\Helpers\UuidBytes;
-use Arokettu\Uuid\Helpers\UuidVariant;
+use Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\Nodes;
 use Arokettu\Uuid\UuidV6;
 use DateInterval;
@@ -67,7 +65,7 @@ final class UuidV6Sequence implements UuidSequence
             }
         }
 
-        $tsHex = DateTime::buildUuidV1Hex($this->time, $this->nsec100Counter);
+        $tsHex = Helpers\DateTime::buildUuidV1Hex($this->time, $this->nsec100Counter);
         $clockHex = sprintf('%04x', $this->counter); // 2 bytes
         $nodeHex = $this->node->getHex();
 
@@ -76,7 +74,7 @@ final class UuidV6Sequence implements UuidSequence
 
         $hex = "{$timeHiMid}6{$timeLow}{$clockHex}{$nodeHex}";
 
-        UuidBytes::setVariant($hex, UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
 
         return new UuidV6($hex);
     }

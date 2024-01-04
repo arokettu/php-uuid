@@ -6,6 +6,8 @@ namespace Arokettu\Uuid\Nodes;
 
 use Arokettu\Uuid\Helpers\NodeStringTrait;
 use Arokettu\Uuid\Helpers\SystemMac;
+use DomainException;
+use RuntimeException;
 
 final readonly class MacNode implements Node
 {
@@ -38,12 +40,12 @@ final readonly class MacNode implements Node
             return new self(strtolower($mac));
         }
 
-        throw new \DomainException('Unrecognized MAC format');
+        throw new DomainException('Unrecognized MAC format');
     }
 
     public static function system(): self
     {
-        return self::trySystem() ?? throw new \RuntimeException('Unable to determine system MAC address');
+        return self::trySystem() ?? throw new RuntimeException('Unable to determine system MAC address');
     }
 
     public static function trySystem(): ?self

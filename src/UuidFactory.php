@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use DomainException;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
@@ -60,10 +61,10 @@ final class UuidFactory
         ?Randomizer $randomizer = null,
     ): UuidV2 {
         if ($domain < 0 || $domain > 0xff) {
-            throw new \DomainException('Domain must be in range 0-255');
+            throw new DomainException('Domain must be in range 0-255');
         }
-        if ($identifier < 0 || $identifier >= 2**32) {
-            throw new \DomainException("Identifier must be in range 0-4'294'967'295");
+        if ($identifier < 0 || $identifier >= 2 ** 32) {
+            throw new DomainException("Identifier must be in range 0-4'294'967'295");
         }
 
         $clock ??= self::clock();
@@ -166,7 +167,7 @@ final class UuidFactory
     public static function v8(string $bytes): UuidV8
     {
         if (\strlen($bytes) !== 16) {
-            throw new \DomainException('$bytes must be 16 bytes long');
+            throw new DomainException('$bytes must be 16 bytes long');
         }
 
         $hex = bin2hex($bytes);

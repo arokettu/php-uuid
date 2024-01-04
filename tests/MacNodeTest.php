@@ -57,13 +57,13 @@ class MacNodeTest extends TestCase
 
     public function testSystemMacNotDetermined(): void
     {
-        \Closure::bind(function () {
+        \Closure::bind(function (): void {
             self::$mac = '';
         }, null, SystemMac::class)();
 
         self::assertNull(MacNode::trySystem());
 
-        \Closure::bind(function () {
+        \Closure::bind(function (): void {
             self::$mac = self::determine();
         }, null, SystemMac::class)();
     }

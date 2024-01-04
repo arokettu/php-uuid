@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid;
 
 use Arokettu\Uuid\Helpers\UuidVariant;
+use DomainException;
 
 /**
  * @psalm-api
@@ -17,7 +18,7 @@ final class UuidParser extends AbstractParser
     public static function fromHex(string $hex): Uuid
     {
         if (preg_match('/^[0-9a-f]{32}$/i', $hex) !== 1) {
-            throw new \DomainException('UUID must be 32 hexadecimal digits');
+            throw new DomainException('UUID must be 32 hexadecimal digits');
         }
 
         $hex = strtolower($hex);

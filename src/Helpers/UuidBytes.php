@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Helpers;
 
+use LogicException;
+
 /**
  * @internal
  */
@@ -35,7 +37,7 @@ final class UuidBytes
     {
         if ($variant !== UuidVariant::RFC4122) {
             // @codeCoverageIgnoreStart
-            throw new \LogicException('Only variant 10xx is supported');
+            throw new LogicException('Only variant 10xx is supported');
             // @codeCoverageIgnoreEnd
         }
 
@@ -54,7 +56,7 @@ final class UuidBytes
         // check for valid version numbers
         if ($version < 1 || $version > 8) {
             // @codeCoverageIgnoreStart
-            throw new \LogicException('Only versions 1-8 are supported');
+            throw new LogicException('Only versions 1-8 are supported');
             // @codeCoverageIgnoreEnd
         }
 
