@@ -2,6 +2,13 @@
 
 ## 2.x
 
+### 2.3.0
+
+*Dec 5, 2024*
+
+* Added UUIDv2 factory
+* Added UUIDv2 `getDomain()` and `getIdentifier()` getters
+
 ### 2.2.0
 
 *Dec 30, 2023*
