@@ -8,12 +8,27 @@ use Arokettu\Clock\StaticClock;
 use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\UlidFactory;
 use Arokettu\Uuid\UuidFactory;
+use Arokettu\Uuid\UuidV2;
 use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
 class DebugInfoTest extends TestCase
 {
+    public function testV2(): void
+    {
+        $uuid = new UuidV2('000004d292e821ed81003fdb0085247e');
+
+        $this->assertEquals([
+            'version' => 2,
+            'rfc4122' => '000004d2-92e8-21ed-8100-3fdb0085247e',
+            'base32' => '00002D54Q847PR201ZVC08A93Y',
+            'timestamp' => '2023-01-13T02:14:24.842137+00:00',
+            'domain' => 0,
+            'identifier' => 1234,
+        ], $uuid->__debugInfo());
+    }
+
     public function testV4(): void
     {
         $rnd = new Randomizer(new Xoshiro256StarStar(456));
