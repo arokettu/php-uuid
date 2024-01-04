@@ -56,9 +56,9 @@ class V2Test extends TestCase
 
         // time overflow
         $clock = new StaticClock(new \DateTimeImmutable('6000-01-01 2:03 UTC')); // [1]358432968ac2200
-        // domain: 02, identifier: 0xdeadbeef
-        $uuid = UuidFactory::v2(Domains::ORG, 0xdeadbeef, $node, $clock, $fixed);
-        self::assertEquals('deadbeef-4329-2358-ab02-1334567890ab', $uuid->toString());
+        // domain: 02, identifier: 0xdedbeef
+        $uuid = UuidFactory::v2(Domains::ORG, 0xdedbeef, $node, $clock, $fixed);
+        self::assertEquals('0dedbeef-4329-2358-ab02-1334567890ab', $uuid->toString());
     }
 
     public function testNoNegativeDomain(): void
