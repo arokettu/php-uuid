@@ -19,7 +19,7 @@ Max UUID
 RFC 4122
 ========
 
-This factory can create UUID versions 1, 3, 4, 5, 6, 7, 8.
+This factory can create UUID versions 1-8.
 Version 2 can be considered legacy and should not be used in any non-legacy purposes.
 Versions 1 and 6 are not recommended either.
 
@@ -35,7 +35,7 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
     <?php
 
     use Arokettu\Clock\StaticClock;
-    use Arokettu\Uuid\Node\StaticNode;
+    use Arokettu\Uuid\Nodes\StaticNode;
     use Arokettu\Uuid\UuidFactory;
     use Random\Engine\Xoshiro256StarStar;
     use Random\Randomizer;
@@ -49,14 +49,49 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     var_dump($uuid->toString()); // d9fb2000-771b-11ee-b969-1334567890ab
 
+Version 2
+---------
+
+.. versionadded:: 2.3
+
+.. note::
+    This is a legacy version and it should not be used.
+    There is a high chance of generating a same ID unless a random node is used.
+
+Version 2 requires domain (8 bit unsigned) and identifier (32 bit unsigned) values.
+
+Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
+You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+also you can override RNG by passing an instance of ``Random\Randomizer``::
+
+    <?php
+
+    require __DIR__ . '/../vendor/autoload.php';
+
+    use Arokettu\Clock\StaticClock;
+    use Arokettu\Uuid\DceSecurity\Domains;
+    use Arokettu\Uuid\Nodes\StaticNode;
+    use Arokettu\Uuid\UuidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
+
+    $uuid = UuidFactory::v2(Domains::GROUP, posix_getgid()); // some GID based UUID
+
+    $node = StaticNode::fromHex('1234567890ab');
+    $rand = new Randomizer(new Xoshiro256StarStar(123));
+    $clock = new StaticClock(new DateTime('2023-10-30 12:00 UTC'));
+    $domain = Domains::PERSON;
+    $identifier = posix_getuid(); // usually 1000 for most default groups on modern Linuxes
+    $uuid = UuidFactory::v2($domain, $identifier, $node, $clock, $rand);
+
+    var_dump($uuid->toString()); // 000003e8-771b-21ee-b900-1334567890ab
+
 Version 3
 ---------
 
 ``Arokettu\Uuid\UuidFactory::v3($namespace, $identifier)``
 
-Version 3 is created from an UUID namespace and a string identifier.
-
-::
+Version 3 is created from an UUID namespace and a string identifier::
 
     <?php
 
