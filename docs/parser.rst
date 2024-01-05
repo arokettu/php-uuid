@@ -97,7 +97,7 @@ The type is determined the same way as in ``fromBytes()``.
 fromBase32()
 ============
 
-Parses Crockford's Base32 as defined in the `ULID spec`_ into ULID.
+Parses Crockford's Base32 as defined in the `ULID spec`_.
 The input is case insensitive.
 
 ::
