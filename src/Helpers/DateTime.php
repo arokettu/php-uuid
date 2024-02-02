@@ -70,19 +70,19 @@ final class DateTime
             $tsMs = hexdec($hex);
             $ts = intdiv($tsMs, 1000);
             $ms = $tsMs % 1000;
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%d %03d', $ts, $ms)) ?:
+            return DateTimeImmutable::createFromFormat('U v', sprintf('%d %03d', $ts, $ms)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
             $tsMs = gmp_init($hex, 16);
             [$ts, $ms] = gmp_div_qr($tsMs, 1000);
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
+            return DateTimeImmutable::createFromFormat('U v', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
                 throw new RuntimeException('Error creating DateTime object');
         } else {
             $tsMs = u\from_hex($hex, 6);
             [$ts, $ms] = u\div_mod_int($tsMs, 1000);
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
+            return DateTimeImmutable::createFromFormat('U v', sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         }
         // @codeCoverageIgnoreEnd
