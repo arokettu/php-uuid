@@ -14,8 +14,8 @@ use RuntimeException;
  */
 final class DateTime
 {
-    private const V1_EPOCH = -12219292800; // (new DateTimeImmutable('1582-10-15 UTC'))->getTimestamp()
-    private const V1_EPOCH_STR_NEG = '2d8539c80'; // 12219292800. it's 34 bit so string for 32
+    private const V1_EPOCH = -0x2d8539c80; // -12219292800. (new DateTimeImmutable('1582-10-15 UTC'))->getTimestamp()
+    private const V1_EPOCH_STR_NEG = '00000002d8539c80'; // 12219292800. it's 34 bit so string for 32
 
     public static function buildUlidHex(DateTimeInterface $dt): string
     {
