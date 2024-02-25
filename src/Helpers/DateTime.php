@@ -16,6 +16,7 @@ final class DateTime
 {
     private const V1_EPOCH = -0x2d8539c80; // -12219292800. (new DateTimeImmutable('1582-10-15 UTC'))->getTimestamp()
     private const V1_EPOCH_STR_NEG = '00000002d8539c80'; // 12219292800. it's 34 bit so string for 32
+    private const V1_EPOCH_STR_DEC = '-12219292800'; // for bcmath
 
     public static function buildUlidHex(DateTimeInterface $dt): string
     {
@@ -129,6 +130,12 @@ final class DateTime
             }
 
             return sprintf('%015s', $hexTS);
+        } elseif (\extension_loaded('bcmath')) {
+            $ts = bcsub($tsS, self::V1_EPOCH_STR_DEC, 0) . '0000000';
+            $ts = bcadd($ts, $tsUs . '0', 0);
+            $ts = bcadd($ts, \strval($nsec100));
+
+            return BcmathHelper::decToHex($ts, 15);
         } else {
             if ($tsS[0] === '-') {
                 $tsS = substr($tsS, 1);
@@ -169,6 +176,13 @@ final class DateTime
                 'U u',
                 sprintf('%s %06s', gmp_strval($tsS), gmp_strval($tsUs))
             ) ?: throw new RuntimeException('Error creating DateTime object');
+        } elseif (\extension_loaded('bcmath')) {
+            $ts = BcmathHelper::hexToDec($hex);
+            $tsS = bcadd(bcdiv($ts, '10000000', 0), self::V1_EPOCH_STR_DEC, 0);
+            $tsUs = bcdiv(bcmod($ts, '10000000', 0), '10', 0);
+
+            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %06s', $tsS, $tsUs)) ?:
+                throw new RuntimeException('Error creating DateTime object');
         } else {
             $ts = u\from_hex($hex, 8);
             [$tsES, $tsNs] = u\div_mod_int($ts, 10_000_000); // epoch and hundreds of nanoseconds
