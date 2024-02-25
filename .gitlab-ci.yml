@@ -24,6 +24,7 @@ cache:
     - composer config -g cache-dir "$(pwd)/.composer-cache"
   script:
     - composer update
+    - php sbin/env_info.php
     - vendor/bin/phpunit
 
 # main matrix
