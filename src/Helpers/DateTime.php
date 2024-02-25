@@ -82,6 +82,12 @@ final class DateTime
             [$ts, $ms] = gmp_div_qr($tsMs, 1000);
             return DateTimeImmutable::createFromFormat('U v', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
                 throw new RuntimeException('Error creating DateTime object');
+        } elseif (\extension_loaded('bcmath')) {
+            $tsMs = BcmathHelper::hexToDec($hex);
+            $ts = bcdiv($tsMs, '1000', 0);
+            $ms = bcmod($tsMs, '1000', 0);
+            return DateTimeImmutable::createFromFormat('U v', sprintf('%s %03s', $ts, $ms)) ?:
+                throw new RuntimeException('Error creating DateTime object');
         } else {
             $tsMs = u\from_hex($hex, 6);
             [$ts, $ms] = u\div_mod_int($tsMs, 1000);

@@ -22,7 +22,6 @@ final class BcmathHelper
                 $chunkLen = 6 - ($offset - $len);
             }
             $chunk = substr($hex, -$offset, $chunkLen);
-            var_dump($chunk);
             $change = base_convert($chunk, 16, 10);
             $value = bcadd($value, bcmul($change, $mul, 0), 0);
             $mul = bcmul($mul, '16777216', 0);
