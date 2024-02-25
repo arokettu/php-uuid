@@ -49,6 +49,7 @@
     },
     "suggest": {
         "php-64bit": "The library is optimized for 64-bit systems",
-        "ext-gmp": "To speed up calculations on 32-bit systems"
+        "ext-gmp": "To speed up calculations on 32-bit systems",
+        "ext-bcmath": "To speed up calculations on 32-bit systems"
     }
 }
