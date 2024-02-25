@@ -44,6 +44,7 @@ test-8.2-lowest:
   image: php:8.2
   script:
     - composer update --prefer-lowest
+    - php sbin/env_info.php
     - vendor/bin/phpunit
 
 # 32 bit
@@ -61,6 +62,18 @@ test-8-32bit-gmp:
     - apt-get install -y libgmp-dev
     - docker-php-ext-install gmp
     - composer update
+    - php sbin/env_info.php
+    - vendor/bin/phpunit
+
+# 32 bit + GMP
+test-8-32bit-bcmath:
+  extends: .test
+  stage: test
+  image: i386/php:8
+  script:
+    - docker-php-ext-install bcmath
+    - composer update
+    - php sbin/env_info.php
     - vendor/bin/phpunit
 
 # coverage
@@ -74,5 +87,6 @@ coverage:
   image: php:8.2
   script:
     - composer update
+    - php sbin/env_info.php
     - php -d zend_extension=xdebug -d xdebug.mode=coverage vendor/bin/phpunit --coverage-clover coverage.xml
     - bash <(curl -s https://codecov.io/bash)
