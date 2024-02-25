@@ -2,6 +2,12 @@
 
 ## 2.x
 
+### 2.3.1
+
+*Feb 25, 2024*
+
+* Added bcmath calculator for 32-bit environments in addition to GMP and Unsigned
+
 ### 2.3.0
 
 *Jan 5, 2024*
