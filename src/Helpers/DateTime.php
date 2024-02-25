@@ -50,6 +50,9 @@ final class DateTime
             }
 
             return sprintf('%012s', $hexTS);
+        } elseif (\extension_loaded('bcmath')) {
+            $ts = bcadd($tsS . '000', $tsMs, 0);
+            return BcmathHelper::decToHex($ts, 12);
         } else {
             // 32 bit, no gmp
 
