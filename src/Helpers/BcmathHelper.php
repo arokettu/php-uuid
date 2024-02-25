@@ -6,6 +6,7 @@ namespace Arokettu\Uuid\Helpers;
 
 /**
  * @internal
+ * @codeCoverageIgnore We don't care about math that was not used
  */
 final class BcmathHelper
 {
