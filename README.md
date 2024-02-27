@@ -63,7 +63,7 @@ UlidParser::fromString('01H4HQC4G1C1606J19358PWESA')
 composer require arokettu/uuid
 ```
 
-* GMP extension is strongly recommended on 32-bit systems.
+* Either GMP or Bcmath extension is strongly recommended on 32-bit systems.
 
 ## Documentation
 
