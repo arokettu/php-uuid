@@ -47,6 +47,22 @@ class ParserTest extends TestCase
         self::assertInstanceOf(GenericUuid::class, UuidParser::fromString('01H3JF5GX4M2D891JB7AYDDH6H'));
     }
 
+    public function testFormatsSupported(): void
+    {
+        $uuid = '513b3a53-e86d-4eb8-a47e-125eab689a3f';
+        $formats = [
+            '513b3a53-e86d-4eb8-a47e-125eab689a3f',
+            '513b3a53e86d4eb8a47e125eab689a3f',
+            '{513b3a53-e86d-4eb8-a47e-125eab689a3f}',
+            '{513b3a53e86d4eb8a47e125eab689a3f}',
+            '2H7CX57T3D9TWA8ZGJBTNPH6HZ',
+        ];
+
+        foreach ($formats as $f) {
+            self::assertEquals($uuid, (string)UuidParser::parse($f));
+        }
+    }
+
     public function testBytes(): void
     {
         $uuid = UuidParser::fromBytes('1234567890123456');
