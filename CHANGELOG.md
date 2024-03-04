@@ -2,6 +2,10 @@
 
 ## 2.x
 
+### next
+
+* Added `parse()` as an alias of `toString()` to `UuidParser` and `UlidParser`
+
 ### 2.3.1
 
 *Feb 25, 2024*

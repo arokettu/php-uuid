@@ -109,6 +109,15 @@ abstract class AbstractParser
         };
     }
 
+    /**
+     * @psalm-api
+     * @return T
+     */
+    public static function parse(string $string): Uuid
+    {
+        return self::fromString($string);
+    }
+
     public static function fromDecimal(string $decimal): Uuid
     {
         try {
