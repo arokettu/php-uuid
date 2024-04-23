@@ -92,7 +92,7 @@ Like static node but without multicast bit validator.
 It is user's responsibility to follow the standard with this type.
 
 ``RawNode::fromBytes()``
-    to generate a node ID from and 6 bytes
+    to generate a node ID from any 6 bytes
 ``RawNode::fromHex()``
     to generate a node ID from data in hex form (12 digits)
 
