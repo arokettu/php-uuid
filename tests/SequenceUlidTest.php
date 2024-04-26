@@ -193,74 +193,74 @@ class SequenceUlidTest extends TestCase
 
     public function testOverflow(): void
     {
-        $randomizer = new Randomizer(new FixedSequenceEngine("\xfc\xff\xff")); // ~12297 ids/msec
+        $randomizer = new Randomizer(new FixedSequenceEngine("\x7f\xff\xff")); // ~128 ids/msec
         $clock = MutableClock::fromTimestamp(1698890500);
 
         $sequence = SequenceFactory::ulid(false, $clock, $randomizer);
 
-        self::assertEquals('018b8dc3-c7a0-fcff-fffc-fffffcfffffc', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a0-7fff-ff7f-ffff7fffff7f', $sequence->next()->toRfc4122());
 
-        for ($i = 0; $i < 12295; $i++) { // roll to an overflow
+        for ($i = 0; $i < 126; $i++) { // roll to an overflow
             $sequence->next();
         }
 
-        self::assertEquals('018b8dc3-c7a0-fcff-fffc-ffffffffefe4', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a0-fcff-fffc-ffffffffffe1', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a0-7fff-ff7f-fffffeffff00', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a0-7fff-ff7f-fffffffffeff', $sequence->next()->toRfc4122());
         // overflow
-        self::assertEquals('018b8dc3-c7a1-fcff-fffc-fffffcfffffc', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a1-fcff-fffc-fffffd000ff9', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-ff7f-ffff7fffff7f', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-ff7f-ffff80ffff7e', $sequence->next()->toRfc4122());
 
-        for ($i = 0; $i < 12294; $i++) { // roll to another overflow
+        for ($i = 0; $i < 125; $i++) { // roll to another overflow
             $sequence->next();
         }
 
-        self::assertEquals('018b8dc3-c7a1-fcff-fffc-ffffffffefe4', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a1-fcff-fffc-ffffffffffe1', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-ff7f-fffffeffff00', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-ff7f-fffffffffeff', $sequence->next()->toRfc4122());
         // overflow
-        self::assertEquals('018b8dc3-c7a2-fcff-fffc-fffffcfffffc', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a2-fcff-fffc-fffffd000ff9', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a2-7fff-ff7f-ffff7fffff7f', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a2-7fff-ff7f-ffff80ffff7e', $sequence->next()->toRfc4122());
 
         // advance 1msec. the timestamp should still be lower
         $clock->dateTime->modify('+1msec');
 
         // same clock seq continues
-        self::assertEquals('018b8dc3-c7a2-fcff-fffc-fffffd001ff6', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a2-7fff-ff7f-ffff81ffff7d', $sequence->next()->toRfc4122());
     }
 
     public function testOverflowV7Compatible(): void
     {
-        $randomizer = new Randomizer(new FixedSequenceEngine("\xfc\xff\xff")); // ~12297 ids/msec
+        $randomizer = new Randomizer(new FixedSequenceEngine("\x7f\xff\xff")); // ~128 ids/msec
         $clock = MutableClock::fromTimestamp(1698890500);
 
         $sequence = SequenceFactory::ulid(true, $clock, $randomizer);
 
-        self::assertEquals('018b8dc3-c7a0-7cff-bffc-fffffcfffffc', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a0-7fff-bf7f-ffff7fffff7f', $sequence->next()->toRfc4122());
 
-        for ($i = 0; $i < 12295; $i++) { // roll to an overflow
+        for ($i = 0; $i < 126; $i++) { // roll to an overflow
             $sequence->next();
         }
 
-        self::assertEquals('018b8dc3-c7a0-7cff-bffc-ffffffffefe4', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a0-7cff-bffc-ffffffffffe1', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a0-7fff-bf7f-fffffeffff00', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a0-7fff-bf7f-fffffffffeff', $sequence->next()->toRfc4122());
         // overflow
-        self::assertEquals('018b8dc3-c7a1-7cff-bffc-fffffcfffffc', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a1-7cff-bffc-fffffd000ff9', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-bf7f-ffff7fffff7f', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-bf7f-ffff80ffff7e', $sequence->next()->toRfc4122());
 
-        for ($i = 0; $i < 12294; $i++) { // roll to another overflow
+        for ($i = 0; $i < 125; $i++) { // roll to another overflow
             $sequence->next();
         }
 
-        self::assertEquals('018b8dc3-c7a1-7cff-bffc-ffffffffefe4', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a1-7cff-bffc-ffffffffffe1', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-bf7f-fffffeffff00', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a1-7fff-bf7f-fffffffffeff', $sequence->next()->toRfc4122());
         // overflow
-        self::assertEquals('018b8dc3-c7a2-7cff-bffc-fffffcfffffc', $sequence->next()->toRfc4122());
-        self::assertEquals('018b8dc3-c7a2-7cff-bffc-fffffd000ff9', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a2-7fff-bf7f-ffff7fffff7f', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a2-7fff-bf7f-ffff80ffff7e', $sequence->next()->toRfc4122());
 
         // advance 1msec. the timestamp should still be lower
         $clock->dateTime->modify('+1msec');
 
         // same clock seq continues
-        self::assertEquals('018b8dc3-c7a2-7cff-bffc-fffffd001ff6', $sequence->next()->toRfc4122());
+        self::assertEquals('018b8dc3-c7a2-7fff-bf7f-ffff81ffff7d', $sequence->next()->toRfc4122());
     }
 
     public function testIterator(): void
