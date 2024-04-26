@@ -2,9 +2,14 @@
 
 ## 2.x
 
-### next
+### 2.4.0
+
+*Apr 4, 2024*
 
 * Added `parse()` as an alias of `toString()` to `UuidParser` and `UlidParser`
+* Increased ULID sequence counter to 6 bytes
+  * When used with statically initialized pseudo-random number generators,
+    it will produce different values, obviously
 
 ### 2.3.1
 
