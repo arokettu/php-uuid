@@ -117,10 +117,12 @@ The input is case insensitive.
     var_dump($uuid->toString());    // 6ba7b811-9dad-11d1-80b4-00c04fd430c8
     var_dump($uuid::class);         // Arokettu\Uuid\UuidV1
 
-fromString()
-============
+fromString() / parse()
+======================
 
-``fromString()`` tries to use ``fromRfc4122()`` and ``fromBase32()`` to parse the given string.
+.. versionadded:: 2.4 ``parse()``
+
+``fromString()`` (alias ``parse()``) tries to use ``fromRfc4122()`` and ``fromBase32()`` to parse the given string.
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
 .. _ULID spec: https://github.com/ulid/spec
