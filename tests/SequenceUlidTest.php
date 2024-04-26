@@ -19,32 +19,32 @@ class SequenceUlidTest extends TestCase
     {
         $sequences = [
             ['num' => 8, 'v7' => false, 'uuids' => [
-                '01963972-0580-9999-9999-999999999999', '01963972-0580-9999-9999-99999999a333',
-                '01963972-0580-9999-9999-99999999accd', '01963972-0580-9999-9999-99999999b667',
-                '01963972-0580-9999-9999-99999999c001', '01963972-0580-9999-9999-99999999c99b',
-                '01963972-0580-9999-9999-99999999d335', '01963972-0580-9999-9999-99999999dccf',
+                '01963972-0580-9999-9999-999999999999', '01963972-0580-9999-9999-99999a3333cc',
+                '01963972-0580-9999-9999-99999acccdff', '01963972-0580-9999-9999-99999b666832',
+                '01963972-0580-9999-9999-99999c000265', '01963972-0580-9999-9999-99999c999c98',
+                '01963972-0580-9999-9999-99999d3336cb', '01963972-0580-9999-9999-99999dccd0fe',
                 // skip
-                '01963972-0968-9999-9999-999999999999', '01963972-0968-9999-9999-99999999a333',
-                '01963972-0968-9999-9999-99999999accd', '01963972-0968-9999-9999-99999999b667',
-                '01963972-0968-9999-9999-99999999c001', '01963972-0968-9999-9999-99999999c99b',
-                '01963972-0968-9999-9999-99999999d335', '01963972-0968-9999-9999-99999999dccf',
+                '01963972-0968-9999-9999-999999999999', '01963972-0968-9999-9999-99999a3333cc',
+                '01963972-0968-9999-9999-99999acccdff', '01963972-0968-9999-9999-99999b666832',
+                '01963972-0968-9999-9999-99999c000265', '01963972-0968-9999-9999-99999c999c98',
+                '01963972-0968-9999-9999-99999d3336cb', '01963972-0968-9999-9999-99999dccd0fe',
             ]],
             ['num' => 8, 'v7' => true, 'uuids' => [
-                '01963972-0580-7999-9999-999999999999', '01963972-0580-7999-9999-99999999a333',
-                '01963972-0580-7999-9999-99999999accd', '01963972-0580-7999-9999-99999999b667',
-                '01963972-0580-7999-9999-99999999c001', '01963972-0580-7999-9999-99999999c99b',
-                '01963972-0580-7999-9999-99999999d335', '01963972-0580-7999-9999-99999999dccf',
+                '01963972-0580-7999-9999-999999999999', '01963972-0580-7999-9999-99999a3333cc',
+                '01963972-0580-7999-9999-99999acccdff', '01963972-0580-7999-9999-99999b666832',
+                '01963972-0580-7999-9999-99999c000265', '01963972-0580-7999-9999-99999c999c98',
+                '01963972-0580-7999-9999-99999d3336cb', '01963972-0580-7999-9999-99999dccd0fe',
                 // skip
-                '01963972-0968-7999-9999-999999999999', '01963972-0968-7999-9999-99999999a333',
-                '01963972-0968-7999-9999-99999999accd', '01963972-0968-7999-9999-99999999b667',
-                '01963972-0968-7999-9999-99999999c001', '01963972-0968-7999-9999-99999999c99b',
-                '01963972-0968-7999-9999-99999999d335', '01963972-0968-7999-9999-99999999dccf',
+                '01963972-0968-7999-9999-999999999999', '01963972-0968-7999-9999-99999a3333cc',
+                '01963972-0968-7999-9999-99999acccdff', '01963972-0968-7999-9999-99999b666832',
+                '01963972-0968-7999-9999-99999c000265', '01963972-0968-7999-9999-99999c999c98',
+                '01963972-0968-7999-9999-99999d3336cb', '01963972-0968-7999-9999-99999dccd0fe',
             ]],
         ];
 
         foreach ($sequences as ['num' => $num, 'v7' => $v7, 'uuids' => $uuids]) {
             $clock = new MutableClock(new \DateTime('2025-04-15 12:34:56'));
-            $randomizer = new Randomizer(new FixedSequenceEngine("\x99")); // +0x099a every step
+            $randomizer = new Randomizer(new FixedSequenceEngine("\x99")); // +0x999a33 every step
 
             $seq = SequenceFactory::ulid($v7, $clock, $randomizer);
 
@@ -67,23 +67,23 @@ class SequenceUlidTest extends TestCase
 
         $sequence = SequenceFactory::ulid(true, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d538e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d5595', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d5e74', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d66df', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d6bfb', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d5ef2a62f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d5fc228e0', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d605fa254', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d6088cb19', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d61814079', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d61ff5b6c', $sequence->next()->toRfc4122());
 
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
 
         $sequence = SequenceFactory::ulid(false, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d538e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d5595', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d5e74', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d66df', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d6bfb', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d5ef2a62f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d5fc228e0', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d605fa254', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d6088cb19', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d61814079', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d61ff5b6c', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvance(): void
@@ -93,36 +93,36 @@ class SequenceUlidTest extends TestCase
 
         $sequence = SequenceFactory::ulid(false, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d538e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d5595', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d5ef2a62f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d5fc228e0', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d605fa254', $sequence->next()->toRfc4122());
 
         $clock->dateTime->modify('+1 second');
 
-        self::assertEquals('02000000-03e8-de78-9d95-b3d87a29286a', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-de78-9d95-b3d87a292d86', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-de78-9d95-b3d87a2937dc', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-6a28-295a-f8751b7e1a55', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-6a28-295a-f8751bdafa97', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-6a28-295a-f8751bfe5757', $sequence->next()->toRfc4122());
 
         // if clock goes back, ignore the timestamp
         $clock->dateTime->modify('-5 seconds');
 
-        self::assertEquals('02000000-03e8-de78-9d95-b3d87a2947b1', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-de78-9d95-b3d87a295422', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-de78-9d95-b3d87a295bdd', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-6a28-295a-f8751c4c8fba', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-6a28-295a-f8751d3fd88c', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-6a28-295a-f8751e3f03e3', $sequence->next()->toRfc4122());
 
         // when time catches up, use it
         $clock->dateTime->modify('+10 seconds');
 
-        self::assertEquals('02000000-1770-4d48-f384-4e4601ff2ac5', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-4d48-f384-4e4601ff2fba', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-4d48-f384-4e4601ff3c2b', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-f434-29e7-ae4c703db313', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-f434-29e7-ae4c7065b887', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-f434-29e7-ae4c70b0fe4e', $sequence->next()->toRfc4122());
 
         // the change below 1msec should not disrupt the counter
         $clock->dateTime->modify('+500 usec');
 
-        self::assertEquals('02000000-1770-4d48-f384-4e4601ff3f3f', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-4d48-f384-4e4601ff4474', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-4d48-f384-4e4601ff499b', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-f434-29e7-ae4c717eeacc', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-f434-29e7-ae4c71e251c4', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-f434-29e7-ae4c728a8a5c', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvanceV7Compatible(): void
@@ -132,36 +132,36 @@ class SequenceUlidTest extends TestCase
 
         $sequence = SequenceFactory::ulid(true, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d538e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d5595', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d5ef2a62f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d5fc228e0', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d605fa254', $sequence->next()->toRfc4122());
 
         $clock->dateTime->modify('+1 second');
 
-        self::assertEquals('02000000-03e8-7e78-9d95-b3d87a29286a', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-7e78-9d95-b3d87a292d86', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-7e78-9d95-b3d87a2937dc', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7a28-a95a-f8751b7e1a55', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7a28-a95a-f8751bdafa97', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7a28-a95a-f8751bfe5757', $sequence->next()->toRfc4122());
 
         // if clock goes back, ignore the timestamp
         $clock->dateTime->modify('-5 seconds');
 
-        self::assertEquals('02000000-03e8-7e78-9d95-b3d87a2947b1', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-7e78-9d95-b3d87a295422', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-03e8-7e78-9d95-b3d87a295bdd', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7a28-a95a-f8751c4c8fba', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7a28-a95a-f8751d3fd88c', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-03e8-7a28-a95a-f8751e3f03e3', $sequence->next()->toRfc4122());
 
         // when time catches up, use it
         $clock->dateTime->modify('+10 seconds');
 
-        self::assertEquals('02000000-1770-7d48-b384-4e4601ff2ac5', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-7d48-b384-4e4601ff2fba', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-7d48-b384-4e4601ff3c2b', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7434-a9e7-ae4c703db313', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7434-a9e7-ae4c7065b887', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7434-a9e7-ae4c70b0fe4e', $sequence->next()->toRfc4122());
 
         // the change below 1msec should not disrupt the counter
         $clock->dateTime->modify('+500 usec');
 
-        self::assertEquals('02000000-1770-7d48-b384-4e4601ff3f3f', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-7d48-b384-4e4601ff4474', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-1770-7d48-b384-4e4601ff499b', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7434-a9e7-ae4c717eeacc', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7434-a9e7-ae4c71e251c4', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-1770-7434-a9e7-ae4c728a8a5c', $sequence->next()->toRfc4122());
     }
 
     public function testProperRandomizerWithAdvanceEveryStep(): void
@@ -171,24 +171,24 @@ class SequenceUlidTest extends TestCase
 
         $sequence = SequenceFactory::ulid(false, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-f969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0080-2fa6-f2c3-462baacf8206', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0100-de78-9d95-b3d87a29286a', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0180-1b75-f844-9b23cd7e1a55', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0200-d4df-5c6d-af02df235c70', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0280-ba37-4ea8-3797f4f3484d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-f969-a0d1-6d4d5ef2a62f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0080-0682-cfaa-9d78de29286a', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0100-1b75-f844-7e1a555cdfd4', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0180-705c-234f-4e37baf3484d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0200-c52a-ff91-2934f4ae4c70', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0280-13b3-3da2-2805344b4526', $sequence->next()->toRfc4122());
 
         $randomizer = new Randomizer(new Xoshiro256StarStar(123));
         $clock = TickingClock::fromDateString('+128 msec', '2039-09-07 15:47:35.552');
 
         $sequence = SequenceFactory::ulid(true, $clock, $randomizer);
 
-        self::assertEquals('02000000-0000-7969-a0d1-a18f556d4d5e', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0080-7fa6-b2c3-462baacf8206', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0100-7e78-9d95-b3d87a29286a', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0180-7b75-b844-9b23cd7e1a55', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0200-74df-9c6d-af02df235c70', $sequence->next()->toRfc4122());
-        self::assertEquals('02000000-0280-7a37-8ea8-3797f4f3484d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0000-7969-a0d1-6d4d5ef2a62f', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0080-7682-8faa-9d78de29286a', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0100-7b75-b844-7e1a555cdfd4', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0180-705c-a34f-4e37baf3484d', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0200-752a-bf91-2934f4ae4c70', $sequence->next()->toRfc4122());
+        self::assertEquals('02000000-0280-73b3-bda2-2805344b4526', $sequence->next()->toRfc4122());
     }
 
     public function testOverflow(): void
