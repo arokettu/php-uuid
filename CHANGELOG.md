@@ -4,7 +4,7 @@
 
 ### 2.4.0
 
-*Apr 4, 2024*
+*Apr 26, 2024*
 
 * Added `parse()` as an alias of `toString()` to `UuidParser` and `UlidParser`
 * Increased ULID sequence counter to 6 bytes
