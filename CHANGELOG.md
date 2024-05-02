@@ -2,6 +2,12 @@
 
 ## 2.x
 
+### 2.5.0
+
+*May 2, 2024*
+
+* Added strict mode to ``fromBase32()``
+
 ### 2.4.0
 
 *Apr 26, 2024*
