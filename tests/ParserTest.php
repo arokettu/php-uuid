@@ -7,6 +7,7 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Uuid\GenericUuid;
 use Arokettu\Uuid\MaxUuid;
 use Arokettu\Uuid\NilUuid;
+use Arokettu\Uuid\Ulid;
 use Arokettu\Uuid\UlidParser;
 use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\UuidV1;
@@ -116,6 +117,70 @@ class ParserTest extends TestCase
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
         UlidParser::fromBase32('7ZZZZZZZZZZZUZZZZZZZZZZZZZ');
+    }
+
+    public function testBase32WrongCharsB32Strict(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
+
+        UlidParser::fromBase32('7ZZZZZZZZZZZLZZZZZZZZZZZZZ', strict: true);
+    }
+
+    public function testBase32WrongCharsB32Strict1st(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
+
+        UlidParser::fromBase32('IZZZZZZZZZZZZZZZZZZZZZZZZZ', strict: true);
+    }
+
+    public function testBase32Alphabet(): void
+    {
+        $ulid1 = UlidParser::fromBase32('0123456789ABCDEFGHIJKLMNOP');
+        $ulid2 = UlidParser::fromBase32('7QRSTVWXYZ0000000000000000');
+
+        self::assertInstanceOf(Ulid::class, $ulid1);
+        self::assertEquals('0123456789ABCDEFGH1JK1MN0P', $ulid1->toString());
+
+        self::assertInstanceOf(Ulid::class, $ulid2);
+        self::assertEquals('7QRSTVWXYZ0000000000000000', $ulid2->toString());
+    }
+
+    public function testBase32AlphabetLC(): void
+    {
+        $ulid1 = UlidParser::fromBase32('0123456789abcdefghijklmnop');
+        $ulid2 = UlidParser::fromBase32('7qrstvwxyz0000000000000000');
+
+        self::assertInstanceOf(Ulid::class, $ulid1);
+        self::assertEquals('0123456789ABCDEFGH1JK1MN0P', $ulid1->toString());
+
+        self::assertInstanceOf(Ulid::class, $ulid2);
+        self::assertEquals('7QRSTVWXYZ0000000000000000', $ulid2->toString());
+    }
+
+    public function testBase32AlphabetStrict(): void
+    {
+        $ulid1 = UlidParser::fromBase32('0123456789ABCDEFGH1JK1MN0P', strict: true);
+        $ulid2 = UlidParser::fromBase32('7QRSTVWXYZ0000000000000000', strict: true);
+
+        self::assertInstanceOf(Ulid::class, $ulid1);
+        self::assertEquals('0123456789ABCDEFGH1JK1MN0P', $ulid1->toString());
+
+        self::assertInstanceOf(Ulid::class, $ulid2);
+        self::assertEquals('7QRSTVWXYZ0000000000000000', $ulid2->toString());
+    }
+
+    public function testBase32AlphabetLCStrict(): void
+    {
+        $ulid1 = UlidParser::fromBase32('0123456789abcdefgh1jk1mn0p', strict: true);
+        $ulid2 = UlidParser::fromBase32('7qrstvwxyz0000000000000000', strict: true);
+
+        self::assertInstanceOf(Ulid::class, $ulid1);
+        self::assertEquals('0123456789ABCDEFGH1JK1MN0P', $ulid1->toString());
+
+        self::assertInstanceOf(Ulid::class, $ulid2);
+        self::assertEquals('7QRSTVWXYZ0000000000000000', $ulid2->toString());
     }
 
     public function testBase32FirstChar(): void
