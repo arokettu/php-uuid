@@ -85,9 +85,13 @@ abstract class AbstractParser
      * @psalm-api
      * @return T
      */
-    public static function fromBase32(string $string): Uuid
+    public static function fromBase32(string $string, bool $strict = false): Uuid
     {
-        $match = preg_match('/^[0-7OIL][0-9A-TV-Z]{25}$/i', $string);
+        if ($strict) {
+            $match = preg_match('/^[0-7][0-9A-HJKMNP-TV-Z]{25}$/i', $string);
+        } else {
+            $match = preg_match('/^[0-7OIL][0-9A-TV-Z]{25}$/i', $string);
+        }
 
         if (!$match) {
             throw new DomainException('Not a valid Base32 encoded ' . static::TYPE);
