@@ -97,8 +97,12 @@ The type is determined the same way as in ``fromBytes()``.
 fromBase32()
 ============
 
+.. versionadded:: 2.5 strict mode.
+
 Parses Crockford's Base32 as defined in the `ULID spec`_.
 The input is case insensitive.
+Strict mode parser does not allow characters ``ILO``.
+Non-strict mode parser interprets them as ``1`` or ``0`` as per Crockford's original standard.
 
 ::
 
