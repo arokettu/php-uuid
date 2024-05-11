@@ -87,7 +87,7 @@ Rfc4122Variant10xxUuid
 .. versionadded:: 1.1.0
 .. versionchanged:: 1.2.0 renamed from Rfc4122Variant1Uuid to Rfc4122Variant10xxUuid
 
-`RFC 4122`_ Variant 10xx UUID versions (all except for Nil and Max) extend this interface.
+`RFC 4122`_ / `RFC 9562`_ Variant 10xx UUID versions (all except for Nil and Max) extend this interface.
 This interface is most useful to check that it is a standard based UUID as opposed to Nil, Max, ULID or unrecognized generic.
 
 ::
