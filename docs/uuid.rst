@@ -23,7 +23,7 @@ Max UUID
 
 ``{ffffffff-ffff-ffff-ffff-ffffffffffff}``
 
-Max UUID as described in the `RFC 4122 update`_.
+Max UUID as described in the `RFC 9562`_.
 The class can be constructed directly, its constructor does not accept any parameters.
 
 Generic UUID
@@ -36,8 +36,8 @@ Any UUID that is not Nil, Max or RFC 4122 and is not marked as ULID will be pars
 The class can also be initialized directly with any 32 hexadecimal digits.
 (Obviously, the class will not be cast to a version class in case the data happen to be a valid version or special UUID)
 
-RFC 4122
-========
+RFC 4122 / RFC 9562
+===================
 
 Variant 10xx versions described in `RFC 4122`_ and `RFC 9562`_.
 

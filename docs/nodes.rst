@@ -31,7 +31,9 @@ As described in the `section 4.1.6`_ for non-MAC node IDs, the multicast bit wil
     use Random\Randomizer;
 
     // RNG can be overridden
-    $node = new RandomNode(new Randomizer(new PcgOneseq128XslRr64(111))); // generates d2f8f1d31aaa
+    $node = new RandomNode(
+        new Randomizer(new PcgOneseq128XslRr64(111)) // generates d2f8f1d31aaa
+    );
     $uuid = UuidFactory::v6($node); // ........-....-....-....-d3f8f1d31aaa
     $uuid = UuidFactory::v6($node); // ........-....-....-....-bdcc9a006b19
 

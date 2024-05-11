@@ -16,8 +16,8 @@ Max UUID
 
 ``Arokettu\Uuid\UuidFactory::max()``
 
-RFC 4122
-========
+RFC 4122 / RFC 9562
+===================
 
 This factory can create UUID versions 1-8.
 Version 2 can be considered legacy and should not be used in any non-legacy purposes.
