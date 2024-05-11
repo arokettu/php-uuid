@@ -39,7 +39,7 @@ The class can also be initialized directly with any 32 hexadecimal digits.
 RFC 4122
 ========
 
-Variant 10xx versions described in the `RFC 4122`_ and in the `update draft <RFC 4122 update_>`__.
+Variant 10xx versions described in `RFC 4122`_ and `RFC 9562`_.
 
 Any class can be initialized directly by 32 hexadecimal digits but the correct variant and version bits must be set.
 
@@ -230,5 +230,5 @@ You can do it at your own risk if you used ULIDs and then decided to move to a m
     var_dump($ulid->toString());    // 01H44RDYXJPFCF895N3BBXCZRC
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _RFC 4122 update: https://datatracker.ietf.org/doc/html/draft-ietf-uuidrev-rfc4122bis
+.. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562
 .. _ULID spec: https://github.com/ulid/spec

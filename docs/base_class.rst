@@ -110,7 +110,7 @@ Rfc4122Uuid
 
 .. versionchanged:: 1.1.0 Now includes Nil and Max
 
-All UUIDs mentioned in `RFC 4122`_ and its `update draft`_, i.e. Nil, Max, Rfc4122Variant10xxUuid.
+All UUIDs mentioned in `RFC 4122`_ and `RFC 9562`_, i.e. Nil, Max, Rfc4122Variant10xxUuid.
 This excludes only Generic UUIDs and ULIDs.
 
 TimeBasedUuid
@@ -126,5 +126,5 @@ UUIDv1, UUIDv2, UUIDv6, UUIDv7, and ULID extend this interface because they enco
     var_dump($uuid->getDateTime()->format('c')); // current time
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _update draft: https://datatracker.ietf.org/doc/html/draft-ietf-uuidrev-rfc4122bis
+.. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562
 .. _strcmp: https://www.php.net/manual/en/function.strcmp.php

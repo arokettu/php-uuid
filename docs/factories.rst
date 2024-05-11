@@ -532,7 +532,7 @@ Sha256-based Namespace
 
 A namespace type UUID similar to versions 3 and 5 but using sha256 as a hashing function.
 The factory creates an instance of UUIDv8.
-This method is shown in the `RFC 4122 update`_ B.2 example.
+This method is shown in `RFC 9562`_ B.2 example.
 
 ::
 
@@ -547,4 +547,4 @@ This method is shown in the `RFC 4122 update`_ B.2 example.
     )->toString(); // 5c146b14-3c52-8afd-938a-375d0df1fbf6
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _RFC 4122 update: https://datatracker.ietf.org/doc/html/draft-ietf-uuidrev-rfc4122bis
+.. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562
