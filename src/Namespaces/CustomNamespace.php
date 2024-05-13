@@ -6,7 +6,6 @@ namespace Arokettu\Uuid\Namespaces;
 
 use Arokettu\Uuid\Helpers\GenericParser;
 use Arokettu\Uuid\Uuid;
-use Arokettu\Uuid\UuidParser;
 use DomainException;
 
 final readonly class CustomNamespace implements NamespaceInterface
