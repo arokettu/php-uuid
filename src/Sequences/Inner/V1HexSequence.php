@@ -4,46 +4,39 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Sequences\Inner;
 
-use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\Nodes;
-use Arokettu\Uuid\Sequences\UuidSequence;
-use Arokettu\Uuid\UuidV1;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;
 use Psr\Clock\ClockInterface;
-use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
  * @internal
  */
-final class V1HexSequence implements UuidSequence
+final class V1HexSequence
 {
     private const MAX_COUNTER = 0x3fff; // 14 bit
     private const MAX_NSEC100_COUNTER = 9; // one decimal
 
     private static DateInterval $ONE_MICROSECOND;
 
-    private readonly Nodes\Node $node;
-
     private DateTimeImmutable $time;
     private int $nsec100Counter;
     private int $counter;
 
     public function __construct(
-        ?Nodes\Node $node = null,
-        private readonly ClockInterface $clock = new SystemClock(),
-        private readonly Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64()),
+        private readonly bool $isV6,
+        private readonly Nodes\Node $node,
+        private readonly ClockInterface $clock,
+        private readonly Randomizer $randomizer,
     ) {
-        $this->node = $node ?? Nodes\StaticNode::random($this->randomizer);
-
         // init 'const' if not initialized
         self::$ONE_MICROSECOND ??= DateInterval::createFromDateString('1usec');
     }
 
-    public function next(): UuidV1
+    public function next(): string
     {
         $time = $this->clock->now();
 
@@ -67,18 +60,23 @@ final class V1HexSequence implements UuidSequence
         }
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex($this->time, $this->nsec100Counter);
-        $clockHex = sprintf('%04x', $this->counter); // 2 bytes
+        $clockHex = sprintf('%04x', $this->counter | 0x8000); // 2 bytes
         $nodeHex = $this->node->getHex();
 
-        $timeLow  = substr($tsHex, 7, 8);
-        $timeMid  = substr($tsHex, 3, 4);
-        $timeHigh = substr($tsHex, 0, 3);
+        if ($this->isV6) {
+            $timeHiMid = substr($tsHex, 0, 12);
+            $timeLow   = substr($tsHex, 12, 3);
 
-        $hex = "{$timeLow}{$timeMid}1{$timeHigh}{$clockHex}{$nodeHex}";
+            $hex = "{$timeHiMid}6{$timeLow}{$clockHex}{$nodeHex}";
+        } else {
+            $timeLow  = substr($tsHex, 7, 8);
+            $timeMid  = substr($tsHex, 3, 4);
+            $timeHigh = substr($tsHex, 0, 3);
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+            $hex = "{$timeLow}{$timeMid}1{$timeHigh}{$clockHex}{$nodeHex}";
+        }
 
-        return new UuidV1($hex);
+        return $hex;
     }
 
     public function getIterator(): Generator

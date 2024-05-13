@@ -6,16 +6,16 @@ namespace Arokettu\Uuid\Sequences;
 
 use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Nodes;
-use Arokettu\Uuid\UuidV6;
+use Arokettu\Uuid\UuidV1;
 use Generator;
 use Psr\Clock\ClockInterface;
 use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
- * @implements UuidSequence<UuidV6>
+ * @implements UuidSequence<UuidV1>
  */
-final readonly class UuidV6Sequence implements UuidSequence
+final readonly class UuidV1Sequence implements UuidSequence
 {
     private Inner\V1HexSequence $innerSeq;
 
@@ -25,12 +25,12 @@ final readonly class UuidV6Sequence implements UuidSequence
         Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64()),
     ) {
         $node ??= Nodes\StaticNode::random($randomizer);
-        $this->innerSeq = new Inner\V1HexSequence(true, $node, $clock, $randomizer);
+        $this->innerSeq = new Inner\V1HexSequence(false, $node, $clock, $randomizer);
     }
 
-    public function next(): UuidV6
+    public function next(): UuidV1
     {
-        return new UuidV6($this->innerSeq->next());
+        return new UuidV1($this->innerSeq->next());
     }
 
     public function getIterator(): Generator
