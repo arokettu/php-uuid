@@ -51,8 +51,15 @@ final class SequenceFactory
     public static function v7(
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
-    ): Sequences\UuidV7Sequence {
-        return new Sequences\UuidV7Sequence(
+    ): Sequences\UuidV7ShortSequence {
+        return self::v7Short($clock, $randomizer);
+    }
+
+    public static function v7Short(
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
+    ): Sequences\UuidV7ShortSequence {
+        return new Sequences\UuidV7ShortSequence(
             $clock ?? self::clock(),
             $randomizer ?? self::randomizer(),
         );
