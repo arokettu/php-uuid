@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Arokettu\Uuid\Sequences;
+namespace Arokettu\Uuid\Sequences\Inner;
 
 use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers;
+use Arokettu\Uuid\Sequences\UuidSequence;
 use Arokettu\Uuid\UuidV7;
 use DateInterval;
 use Generator;
@@ -14,9 +15,9 @@ use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
- * @implements UuidSequence<UuidV7>
+ * @internal
  */
-final class UuidV7Sequence implements UuidSequence
+final class V7ShortHexSequence implements UuidSequence
 {
     private const MAX_COUNTER = 0x0fff;
     private const MAX_COUNTER_GEN = 0x07ff; // do not fill the highest bit to allow more ids in the same msec

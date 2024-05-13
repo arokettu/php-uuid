@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Arokettu\Uuid\Sequences;
+namespace Arokettu\Uuid\Sequences\Inner;
 
 use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers;
+use Arokettu\Uuid\Sequences\UuidSequence;
 use Arokettu\Uuid\Ulid;
 use DateInterval;
 use Generator;
@@ -14,9 +15,9 @@ use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
- * @implements UuidSequence<Ulid>
+ * @internal
  */
-final class UlidSequence implements UuidSequence
+final class V7LongHexSequence implements UuidSequence
 {
     private const MAX_COUNTER = 0xff_ff_ff; // 24 bits to avoid signed int on 32-bit systems
     private const MAX_INCREMENT = self::MAX_COUNTER; // increment with 24 bits of randomness
