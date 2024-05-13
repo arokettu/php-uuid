@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Sequences;
 
 use Arokettu\Clock\SystemClock;
-use Arokettu\DateTime\DateTimeTruncate;
 use Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\UuidV7;
 use DateInterval;
-use DateTimeImmutable;
 use Generator;
 use Psr\Clock\ClockInterface;
 use Random\Engine\PcgOneseq128XslRr64;
@@ -25,7 +23,7 @@ final class UuidV7Sequence implements UuidSequence
 
     private static DateInterval $ONE_MS;
 
-    private DateTimeImmutable $time;
+    private string $time;
     private int $counter = 0;
 
     public function __construct(
@@ -38,9 +36,10 @@ final class UuidV7Sequence implements UuidSequence
 
     public function next(): UuidV7
     {
-        $time = DateTimeTruncate::toMilliseconds($this->clock->now()); // we need to round to correctly compare datetime
+        $dt = $this->clock->now();
+        $time = Helpers\DateTime::buildUlidHex($dt); // we need to round to correctly compare datetime
 
-        if (!isset($this->time) || $this->time < $time) {
+        if (!isset($this->time) || strcmp($this->time, $time) < 0) {
             $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER_GEN);
             $this->time = $time;
         } else {
@@ -48,13 +47,13 @@ final class UuidV7Sequence implements UuidSequence
             if ($this->counter > self::MAX_COUNTER) {
                 // do not allow counter rollover
                 $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER_GEN);
-                $this->time = $this->time->add(self::$ONE_MS);
+                $this->time = Helpers\DateTime::buildUlidHex($dt->add(self::$ONE_MS));
             }
         }
 
         // attach version 7 to the counter directly
         $hex =
-            Helpers\DateTime::buildUlidHex($this->time) .
+            $this->time .
             dechex($this->counter | 0x7000) .
             bin2hex($this->randomizer->getBytes(8));
 

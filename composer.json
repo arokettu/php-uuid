@@ -35,7 +35,6 @@
     },
     "require": {
         "php": "^8.2",
-        "arokettu/datetime-rounding": "^1.0",
         "arokettu/system-clock": "^2.0",
         "arokettu/unsigned": "^1.3"
     },

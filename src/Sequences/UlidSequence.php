@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Sequences;
 
 use Arokettu\Clock\SystemClock;
-use Arokettu\DateTime\DateTimeTruncate;
 use Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\Ulid;
 use DateInterval;
-use DateTimeImmutable;
 use Generator;
 use Psr\Clock\ClockInterface;
 use Random\Engine\PcgOneseq128XslRr64;
@@ -25,7 +23,7 @@ final class UlidSequence implements UuidSequence
 
     private static DateInterval $ONE_MS;
 
-    private DateTimeImmutable $time;
+    private string $time;
     private string $hex;
     private int $counterHigh;
     private int $counterLow;
@@ -41,9 +39,10 @@ final class UlidSequence implements UuidSequence
 
     public function next(): Ulid
     {
-        $time = DateTimeTruncate::toMilliseconds($this->clock->now()); // we need to round to correctly compare datetime
+        $dt = $this->clock->now();
+        $time = Helpers\DateTime::buildUlidHex($dt); // we need to round to correctly compare datetime
 
-        if (!isset($this->time) || $this->time < $time) {
+        if (!isset($this->time) || strcmp($this->time, $time) < 0) {
             $this->time = $time;
 
             // a slightly nonstandard layout is used for the ULID here:
@@ -62,7 +61,7 @@ final class UlidSequence implements UuidSequence
                 if ($this->counterHigh > self::MAX_COUNTER) {
                     // do not allow counter rollover
 
-                    $this->time = $this->time->add(self::$ONE_MS);
+                    $this->time = Helpers\DateTime::buildUlidHex($dt->add(self::$ONE_MS));
                     $this->hex = $this->generateHex();
                     $this->counterHigh = $this->randomizer->getInt(0, self::MAX_COUNTER);
                     $this->counterLow  = $this->randomizer->getInt(0, self::MAX_COUNTER);
@@ -71,7 +70,7 @@ final class UlidSequence implements UuidSequence
         }
 
         $hex =
-            Helpers\DateTime::buildUlidHex($this->time) .
+            $this->time .
             $this->hex .
             sprintf('%06x', $this->counterHigh) .
             sprintf('%06x', $this->counterLow);
