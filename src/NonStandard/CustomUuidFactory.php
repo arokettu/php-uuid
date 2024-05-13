@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\NonStandard;
 
+use Arokettu\Uuid\Namespaces\NamespaceInterface;
 use Arokettu\Uuid\Uuid;
 use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidV8;
 
 final class CustomUuidFactory
 {
-    public static function sha256(Uuid $namespace, string $identifier): UuidV8
+    public static function sha256(Uuid|NamespaceInterface $namespace, string $identifier): UuidV8
     {
-        $bytes = hash('sha256', $namespace->toBytes() . $identifier, true);
-        return UuidFactory::v8(substr($bytes, 0, 16));
+        $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
+        $uuid = hash('sha256', $bytes . $identifier, true);
+        return UuidFactory::v8(substr($uuid, 0, 16));
     }
 }

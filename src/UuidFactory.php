@@ -92,9 +92,11 @@ final class UuidFactory
         return new UuidV2($hex);
     }
 
-    public static function v3(Uuid $namespace, string $identifier): UuidV3
+    public static function v3(Uuid|Namespaces\NamespaceInterface $namespace, string $identifier): UuidV3
     {
-        $hex = md5($namespace->toBytes() . $identifier);
+        $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
+
+        $hex = md5($bytes . $identifier);
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
         Helpers\UuidBytes::setVersion($hex, 3);
@@ -114,9 +116,11 @@ final class UuidFactory
         return new UuidV4($hex);
     }
 
-    public static function v5(Uuid $namespace, string $identifier): UuidV5
+    public static function v5(Uuid|Namespaces\NamespaceInterface $namespace, string $identifier): UuidV5
     {
-        $hex = substr(sha1($namespace->toBytes() . $identifier), 0, 32);
+        $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
+
+        $hex = substr(sha1($bytes . $identifier), 0, 32);
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
         Helpers\UuidBytes::setVersion($hex, 5);
