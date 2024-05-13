@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Clock\StaticClock;
+use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\Nodes\StaticNode;
 use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UuidFactory;
-use Arokettu\Uuid\UuidNamespaces;
 use Arokettu\Uuid\UuidV6;
 use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
@@ -28,7 +28,7 @@ class V6Test extends TestCase
     public function testToUuidV1(): void
     {
         $uuid = new UuidV6('1d19dad6ba7b681180b400c04fd430c8');
-        self::assertEquals(UuidNamespaces::url(), $uuid->toUuidV1());
+        self::assertEquals(UuidNamespace::URL->getUuid(), $uuid->toUuidV1());
     }
 
     public function testFactory(): void

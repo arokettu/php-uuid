@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
+use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\UuidFactory;
-use Arokettu\Uuid\UuidNamespaces;
 use PHPUnit\Framework\TestCase;
 
 class V3Test extends TestCase
@@ -19,7 +19,7 @@ class V3Test extends TestCase
 
     public function testRfcExample(): void
     {
-        $uuid = UuidFactory::v3(UuidNamespaces::dns(), 'www.example.com');
+        $uuid = UuidFactory::v3(UuidNamespace::DNS, 'www.example.com');
 
         self::assertEquals('5df41881-3aed-3515-88a7-2f4a814cf09e', $uuid->toString());
     }
