@@ -103,8 +103,8 @@ abstract readonly class AbstractUuid implements Uuid
     {
         $data = [];
 
-        if ($this instanceof Rfc4122Variant10xxUuid) {
-            $data['version'] = $this->getRfc4122Version();
+        if ($this instanceof Variant10xxUuid) {
+            $data['version'] = $this->getVersion();
         }
 
         $data['rfc4122'] = $this->toRfc4122();

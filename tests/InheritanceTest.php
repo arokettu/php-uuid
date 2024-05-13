@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Uuid\Rfc4122Uuid;
-use Arokettu\Uuid\Rfc4122Variant10xxUuid;
+use Arokettu\Uuid\Variant10xxUuid;
 use Arokettu\Uuid\TimeBasedUuid;
 use Arokettu\Uuid\UlidParser;
 use Arokettu\Uuid\Uuid;
@@ -36,73 +36,73 @@ class InheritanceTest extends TestCase
         // V1
         self::assertInstanceOf(Uuid::class, $uuid1);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid1);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid1);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid1);
         self::assertInstanceOf(TimeBasedUuid::class, $uuid1);
 
         // V2
         self::assertInstanceOf(Uuid::class, $uuid2);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid2);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid2);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid2);
         self::assertInstanceOf(TimeBasedUuid::class, $uuid2);
 
         // V3
         self::assertInstanceOf(Uuid::class, $uuid3);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid3);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid3);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid3);
         self::assertNotInstanceOf(TimeBasedUuid::class, $uuid3);
 
         // V4
         self::assertInstanceOf(Uuid::class, $uuid4);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid4);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid4);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid4);
         self::assertNotInstanceOf(TimeBasedUuid::class, $uuid4);
 
         // V5
         self::assertInstanceOf(Uuid::class, $uuid5);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid5);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid5);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid5);
         self::assertNotInstanceOf(TimeBasedUuid::class, $uuid5);
 
         // V6
         self::assertInstanceOf(Uuid::class, $uuid6);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid6);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid6);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid6);
         self::assertInstanceOf(TimeBasedUuid::class, $uuid6);
 
         // V7
         self::assertInstanceOf(Uuid::class, $uuid7);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid7);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid7);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid7);
         self::assertInstanceOf(TimeBasedUuid::class, $uuid7);
 
         // V8
         self::assertInstanceOf(Uuid::class, $uuid8);
         self::assertInstanceOf(Rfc4122Uuid::class, $uuid8);
-        self::assertInstanceOf(Rfc4122Variant10xxUuid::class, $uuid8);
+        self::assertInstanceOf(Variant10xxUuid::class, $uuid8);
         self::assertNotInstanceOf(TimeBasedUuid::class, $uuid8);
 
         // Ulid
         self::assertInstanceOf(Uuid::class, $ulid);
         self::assertNotInstanceOf(Rfc4122Uuid::class, $ulid);
-        self::assertNotInstanceOf(Rfc4122Variant10xxUuid::class, $ulid);
+        self::assertNotInstanceOf(Variant10xxUuid::class, $ulid);
         self::assertInstanceOf(TimeBasedUuid::class, $ulid);
 
         // Nil
         self::assertInstanceOf(Uuid::class, $nil);
         self::assertInstanceOf(Rfc4122Uuid::class, $nil);
-        self::assertNotInstanceOf(Rfc4122Variant10xxUuid::class, $nil);
+        self::assertNotInstanceOf(Variant10xxUuid::class, $nil);
         self::assertNotInstanceOf(TimeBasedUuid::class, $nil);
 
         // Max
         self::assertInstanceOf(Uuid::class, $max);
         self::assertInstanceOf(Rfc4122Uuid::class, $max);
-        self::assertNotInstanceOf(Rfc4122Variant10xxUuid::class, $max);
+        self::assertNotInstanceOf(Variant10xxUuid::class, $max);
         self::assertNotInstanceOf(TimeBasedUuid::class, $max);
 
         // Generic
         self::assertInstanceOf(Uuid::class, $generic);
         self::assertNotInstanceOf(Rfc4122Uuid::class, $generic);
-        self::assertNotInstanceOf(Rfc4122Variant10xxUuid::class, $generic);
+        self::assertNotInstanceOf(Variant10xxUuid::class, $generic);
         self::assertNotInstanceOf(TimeBasedUuid::class, $generic);
     }
 }

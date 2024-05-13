@@ -9,18 +9,18 @@ use DomainException;
 /**
  * @internal
  */
-trait Rfc4122Variant10xxUUID
+trait Variant10xxUuidTrait
 {
-    abstract public function getRfc4122Version(): int;
+    abstract public function getVersion(): int;
 
     final protected function assertValid(string $hex): void
     {
         if (UuidBytes::getVariant($hex) !== UuidVariant::RFC4122) {
             throw new DomainException('The supplied UUID is not a valid RFC 4122 UUID');
         }
-        if (UuidBytes::getVersion($hex) !== $this->getRfc4122Version()) {
+        if (UuidBytes::getVersion($hex) !== $this->getVersion()) {
             throw new DomainException(
-                sprintf('The supplied UUID is not a valid RFC 4122 version %d UUID', $this->getRfc4122Version())
+                sprintf('The supplied UUID is not a valid RFC 4122 version %d UUID', $this->getVersion())
             );
         }
     }

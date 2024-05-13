@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-readonly class UuidV8 extends AbstractUuid implements Rfc4122Variant10xxUuid
+readonly class UuidV8 extends AbstractUuid implements Variant10xxUuid
 {
-    use Helpers\Rfc4122Variant10xxUUID {
+    use Helpers\Variant10xxUuidTrait {
         assertValid as baseAssertValid;
     }
 
@@ -34,7 +34,7 @@ readonly class UuidV8 extends AbstractUuid implements Rfc4122Variant10xxUuid
         return $this->toRfc4122();
     }
 
-    final public function getRfc4122Version(): int
+    final public function getVersion(): int
     {
         return 8;
     }

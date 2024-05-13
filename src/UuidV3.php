@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-final readonly class UuidV3 extends AbstractUuid implements Rfc4122Variant10xxUuid
+final readonly class UuidV3 extends AbstractUuid implements Variant10xxUuid
 {
-    use Helpers\Rfc4122Variant10xxUUID;
+    use Helpers\Variant10xxUuidTrait;
 
-    public function getRfc4122Version(): int
+    public function getVersion(): int
     {
         return 3;
     }
