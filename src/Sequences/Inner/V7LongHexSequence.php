@@ -4,20 +4,16 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Sequences\Inner;
 
-use Arokettu\Clock\SystemClock;
 use Arokettu\Uuid\Helpers;
-use Arokettu\Uuid\Sequences\UuidSequence;
-use Arokettu\Uuid\Ulid;
 use DateInterval;
-use Generator;
+use DateTimeImmutable;
 use Psr\Clock\ClockInterface;
-use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
  * @internal
  */
-final class V7LongHexSequence implements UuidSequence
+final class V7LongHexSequence
 {
     private const MAX_COUNTER = 0xff_ff_ff; // 24 bits to avoid signed int on 32-bit systems
     private const MAX_INCREMENT = self::MAX_COUNTER; // increment with 24 bits of randomness
@@ -25,25 +21,27 @@ final class V7LongHexSequence implements UuidSequence
     private static DateInterval $ONE_MS;
 
     private string $time;
+    private DateTimeImmutable $dt;
     private string $hex;
     private int $counterHigh;
     private int $counterLow;
 
     public function __construct(
-        private readonly bool $uuidV7Compatible = false,
-        private readonly ClockInterface $clock = new SystemClock(),
-        private readonly Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64()),
+        private readonly bool $uuidV7Compatible,
+        private readonly ClockInterface $clock,
+        private readonly Randomizer $randomizer,
     ) {
         // init 'const' if not initialized
         self::$ONE_MS ??= DateInterval::createFromDateString('1ms');
     }
 
-    public function next(): Ulid
+    public function next(): string
     {
         $dt = $this->clock->now();
         $time = Helpers\DateTime::buildUlidHex($dt); // we need to round to correctly compare datetime
 
         if (!isset($this->time) || strcmp($this->time, $time) < 0) {
+            $this->dt = $dt;
             $this->time = $time;
 
             // a slightly nonstandard layout is used for the ULID here:
@@ -62,7 +60,8 @@ final class V7LongHexSequence implements UuidSequence
                 if ($this->counterHigh > self::MAX_COUNTER) {
                     // do not allow counter rollover
 
-                    $this->time = Helpers\DateTime::buildUlidHex($dt->add(self::$ONE_MS));
+                    $this->dt = $this->dt->add(self::$ONE_MS);
+                    $this->time = Helpers\DateTime::buildUlidHex($this->dt);
                     $this->hex = $this->generateHex();
                     $this->counterHigh = $this->randomizer->getInt(0, self::MAX_COUNTER);
                     $this->counterLow  = $this->randomizer->getInt(0, self::MAX_COUNTER);
@@ -76,7 +75,7 @@ final class V7LongHexSequence implements UuidSequence
             sprintf('%06x', $this->counterHigh) .
             sprintf('%06x', $this->counterLow);
 
-        return new Ulid($hex);
+        return $hex;
     }
 
     private function generateHex(): string
@@ -91,12 +90,5 @@ final class V7LongHexSequence implements UuidSequence
         }
 
         return substr($hex, 0, 13);
-    }
-
-    public function getIterator(): Generator
-    {
-        while (true) {
-            yield $this->next();
-        }
     }
 }

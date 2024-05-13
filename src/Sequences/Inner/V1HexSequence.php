@@ -8,7 +8,6 @@ use Arokettu\Uuid\Helpers;
 use Arokettu\Uuid\Nodes;
 use DateInterval;
 use DateTimeImmutable;
-use Generator;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
@@ -77,12 +76,5 @@ final class V1HexSequence
         }
 
         return $hex;
-    }
-
-    public function getIterator(): Generator
-    {
-        while (true) {
-            yield $this->next();
-        }
     }
 }

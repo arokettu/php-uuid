@@ -7,7 +7,6 @@ namespace Arokettu\Uuid\Sequences\Inner;
 use Arokettu\Uuid\Helpers;
 use DateInterval;
 use DateTimeImmutable;
-use Generator;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
@@ -62,12 +61,5 @@ final class V7ShortHexSequence
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
 
         return $hex;
-    }
-
-    public function getIterator(): Generator
-    {
-        while (true) {
-            yield $this->next();
-        }
     }
 }

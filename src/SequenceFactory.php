@@ -65,6 +65,16 @@ final class SequenceFactory
         );
     }
 
+    public static function v7Long(
+        ?ClockInterface $clock = null,
+        ?Randomizer $randomizer = null,
+    ): Sequences\UuidV7LongSequence {
+        return new Sequences\UuidV7LongSequence(
+            $clock ?? self::clock(),
+            $randomizer ?? self::randomizer(),
+        );
+    }
+
     public static function ulid(
         bool $uuidV7Compatible = false,
         ?ClockInterface $clock = null,
