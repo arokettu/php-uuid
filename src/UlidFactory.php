@@ -20,8 +20,11 @@ final class UlidFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): Ulid {
-        $ts = Helpers\DateTime::buildUlidHex(($clock ?? self::clock())->now());
-        $rnd = bin2hex(($randomizer ?? self::randomizer())->getBytes(10));
+        $clock ??= self::clock();
+        $randomizer ??= self::randomizer();
+
+        $ts = Helpers\DateTime::buildUlidHex($clock->now());
+        $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 
         if ($uuidV7Compatible) {

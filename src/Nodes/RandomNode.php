@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Nodes;
 
 use Arokettu\Uuid\Helpers\NodeStringTrait;
-use Random\Engine\Secure;
+use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 final class RandomNode implements Node
@@ -13,9 +13,8 @@ final class RandomNode implements Node
     use NodeStringTrait;
 
     public function __construct(
-        private ?Randomizer $randomizer = null,
+        private Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64()),
     ) {
-        $this->randomizer ??= new Randomizer(new Secure());
     }
 
     public function getHex(): string

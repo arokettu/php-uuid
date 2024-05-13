@@ -158,8 +158,11 @@ final class UuidFactory
         ?ClockInterface $clock = null,
         ?Randomizer $randomizer = null,
     ): UuidV7 {
-        $ts = Helpers\DateTime::buildUlidHex(($clock ?? self::clock())->now());
-        $rnd = bin2hex(($randomizer ?? self::randomizer())->getBytes(10));
+        $clock ??= self::clock();
+        $randomizer ??= self::randomizer();
+
+        $ts = Helpers\DateTime::buildUlidHex($clock->now());
+        $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);

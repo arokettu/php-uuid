@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Helpers;
 
-use Random\Engine\Secure;
+use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
@@ -16,6 +16,6 @@ trait CachedRandomizer
 
     private static function randomizer(): Randomizer
     {
-        return self::$randomizer ??= new Randomizer(new Secure());
+        return self::$randomizer ??= new Randomizer(new PcgOneseq128XslRr64());
     }
 }

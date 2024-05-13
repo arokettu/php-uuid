@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Nodes;
 
 use DomainException;
-use Random\Engine\Secure;
+use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 final readonly class StaticNode extends AbstractNode
@@ -23,9 +23,8 @@ final readonly class StaticNode extends AbstractNode
         return $hex;
     }
 
-    public static function random(?Randomizer $randomizer = null): self
+    public static function random(Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64())): self
     {
-        $randomizer ??= new Randomizer(new Secure());
         return self::fromBytes($randomizer->getBytes(6));
     }
 }

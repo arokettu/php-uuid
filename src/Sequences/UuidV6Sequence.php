@@ -12,7 +12,7 @@ use DateInterval;
 use DateTimeImmutable;
 use Generator;
 use Psr\Clock\ClockInterface;
-use Random\Engine\Secure;
+use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
@@ -34,7 +34,7 @@ final class UuidV6Sequence implements UuidSequence
     public function __construct(
         ?Nodes\Node $node = null,
         private readonly ClockInterface $clock = new SystemClock(),
-        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
+        private readonly Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64()),
     ) {
         $this->node = $node ?? Nodes\StaticNode::random($this->randomizer);
 

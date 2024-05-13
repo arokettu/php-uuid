@@ -12,7 +12,7 @@ use DateInterval;
 use DateTimeImmutable;
 use Generator;
 use Psr\Clock\ClockInterface;
-use Random\Engine\Secure;
+use Random\Engine\PcgOneseq128XslRr64;
 use Random\Randomizer;
 
 /**
@@ -30,7 +30,7 @@ final class UuidV7Sequence implements UuidSequence
 
     public function __construct(
         private readonly ClockInterface $clock = new SystemClock(),
-        private readonly Randomizer $randomizer = new Randomizer(new Secure()),
+        private readonly Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64()),
     ) {
         // init 'const' if not initialized
         self::$ONE_MS ??= DateInterval::createFromDateString('1ms');
