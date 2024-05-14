@@ -6,6 +6,29 @@ Upgrade
 2.x to 3.0
 ==========
 
+* Interface changes:
+  * ``Rfc4122Variant10xxUuid`` was renamed to ``Variant10xxUuid`` and it bo longer extends ``Rfc4122Uuid``
+  * ``UuidV2``, ``UuidV6``, ``UuidV7``, ``UuidV8``, ``MaxUuid`` no longer implement ``Rfc4122Uuid``
+    * If you strictly check for standard UUIDs, use ``Rfc9562Uuid``
+    * ``UuidV2`` is no longer considered RFC-based UUID because neither RFC explains them
+* V3/V5 namespaces were moved to the ``Arokettu\Uuid\Namespaces\UuidNamespace`` enum::
+
+    <?php
+
+    // v2:
+    use Arokettu\Uuid\UuidFactory;
+    use Arokettu\Uuid\UuidNamespaces;
+
+    $uuid = UuidFactory::v5(UuidNamespaces::url(), 'http://example.com');
+    var_dump($uuid->toString()); // 8c9ddcb0-8084-5a7f-a988-1095ab18b5df
+
+    // v3:
+    use Arokettu\Uuid\Namespaces\UuidNamespace;
+    use Arokettu\Uuid\UuidFactory;
+
+    $uuid = UuidFactory::v5(UuidNamespace::URL, 'http://example.com');
+    var_dump($uuid->toString()); // 8c9ddcb0-8084-5a7f-a988-1095ab18b5df
+
 1.x to 2.0
 ==========
 
