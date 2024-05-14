@@ -28,7 +28,7 @@ Subclasses may also check the string for additional validity.
 Conversion to Bytes
 -------------------
 
-.. versionadded:: 1.2.0 ``toGuid()``
+.. versionadded:: 1.2 ``toGuidBytes()``
 
 Methods to convert UUID object to a byte sequence:
 
@@ -81,13 +81,14 @@ Methods to compare two UUID objects.
     var_dump($uuid->equalTo($ulid)); // false
     var_dump($uuid->equalTo($ulid, strict: false)); // true
 
-Rfc4122Variant10xxUuid
-======================
+Variant10xxUuid
+===============
 
-.. versionadded:: 1.1.0
-.. versionchanged:: 1.2.0 renamed from Rfc4122Variant1Uuid to Rfc4122Variant10xxUuid
+.. versionadded:: 1.1
+.. versionchanged:: 1.2 renamed from Rfc4122Variant1Uuid to Rfc4122Variant10xxUuid
+.. versionchanged:: 3.0 renamed from Rfc4122Variant10xxUuid to Variant10xxUuid
 
-`RFC 4122`_ / `RFC 9562`_ Variant 10xx UUID versions (all except for Nil and Max) extend this interface.
+`RFC 9562`_ Variant 10xx UUID versions (all except for Nil and Max) extend this interface.
 This interface is most useful to check that it is a standard based UUID as opposed to Nil, Max, ULID or unrecognized generic.
 
 ::
@@ -108,9 +109,17 @@ This interface is most useful to check that it is a standard based UUID as oppos
 Rfc4122Uuid
 ===========
 
-.. versionchanged:: 1.1.0 Now includes Nil and Max
+.. versionchanged:: 1.1 Now includes Nil and Max
+.. versionchanged:: 3.0 No longer contains Max, UUIDv2, UUIDv6, UUIDv7, UUIDv8
 
-All UUIDs mentioned in `RFC 4122`_ and `RFC 9562`_, i.e. Nil, Max, Rfc4122Variant10xxUuid.
+All UUIDs mentioned in `RFC 4122`_, i.e. Nil, and Variant10xxUuid versions 1-5 excluding 2.
+
+Rfc9562Uuid
+===========
+
+.. versionadded:: 3.0
+
+All UUIDs mentioned in `RFC 9562`_, i.e. Nil, Max, Rfc4122Variant10xxUuid versions 1-8 excluding 2.
 This excludes only Generic UUIDs and ULIDs.
 
 TimeBasedUuid

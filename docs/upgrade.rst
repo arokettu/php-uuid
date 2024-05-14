@@ -3,6 +3,9 @@ Upgrade
 
 .. highlight:: php
 
+2.x to 3.0
+==========
+
 1.x to 2.0
 ==========
 

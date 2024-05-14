@@ -8,7 +8,7 @@ Node ID Generators
 Main interface: ``Arokettu\Uuid\Node\Node``
 
 Node generator classes represent different algorithms to generate
-the node field of the UUIDv1 and UUIDv6 as described in the `RFC 4122`_.
+the node field of the UUIDv1 and UUIDv6 as described in the `RFC 9562`_.
 Node ID is a 48 bit long value, same as the MAC address.
 
 Random Node
@@ -19,7 +19,7 @@ Random Node
 Random node is a wrapper for a random generator, it will return a new byte sequence for every new UUID.
 This is the default node generator for the factory.
 
-As described in the `section 4.1.6`_ for non-MAC node IDs, the multicast bit will be set in the generated value.
+As described in the `section 6.10`_ for non-MAC node IDs, the multicast bit will be set in the generated value.
 
 ::
 
@@ -99,5 +99,5 @@ It is user's responsibility to follow the standard with this type.
     to generate a node ID from data in hex form (12 digits)
 
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _section 4.1.6: https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.6
-.. _getmac: https://pypi.org/project/getmac/
+.. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562
+.. _section 6.10: https://datatracker.ietf.org/doc/html/rfc9562#section-6.10

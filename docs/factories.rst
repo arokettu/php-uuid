@@ -16,8 +16,8 @@ Max UUID
 
 ``Arokettu\Uuid\UuidFactory::max()``
 
-RFC 4122 / RFC 9562
-===================
+Variant 10xx
+============
 
 This factory can create UUID versions 1-8.
 Version 2 can be considered legacy and should not be used in any non-legacy purposes.
@@ -404,14 +404,17 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     // 1ee1cbdc-c79e-6000-8d66-f969a0d1a18f
     // 1ee1cbdc-c79e-6000-8d67-f969a0d1a18f
 
-UUIDv7
-------
+UUIDv7 (short)
+--------------
+
+.. versionadded:: 3.0 ``v7Short```
 
 ``Arokettu\Uuid\SequenceFactory::v7()``
+``Arokettu\Uuid\SequenceFactory::v7Short()``
 
 The chosen algorithm is 12 bit clock sequence in rand_a + random 'tail' in rand_b
-as described in `RFC 4122 update`_ (Draft 4) 6.2 Method 1.
-It gives a guaranteed sequence of 2049 UUIDs per millisecond (actual number is random, up to 4096).
+as described in `RFC 9562`_ 6.2 Method 1.
+It gives a guaranteed sequence of 2049 UUIDs per millisecond (actual number is random, up to 4096) that are highly unguessable.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
@@ -445,20 +448,53 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     // 01893039-2a00-7201-b05c-234f8095766f
     // 01893039-2a00-7202-ba37-4ea83797f7a6
 
-ULID
-----
+UUIDv7 (short) and ULID
+-----------------------
 
+.. versionadded:: 3.0 ``v7Long```
+
+``Arokettu\Uuid\SequenceFactory::v7Long()``
 ``Arokettu\Uuid\SequenceFactory::ulid($uuidV7Compatible = false)``
 
 The algorithm is a simplified version of ULID standard algo, having the whole rand_a + rand_b as a counter,
-that also aligns with `RFC 4122 update`_ (Draft 14) 6.2 Method 2.
+that also aligns with `RFC 9562`_ 6.2 Method 2.
 The simplification is that only the lowest 48 bits act as a proper counter to simplify the implementation.
 Each iteration increments with 24 bits of randomness resulting in approximately 16'777'216 ids/msec.
+This sequence is moderately unguessable.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
 
-::
+UUIDv7::
+
+        <?php
+
+        use Arokettu\Clock\StaticClock;
+        use Arokettu\Uuid\SequenceFactory;
+        use Random\Engine\Xoshiro256StarStar;
+        use Random\Randomizer;
+
+        $seq = SequenceFactory::v7Long(
+            clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+            randomizer: new Randomizer(new Xoshiro256StarStar(123)),
+        );
+
+        for ($i = 0; $i < 10; $i++) {
+            echo $seq->next(), PHP_EOL;
+        }
+
+        // 01893039-2a00-7969-a0d1-6d4d5ef2a62f
+        // 01893039-2a00-7969-a0d1-6d4d5fc228e0
+        // 01893039-2a00-7969-a0d1-6d4d605fa254
+        // 01893039-2a00-7969-a0d1-6d4d6088cb19
+        // 01893039-2a00-7969-a0d1-6d4d61814079
+        // 01893039-2a00-7969-a0d1-6d4d61ff5b6c
+        // 01893039-2a00-7969-a0d1-6d4d625c3bae
+        // 01893039-2a00-7969-a0d1-6d4d627f986e
+        // 01893039-2a00-7969-a0d1-6d4d62cdd0d1
+        // 01893039-2a00-7969-a0d1-6d4d63c119a3
+
+ULID::
 
     <?php
 
@@ -487,8 +523,7 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     // 01H4R3JAG0Z5MT1MBD9NHCVM6H
     // 01H4R3JAG0Z5MT1MBD9NHW26D3
 
-``$uuidV7Compatible`` param allows you to create ULIDs that are bit-compatible with UUIDv7 by setting proper version and variant bits.
-Among other uses (like the ability to switch to UUIDs in future) it allows you to create UUIDv7 sequences::
+``$uuidV7Compatible`` param allows you to create ULIDs that are bit-compatible with UUIDv7 by setting proper version and variant bits::
 
     <?php
 
@@ -546,5 +581,4 @@ This method is shown in `RFC 9562`_ B.2 example.
         'www.example.com'
     )->toString(); // 5c146b14-3c52-8afd-938a-375d0df1fbf6
 
-.. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
 .. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562

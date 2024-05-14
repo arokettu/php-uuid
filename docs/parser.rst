@@ -24,7 +24,7 @@ Parses 16 bytes into UUID::
     var_dump($uuid::class);         // Arokettu\Uuid\UuidV1
     var_dump($uuid->getDateTime()->format('c')); // 1998-02-04T22:13:53+00:00
 
-``UuidParser`` autodetects UUID versions: nil, max, variant 10xx versions 1-8 as described in `RFC 4122`_.
+``UuidParser`` autodetects UUID versions: nil, max, variant 10xx versions 1-8 as described in `RFC 9562`_.
 If the version is not determined, an instance of ``Arokettu\Uuid\GenericUuid`` is created.
 ``UlidParser`` always gets ULID::
 
@@ -65,7 +65,9 @@ Like ``fromBytes()`` but the byte order is Microsoft GUID mixed-endian::
 fromRfc4122()
 =============
 
-Parses `RFC 4122`_ notation into UUID or ULID.
+.. versionadded:: 3.0 strict mode.
+
+Parses `RFC notation`_ into UUID or ULID.
 
 Supported formats:
 
@@ -97,7 +99,7 @@ The type is determined the same way as in ``fromBytes()``.
 fromBase32()
 ============
 
-.. versionadded:: 2.5 strict mode.
+.. versionadded:: 2.5 strict mode
 
 Parses Crockford's Base32 as defined in the `ULID spec`_.
 The input is case insensitive.
@@ -128,9 +130,6 @@ fromString() / parse()
 
 ``fromString()`` (alias ``parse()``) tries to use ``fromRfc4122()`` and ``fromBase32()`` to parse the given string.
 
-.. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
-.. _ULID spec: https://github.com/ulid/spec
-
 fromDecimal()
 =============
 
@@ -148,3 +147,7 @@ Parses a decimal string that represents UUID as an unsigned 128-bit big-endian i
     $uuid = UuidParser::fromDecimal('24197857203266357084698060135742627568');
 
     var_dump($uuid->toString()); // 12345678-9abc-8ef0-9234-56789abcdef0
+
+.. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562
+.. _RFC notation: https://datatracker.ietf.org/doc/html/rfc9562#section-4
+.. _ULID spec: https://github.com/ulid/spec
