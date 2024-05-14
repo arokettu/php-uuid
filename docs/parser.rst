@@ -62,10 +62,14 @@ Like ``fromBytes()`` but the byte order is Microsoft GUID mixed-endian::
     Make sure you use it only on actual GUID ordered byte sequences.
     Like ``fromBytes()`` it will always succeed but you will get an incorrect UUID if it was in the natural (big endian) order.
 
-fromRfc4122()
-=============
+fromRfcFormat()
+===============
 
 .. versionadded:: 3.0 strict mode.
+.. versionchanged:: 3.0
+    ``fromRfc4122`` -> ``fromRfcFormat``.
+    ``fromRfc4122`` is kept as an alias.
+    ``fromRfc9562`` added as an alias.
 
 Parses `RFC notation`_ into UUID or ULID.
 

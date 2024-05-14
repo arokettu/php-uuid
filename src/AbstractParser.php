@@ -57,7 +57,7 @@ abstract class AbstractParser
      * @psalm-api
      * @return T
      */
-    public static function fromRfc4122(string $string, bool $strict = false): Uuid
+    public static function fromRfcFormat(string $string, bool $strict = false): Uuid
     {
         if ($strict) {
             $match = preg_match(
@@ -88,6 +88,16 @@ abstract class AbstractParser
         $hex = preg_replace('/[{}-]/', '', $string);
 
         return static::fromHex(strtolower($hex));
+    }
+
+    public static function fromRfc4122(string $string, bool $strict = false): Uuid
+    {
+        return self::fromRfcFormat($string, $strict);
+    }
+
+    public static function fromRfc9562(string $string, bool $strict = false): Uuid
+    {
+        return self::fromRfcFormat($string, $strict);
     }
 
     /**
