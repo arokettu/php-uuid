@@ -77,7 +77,7 @@ abstract readonly class AbstractUuid implements Uuid
 
     public function toString(): string
     {
-        return $this->toRfc4122();
+        return $this->toRfcFormat();
     }
 
     final public function equalTo(Uuid $uuid, bool $strict = true): bool
@@ -117,7 +117,7 @@ abstract readonly class AbstractUuid implements Uuid
             $data['version'] = $this->getVersion();
         }
 
-        $data['rfc4122'] = $this->toRfc4122();
+        $data['rfc'] = $this->toRfcFormat();
         $data['base32'] = $this->toBase32();
 
         if ($this instanceof TimeBasedUuid) {

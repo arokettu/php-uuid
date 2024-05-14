@@ -21,7 +21,7 @@ class DebugInfoTest extends TestCase
 
         $this->assertEquals([
             'version' => 2,
-            'rfc4122' => '000004d2-92e8-21ed-8100-3fdb0085247e',
+            'rfc' => '000004d2-92e8-21ed-8100-3fdb0085247e',
             'base32' => '00002D54Q847PR201ZVC08A93Y',
             'timestamp' => '2023-01-13T02:14:24.842137+00:00',
             'domain' => 0,
@@ -37,7 +37,7 @@ class DebugInfoTest extends TestCase
 
         $this->assertEquals([
             'version' => 4,
-            'rfc4122' => 'f12110cb-92a7-4394-b07a-cca458e99374',
+            'rfc' => 'f12110cb-92a7-4394-b07a-cca458e99374',
             'base32' => '7H448CQ4N78EAB0YPCMHCEK4VM',
         ], $uuid->__debugInfo());
     }
@@ -52,7 +52,7 @@ class DebugInfoTest extends TestCase
 
         $this->assertEquals([
             'version' => 6,
-            'rfc4122' => '1ee9537c-f605-6180-b07a-f12110cb92a7',
+            'rfc' => '1ee9537c-f605-6180-b07a-f12110cb92a7',
             'base32' => '0YX59QSXG5C60B0YQH448CQ4N7',
             'timestamp' => '2023-12-07T19:35:43.000000+00:00',
         ], $uuid->__debugInfo());
@@ -66,7 +66,7 @@ class DebugInfoTest extends TestCase
         $ulid = UlidFactory::ulid(false, $clock, $rnd);
 
         $this->assertEquals([
-            'rfc4122' => '018c45c7-5e98-f121-10cb-92a74394307a',
+            'rfc' => '018c45c7-5e98-f121-10cb-92a74394307a',
             'base32' => '01HH2WEQMRY4GH1JWJMX1S8C3T',
             'timestamp' => '2023-12-07T19:35:43.000000+00:00',
         ], $ulid->__debugInfo());

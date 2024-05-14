@@ -126,7 +126,7 @@ abstract class AbstractParser
     public static function fromString(string $string): Uuid
     {
         return match (\strlen($string)) {
-            32, 34, 36, 38 => self::fromRfc4122($string),
+            32, 34, 36, 38 => self::fromRfcFormat($string),
             26 => self::fromBase32($string),
             default => throw new DomainException('Format not recognized'),
         };
