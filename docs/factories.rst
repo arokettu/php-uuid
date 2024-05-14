@@ -95,8 +95,8 @@ Version 3 is created from an UUID namespace and a string identifier::
 
     <?php
 
+    use Arokettu\Uuid\Namespaces\UuidNamespace;
     use Arokettu\Uuid\UuidFactory;
-    use Arokettu\Uuid\UuidNamespaces;
     use Arokettu\Uuid\UuidParser;
 
     $uuid = UuidFactory::v3(
@@ -106,7 +106,7 @@ Version 3 is created from an UUID namespace and a string identifier::
     var_dump($uuid->toString()); // 09e0a238-92c9-32b2-93c1-d805976f6890
 
     // use a predefined namespace
-    $uuid = UuidFactory::v3(UuidNamespaces::url(), 'http://example.com');
+    $uuid = UuidFactory::v3(UuidNamespace::URL, 'http://example.com');
     var_dump($uuid->toString()); // d632b50c-7913-3137-ae9a-2d93f56e70d5
 
 Version 4
@@ -141,8 +141,8 @@ Version 5 is created from an UUID namespace and a string identifier.
 
     <?php
 
+    use Arokettu\Uuid\Namespaces\UuidNamespace;
     use Arokettu\Uuid\UuidFactory;
-    use Arokettu\Uuid\UuidNamespaces;
     use Arokettu\Uuid\UuidParser;
 
     $uuid = UuidFactory::v5(
@@ -152,7 +152,7 @@ Version 5 is created from an UUID namespace and a string identifier.
     var_dump($uuid->toString()); // 741b80e9-31e6-51fb-8c95-07f2d392e98f
 
     // use a predefined namespace
-    $uuid = UuidFactory::v5(UuidNamespaces::url(), 'http://example.com');
+    $uuid = UuidFactory::v5(UuidNamespace::URL, 'http://example.com');
     var_dump($uuid->toString()); // 8c9ddcb0-8084-5a7f-a988-1095ab18b5df
 
 Version 6
@@ -226,18 +226,6 @@ The factory accepts any sequence of 16 bytes, overwriting only variant and versi
     $hash = hash_hmac('sha3-224', 'test', 'namespace', binary: true);
     $uuid = UuidFactory::v8(substr($hash, 0, 16));
     var_dump($uuid->toString()); // ab2a3a38-30a3-8def-89cd-72e79f1a5423
-
-RFC 4122 Namespaces
-===================
-
-``Arokettu\Uuid\UuidNamespaces``
-
-Predefined namespaces:
-
-* ``UuidNamespaces::dns()``: ``{6ba7b810-9dad-11d1-80b4-00c04fd430c8}``
-* ``UuidNamespaces::url()``: ``{6ba7b811-9dad-11d1-80b4-00c04fd430c8}``
-* ``UuidNamespaces::oid()``: ``{6ba7b812-9dad-11d1-80b4-00c04fd430c8}``
-* ``UuidNamespaces::x500()``: ``{6ba7b814-9dad-11d1-80b4-00c04fd430c8}``
 
 ULID
 ====
@@ -573,11 +561,11 @@ This method is shown in `RFC 9562`_ B.2 example.
 
     <?php
 
+    use Arokettu\Uuid\Namespaces\UuidNamespace;
     use Arokettu\Uuid\NonStandard\CustomUuidFactory;
-    use Arokettu\Uuid\UuidNamespaces;
 
     echo CustomUuidFactory::sha256(
-        UuidNamespaces::dns(),
+        UuidNamespace::DNS,
         'www.example.com'
     )->toString(); // 5c146b14-3c52-8afd-938a-375d0df1fbf6
 

@@ -23,6 +23,7 @@ Documentation
    parser
    factories
    nodes
+   namespaces
    doctrine
    upgrade
 
