@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.x
+
+### 3.0.0
+
+*May 15, 2024*
+
+* Since RFC 9562 is published, terminology was rebased
+  * `Rfc4122Variant10xxUuid` -> `Variant10xxUuid` and it no longer extends `Rfc4122Uuid`
+  * `UuidV2`, `UuidV6`, `UuidV7`, `UuidV8`, `MaxUuid` no longer implement `Rfc4122Uuid`
+  * `NilUuid`, `MaxUuid`, all versions except for `UuidV2` implement the new `Rfc9562Uuid` interface
+  * `to/fromRfc4122` are now `to/fromRfcFormat` with `to/fromRfc4122` and `to/fromRfc9562` aliases
+  * Errors referencing RFC 4122 now reference RFC 9562
+* `UuidNamespaces` helper was replaced with `Namespaces\UuidNamespace` enum
+* Securely seeded `PcgOneseq128XslRr64` is used instead of the secure generator
+  to balance performance and security
+* Exposed ULID sequence generator as UUIDv7 generator (`v7Long`)
+* Added strict mode to ``fromRfcFormat()``
+
 ## 2.x
 
 ### 2.5.0
