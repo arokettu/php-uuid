@@ -436,7 +436,7 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     // 01893039-2a00-7201-b05c-234f8095766f
     // 01893039-2a00-7202-ba37-4ea83797f7a6
 
-UUIDv7 (short) and ULID
+UUIDv7 (long) and ULID
 -----------------------
 
 .. versionadded:: 3.0 ``v7Long```
