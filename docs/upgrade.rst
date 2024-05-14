@@ -29,6 +29,8 @@ Upgrade
     $uuid = UuidFactory::v5(UuidNamespace::URL, 'http://example.com');
     var_dump($uuid->toString()); // 8c9ddcb0-8084-5a7f-a988-1095ab18b5df
 
+* ``UuidV7Sequence`` renamed to ``UuidV7ShortSequence``
+
 1.x to 2.0
 ==========
 
