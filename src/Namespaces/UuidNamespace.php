@@ -9,7 +9,7 @@ use Arokettu\Uuid\UuidV1;
 /**
  * @psalm-api
  */
-enum UuidNamespace implements NamespaceInterface
+enum UuidNamespace
 {
     case DNS;
     case URL;

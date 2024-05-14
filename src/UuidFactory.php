@@ -92,7 +92,7 @@ final class UuidFactory
         return new UuidV2($hex);
     }
 
-    public static function v3(Uuid|Namespaces\NamespaceInterface $namespace, string $identifier): UuidV3
+    public static function v3(Uuid|Namespaces\UuidNamespace $namespace, string $identifier): UuidV3
     {
         $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
 
@@ -116,7 +116,7 @@ final class UuidFactory
         return new UuidV4($hex);
     }
 
-    public static function v5(Uuid|Namespaces\NamespaceInterface $namespace, string $identifier): UuidV5
+    public static function v5(Uuid|Namespaces\UuidNamespace $namespace, string $identifier): UuidV5
     {
         $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
 
