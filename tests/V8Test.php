@@ -69,7 +69,7 @@ class V8Test extends TestCase
     public function testDirectCreationWrongVariant(): void
     {
         $this->expectException(\DomainException::class);
-        $this->expectExceptionMessage('The supplied UUID is not a valid RFC 4122 UUID');
+        $this->expectExceptionMessage('The supplied UUID is not a valid RFC 9562 UUID');
 
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
         $bytes[6] = "\x8a"; // valid version upper hex (8)
@@ -80,7 +80,7 @@ class V8Test extends TestCase
     public function testDirectCreationWrongVersion(): void
     {
         $this->expectException(\DomainException::class);
-        $this->expectExceptionMessage('The supplied UUID is not a valid RFC 4122 version 8 UUID');
+        $this->expectExceptionMessage('The supplied UUID is not a valid RFC 9562 version 8 UUID');
 
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
         $bytes[8] = "\x9e"; // valid variant bits in upper hex (89ab)

@@ -82,7 +82,7 @@ abstract class AbstractParser
         }
 
         if (!$match) {
-            throw new DomainException('Not a valid RFC 4122 UUID notation');
+            throw new DomainException('Not a valid RFC 9562 UUID notation');
         }
 
         $hex = preg_replace('/[{}-]/', '', $string);

@@ -98,7 +98,7 @@ class ParserTest extends TestCase
     public function testRfcWrongChars(): void
     {
         $this->expectException(\DomainException::class);
-        $this->expectExceptionMessage('Not a valid RFC 4122 UUID notation');
+        $this->expectExceptionMessage('Not a valid RFC 9562 UUID notation');
 
         UuidParser::fromRfc4122('000003e8-113f-21ee-8z00-2eb5a363657c');
     }
