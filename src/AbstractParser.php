@@ -57,20 +57,29 @@ abstract class AbstractParser
      * @psalm-api
      * @return T
      */
-    public static function fromRfc4122(string $string): Uuid
+    public static function fromRfc4122(string $string, bool $strict = false): Uuid
     {
-        $match = preg_match(
-            '/' .
-            '^\{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}$' .
-            '|' .
-            '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' .
-            '|' .
-            '^\{[0-9a-f]{32}}$' .
-            '|' .
-            '^[0-9a-f]{32}$' .
-            '/i',
-            $string
-        );
+        if ($strict) {
+            $match = preg_match(
+                '/' .
+                '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' .
+                '/i',
+                $string
+            );
+        } else {
+            $match = preg_match(
+                '/' .
+                '^\{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}$' .
+                '|' .
+                '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' .
+                '|' .
+                '^\{[0-9a-f]{32}}$' .
+                '|' .
+                '^[0-9a-f]{32}$' .
+                '/i',
+                $string
+            );
+        }
 
         if (!$match) {
             throw new DomainException('Not a valid RFC 4122 UUID notation');
