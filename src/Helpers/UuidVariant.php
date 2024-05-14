@@ -13,6 +13,4 @@ enum UuidVariant
     case v10xx; // RFC 4122
     case v110x; // Microsoft Corporation backward compatibility
     case v111x; // Reserved for future definition
-
-    public const RFC4122 = self::v10xx;
 }

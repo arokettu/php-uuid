@@ -24,7 +24,7 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
     public function isUuidV7Compatible(): bool
     {
         return
-            Helpers\UuidBytes::getVariant($this->hex) === Helpers\UuidVariant::RFC4122 &&
+            Helpers\UuidBytes::getVariant($this->hex) === Helpers\UuidVariant::v10xx &&
             Helpers\UuidBytes::getVersion($this->hex) === 7;
     }
 
@@ -43,7 +43,7 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
 
         $hex = $this->hex;
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 7);
 
         return new UuidV7($hex);

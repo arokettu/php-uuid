@@ -35,7 +35,7 @@ final class UuidBytes
 
     public static function setVariant(string &$hex, UuidVariant $variant): void
     {
-        if ($variant !== UuidVariant::RFC4122) {
+        if ($variant !== UuidVariant::v10xx) {
             // @codeCoverageIgnoreStart
             throw new LogicException('Only variant 10xx is supported');
             // @codeCoverageIgnoreEnd

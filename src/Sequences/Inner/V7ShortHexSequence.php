@@ -58,7 +58,7 @@ final class V7ShortHexSequence
             bin2hex($this->randomizer->getBytes(8));
 
         // set variant
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
 
         return $hex;
     }

@@ -47,7 +47,7 @@ final class UuidFactory
             $clockSequenceHex .
             $nodeHex;
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 1);
 
         return new UuidV1($hex);
@@ -86,7 +86,7 @@ final class UuidFactory
             $domainHex .
             $nodeHex;
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 2);
 
         return new UuidV2($hex);
@@ -98,7 +98,7 @@ final class UuidFactory
 
         $hex = md5($bytes . $identifier);
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 3);
 
         return new UuidV3($hex);
@@ -110,7 +110,7 @@ final class UuidFactory
 
         $hex = bin2hex($randomizer->getBytes(16));
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 4);
 
         return new UuidV4($hex);
@@ -122,7 +122,7 @@ final class UuidFactory
 
         $hex = substr(sha1($bytes . $identifier), 0, 32);
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 5);
 
         return new UuidV5($hex);
@@ -148,7 +148,7 @@ final class UuidFactory
             $clockSequenceHex .
             $nodeHex;
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 6);
 
         return new UuidV6($hex);
@@ -165,7 +165,7 @@ final class UuidFactory
         $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 7);
 
         return new UuidV7($hex);
@@ -179,7 +179,7 @@ final class UuidFactory
 
         $hex = bin2hex($bytes);
 
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 8);
 
         return new UuidV8($hex);

@@ -28,7 +28,7 @@ final class UlidFactory
         $hex = $ts . $rnd;
 
         if ($uuidV7Compatible) {
-            Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::RFC4122);
+            Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
             Helpers\UuidBytes::setVersion($hex, 7);
         }
 
