@@ -33,7 +33,7 @@ final class UuidBytes
         return $version;
     }
 
-    public static function setVariant(string &$hex, UuidVariant $variant): void
+    public static function setVariant(string &$hex, UuidVariant $variant, int $index = 16): void
     {
         if ($variant !== UuidVariant::v10xx) {
             // @codeCoverageIgnoreStart
@@ -43,7 +43,7 @@ final class UuidBytes
 
         // $hex[16] & 0b00_11 | 0b10_00
         // 10 times faster than actually doing math
-        $hex[16] = match ($hex[16]) {
+        $hex[$index] = match ($hex[$index]) {
             '0', '4', '8', 'c' => '8',
             '1', '5', '9', 'd' => '9',
             '2', '6', 'a', 'e' => 'a',
