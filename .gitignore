@@ -6,4 +6,5 @@
 /.phpunit.result.cache
 /docs/build
 /docs/venv
+/docs/__pycache__
 /venv
