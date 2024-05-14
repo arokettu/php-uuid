@@ -24,7 +24,17 @@ interface Uuid extends \Stringable
     /**
      * @psalm-api
      */
+    public function toRfcFormat(): string;
+
+    /**
+     * @psalm-api
+     */
     public function toRfc4122(): string;
+
+    /**
+     * @psalm-api
+     */
+    public function toRfc9562(): string;
 
     /**
      * @psalm-api

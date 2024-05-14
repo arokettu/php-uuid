@@ -44,7 +44,7 @@ abstract readonly class AbstractUuid implements Uuid
         return strrev($seg1) . strrev($seg2) . strrev($seg3) . $seg4;
     }
 
-    final public function toRfc4122(): string
+    final public function toRfcFormat(): string
     {
         $seg1 = substr($this->hex, 0, 8);
         $seg2 = substr($this->hex, 8, 4);
@@ -53,6 +53,16 @@ abstract readonly class AbstractUuid implements Uuid
         $seg5 = substr($this->hex, 20);
 
         return "$seg1-$seg2-$seg3-$seg4-$seg5";
+    }
+
+    final public function toRfc4122(): string
+    {
+        return $this->toRfcFormat();
+    }
+
+    final public function toRfc9562(): string
+    {
+        return $this->toRfcFormat();
     }
 
     final public function toBase32(): string
