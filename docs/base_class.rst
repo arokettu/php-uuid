@@ -21,7 +21,7 @@ It accepts a string of lowercase hexadecimal digits (0-9, a-f)::
     // {12345678-9abc-def0-1234-56789abcdef0}
     $uuid = new GenericUuid('123456789abcdef0123456789abcdef0');
 
-.. note:: ``UuidParser::fromRfc4122()`` and ``UuidParser::fromRfc4122()`` can parse UUIDs/ULIDs in hex in case-insensitive manner.
+.. note:: ``UuidParser::fromRfcFormat()`` and ``UuidParser::fromRfcFormat()`` can parse UUIDs/ULIDs in hex in case-insensitive manner.
 
 Subclasses may also check the string for additional validity.
 
@@ -42,8 +42,10 @@ Conversion to String
 
 Methods to convert UUID object to string:
 
-* ``toString()``. Converts UUIDs to RFC 4122 and ULIDs to Base32.
-* ``toRfc4122()`` to `RFC 4122`_ form. Example: ``"6ba7b811-9dad-11d1-80b4-00c04fd430c8"``
+* ``toString()``. Converts UUIDs to the RFC Format and ULIDs to Base32.
+* ``toRfcFormat()`` to `RFC 9562`_ form.
+  Aliases: ``toRfc4122()``, ``toRfc9562()``.
+  Example: ``"6ba7b811-9dad-11d1-80b4-00c04fd430c8"``
 * ``toBase32()`` to Base32. Example: ``"3BMYW137DD278R1D00R17X8C68"``
 * ``toDecimal()`` to decimal. Example: ``"143098242483405524118141958906375844040"``
 
@@ -100,11 +102,11 @@ This interface is most useful to check that it is a standard based UUID as oppos
     use Arokettu\Uuid\UuidFactory;
 
     $uuid = UuidFactory::v4();
-    var_dump($uuid instanceof Rfc4122Variant10xxUuid); // true
-    var_dump($uuid->getRfc4122Version()); // 4
+    var_dump($uuid instanceof Variant10xxUuid); // true
+    var_dump($uuid->getVersion()); // 4
 
     $ulid = UlidFactory::ulid();
-    var_dump($ulid instanceof Rfc4122Variant10xxUuid); // false
+    var_dump($ulid instanceof Variant10xxUuid); // false
 
 Rfc4122Uuid
 ===========

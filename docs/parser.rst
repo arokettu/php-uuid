@@ -92,11 +92,11 @@ The type is determined the same way as in ``fromBytes()``.
 
     $string = '{6ba7b811-9dad-11d1-80b4-00c04fd430c8}';
 
-    $uuid = UuidParser::fromRfc4122($string);
+    $uuid = UuidParser::fromRfcFormat($string);
     var_dump($uuid->toString());    // 6ba7b811-9dad-11d1-80b4-00c04fd430c8
     var_dump($uuid::class);         // Arokettu\Uuid\UuidV1
 
-    $ulid = UlidParser::fromRfc4122($string);
+    $ulid = UlidParser::fromRfcFormat($string);
     var_dump($ulid->toString());    // 3BMYW137DD278R1D00R17X8C68
     var_dump($ulid::class);         // Arokettu\Uuid\Ulid
 
@@ -132,7 +132,7 @@ fromString() / parse()
 
 .. versionadded:: 2.4 ``parse()``
 
-``fromString()`` (alias ``parse()``) tries to use ``fromRfc4122()`` and ``fromBase32()`` to parse the given string.
+``fromString()`` (alias ``parse()``) tries to use ``fromRfcFormat()`` and ``fromBase32()`` to parse the given string.
 
 fromDecimal()
 =============
