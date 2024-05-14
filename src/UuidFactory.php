@@ -42,13 +42,12 @@ final class UuidFactory
         $hex =
             substr($tsHex, 7, 8) . // time_low
             substr($tsHex, 3, 4) . // time_mid
-            '0' . // version placeholder
+            '1' . // version
             substr($tsHex, 0, 3) . // time_high
             $clockSequenceHex .
             $nodeHex;
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
-        Helpers\UuidBytes::setVersion($hex, 1);
 
         return new UuidV1($hex);
     }
@@ -80,14 +79,13 @@ final class UuidFactory
         $hex =
             $identifierHex .
             substr($tsHex, 3, 4) . // time_mid
-            '0' . // version placeholder
+            '2' . // version
             substr($tsHex, 0, 3) . // time_high
             $clockSequenceHex .
             $domainHex .
             $nodeHex;
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
-        Helpers\UuidBytes::setVersion($hex, 2);
 
         return new UuidV2($hex);
     }
@@ -143,13 +141,12 @@ final class UuidFactory
 
         $hex =
             substr($tsHex, 0, 12) . // time_high + time_mid
-            '0' . // version placeholder
+            '6' . // version
             substr($tsHex, 12, 3) . // time_low
             $clockSequenceHex .
             $nodeHex;
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
-        Helpers\UuidBytes::setVersion($hex, 6);
 
         return new UuidV6($hex);
     }
