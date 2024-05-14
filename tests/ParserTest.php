@@ -48,6 +48,16 @@ class ParserTest extends TestCase
         self::assertInstanceOf(GenericUuid::class, UuidParser::fromString('01H3JF5GX4M2D891JB7AYDDH6H'));
     }
 
+    public function testRfcAliases(): void
+    {
+        $uuid1 = UuidParser::fromRfcFormat('b3ea190d-e910-876d-a28f-f0a4a2af30bb');
+        $uuid2 = UuidParser::fromRfc4122('b3ea190d-e910-876d-a28f-f0a4a2af30bb');
+        $uuid3 = UuidParser::fromRfc9562('b3ea190d-e910-876d-a28f-f0a4a2af30bb');
+
+        self::assertEquals($uuid1, $uuid2);
+        self::assertEquals($uuid1, $uuid3);
+    }
+
     public function testFormatsSupported(): void
     {
         $uuid = '513b3a53-e86d-4eb8-a47e-125eab689a3f';
@@ -100,7 +110,23 @@ class ParserTest extends TestCase
         $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('Not a valid RFC 9562 UUID notation');
 
-        UuidParser::fromRfc4122('000003e8-113f-21ee-8z00-2eb5a363657c');
+        UuidParser::fromRfcFormat('000003e8-113f-21ee-8z00-2eb5a363657c');
+    }
+
+    public function testRfcStrictBracketsNotAllowed(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Not a valid RFC 9562 UUID notation');
+
+        UuidParser::fromRfcFormat('{000003e8-113f-21ee-8c00-2eb5a363657c}', true);
+    }
+
+    public function testRfcStrictNoDashes(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Not a valid RFC 9562 UUID notation');
+
+        UuidParser::fromRfcFormat('000003e8113f21ee8c002eb5a363657c', true);
     }
 
     public function testBase32WrongChars1(): void
@@ -202,7 +228,7 @@ class ParserTest extends TestCase
         ];
 
         foreach ($values as [$rfc, $base32]) {
-            self::assertEquals($rfc, UlidParser::fromBase32($base32)->toRfc4122());
+            self::assertEquals($rfc, UlidParser::fromBase32($base32)->toRfcFormat());
         }
     }
 
@@ -227,7 +253,7 @@ class ParserTest extends TestCase
         ];
 
         foreach ($values as [$rfc, $decimal]) {
-            self::assertEquals($rfc, UuidParser::fromDecimal($decimal)->toRfc4122());
+            self::assertEquals($rfc, UuidParser::fromDecimal($decimal)->toRfcFormat());
         }
     }
 

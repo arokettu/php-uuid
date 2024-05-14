@@ -7,6 +7,7 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Uuid\Ulid;
 use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidParser;
+use Arokettu\Uuid\UuidV4;
 use Arokettu\Uuid\UuidV7;
 use PHPUnit\Framework\TestCase;
 
@@ -24,6 +25,15 @@ class BaseMethodsTest extends TestCase
         $uuid = UuidParser::fromString('397b7e29-6c8d-4d57-9603-d81ff4aa6705');
 
         self::assertEquals('397b7e29-6c8d-4d57-9603-d81ff4aa6705', (string)$uuid);
+    }
+
+    public function testRfcAliases(): void
+    {
+        $uuid = new UuidV4('e8dc86af41134493bf2c6c74bef278ca');
+
+        self::assertEquals('e8dc86af-4113-4493-bf2c-6c74bef278ca', $uuid->toRfcFormat());
+        self::assertEquals('e8dc86af-4113-4493-bf2c-6c74bef278ca', $uuid->toRfc4122());
+        self::assertEquals('e8dc86af-4113-4493-bf2c-6c74bef278ca', $uuid->toRfc9562());
     }
 
     public function testCompare(): void
