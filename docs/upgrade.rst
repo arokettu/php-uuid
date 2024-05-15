@@ -7,8 +7,10 @@ Upgrade
 ==========
 
 * Interface changes:
+
   * ``Rfc4122Variant10xxUuid`` was renamed to ``Variant10xxUuid`` and it bo longer extends ``Rfc4122Uuid``
   * ``UuidV2``, ``UuidV6``, ``UuidV7``, ``UuidV8``, ``MaxUuid`` no longer implement ``Rfc4122Uuid``
+
     * If you strictly check for standard UUIDs, use ``Rfc9562Uuid``
     * ``UuidV2`` is no longer considered RFC-based UUID because neither RFC explains them
 * V3/V5 namespaces were moved to the ``Arokettu\Uuid\Namespaces\UuidNamespace`` enum::
