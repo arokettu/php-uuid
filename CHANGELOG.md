@@ -2,6 +2,12 @@
 
 ## 3.x
 
+### 3.1.0
+
+*Jun 27, 2024*
+
+* Passing DateTime instead of Clock is now supported for instance factories
+
 ### 3.0.0
 
 *May 15, 2024*
