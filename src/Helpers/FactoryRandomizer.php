@@ -10,7 +10,7 @@ use Random\Randomizer;
 /**
  * @internal
  */
-trait CachedRandomizer
+trait FactoryRandomizer
 {
     private static Randomizer $randomizer;
 

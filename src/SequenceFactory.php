@@ -9,8 +9,8 @@ use Random\Randomizer;
 
 final class SequenceFactory
 {
-    use Helpers\CachedClock;
-    use Helpers\CachedRandomizer;
+    use Helpers\FactoryClock;
+    use Helpers\FactoryRandomizer;
 
     public static function v1(
         ?Nodes\Node $node = null,

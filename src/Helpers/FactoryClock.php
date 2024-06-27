@@ -10,7 +10,7 @@ use Psr\Clock\ClockInterface;
 /**
  * @internal
  */
-trait CachedClock
+trait FactoryClock
 {
     private static ClockInterface $clock;
 

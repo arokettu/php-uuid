@@ -13,8 +13,8 @@ use Random\Randomizer;
  */
 final class UuidFactory
 {
-    use Helpers\CachedClock;
-    use Helpers\CachedRandomizer;
+    use Helpers\FactoryClock;
+    use Helpers\FactoryRandomizer;
 
     public static function nil(): NilUuid
     {
