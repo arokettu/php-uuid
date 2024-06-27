@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use DateTimeInterface;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
+
+// TODO: Rename all $clock to $clockOrTime in 4.0
 
 /**
  * @psalm-api
@@ -17,13 +20,12 @@ final class UlidFactory
 
     public static function ulid(
         bool $uuidV7Compatible = false,
-        ?ClockInterface $clock = null,
+        ClockInterface|DateTimeInterface|null $clock = null,
         ?Randomizer $randomizer = null,
     ): Ulid {
-        $clock ??= self::clock();
         $randomizer ??= self::randomizer();
 
-        $ts = Helpers\DateTime::buildUlidHex($clock->now());
+        $ts = Helpers\DateTime::buildUlidHex(self::getTime($clock));
         $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 
