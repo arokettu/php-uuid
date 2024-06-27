@@ -26,10 +26,12 @@ Versions 1 and 6 are not recommended either.
 Version 1
 ---------
 
+.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+
 ``Arokettu\Uuid\UuidFactory::v1($node)``
 
 Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
-You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
@@ -53,6 +55,7 @@ Version 2
 ---------
 
 .. versionadded:: 2.3
+.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
 
 .. note::
     This is a legacy version and it should not be used.
@@ -61,7 +64,7 @@ Version 2
 Version 2 requires domain (8 bit unsigned) and identifier (32 bit unsigned) values.
 
 Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
-You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
@@ -158,10 +161,12 @@ Version 5 is created from an UUID namespace and a string identifier.
 Version 6
 ---------
 
+.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+
 ``Arokettu\Uuid\UuidFactory::v6($node)``
 
 Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
-You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
@@ -184,9 +189,11 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 Version 7
 ---------
 
+.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+
 ``Arokettu\Uuid\UuidFactory::v7()``
 
-You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
@@ -230,9 +237,11 @@ The factory accepts any sequence of 16 bytes, overwriting only variant and versi
 ULID
 ====
 
+.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+
 ``Arokettu\Uuid\UlidFactory::ulid()``
 
-You can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``,
+You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
