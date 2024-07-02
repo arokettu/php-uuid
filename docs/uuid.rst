@@ -3,6 +3,34 @@ UUID Versions
 
 .. highlight:: php
 
+.. danger::
+    If you use UUIDs as security tokens, well, first, please reconsider,
+    but if you absolutely have to, use UUIDv4 with the Secure random engine::
+
+        <?php
+
+        use Arokettu\Uuid\SequenceFactory;
+        use Arokettu\Uuid\UuidFactory;
+        use Random\Engine\Secure;
+        use Random\Randomizer;
+
+        $secureUuid = UuidFactory::v4(new Randomizer(new Secure()));
+        // or
+        $secureUuidSeq = SequenceFactory::v4(new Randomizer(new Secure()));
+
+    DO NOT use other versions and DO NOT use the default RNG.
+
+    UUIDv4 is slightly below the recommended secure randomness (122 bits out of 128 recommended currently),
+    other versions have even less.
+    UUIDv1, v2, v6 have 62 or 14 depending on whether you use random nodes or not (-8 more in v2).
+    UUIDv7 has 74 bits maximum.
+    Same goes for ULID that has 80.
+    UUIDv3 and v5 are not random at all.
+    With UUIDv8 you can only achieve the same security level as UUIDv4 because UUID metadata will take 6 bits anyway.
+
+    The default RNG selection was done with performance and reasonable collision avoidance in mind,
+    not with cryptography-level security.
+
 Special
 =======
 
