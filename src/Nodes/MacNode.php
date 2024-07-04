@@ -48,7 +48,7 @@ final readonly class MacNode implements Node
         return self::trySystem() ?? throw new RuntimeException('Unable to determine system MAC address');
     }
 
-    public static function trySystem(): ?self
+    public static function trySystem(): self|null
     {
         $mac = SystemMac::get();
         if ($mac === '') {

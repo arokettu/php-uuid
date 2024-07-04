@@ -28,9 +28,9 @@ final class UuidFactory
     }
 
     public static function v1(
-        ?Nodes\Node $node = null,
+        Nodes\Node|null $node = null,
         DateTimeInterface|ClockInterface|null $time = null,
-        ?Randomizer $randomizer = null,
+        Randomizer|null $randomizer = null,
     ): UuidV1 {
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
@@ -55,9 +55,9 @@ final class UuidFactory
     public static function v2(
         int $domain,
         int $identifier,
-        ?Nodes\Node $node = null,
+        Nodes\Node|null $node = null,
         DateTimeInterface|ClockInterface|null $time = null,
-        ?Randomizer $randomizer = null,
+        Randomizer|null $randomizer = null,
     ): UuidV2 {
         if ($domain < 0 || $domain > 0xff) {
             throw new DomainException('Domain must be in range 0-255');
@@ -101,7 +101,7 @@ final class UuidFactory
         return new UuidV3($hex);
     }
 
-    public static function v4(?Randomizer $randomizer = null): UuidV4
+    public static function v4(Randomizer|null $randomizer = null): UuidV4
     {
         $randomizer ??= self::randomizer();
 
@@ -126,9 +126,9 @@ final class UuidFactory
     }
 
     public static function v6(
-        ?Nodes\Node $node = null,
+        Nodes\Node|null $node = null,
         DateTimeInterface|ClockInterface|null $time = null,
-        ?Randomizer $randomizer = null,
+        Randomizer|null $randomizer = null,
     ): UuidV6 {
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
@@ -151,7 +151,7 @@ final class UuidFactory
 
     public static function v7(
         DateTimeInterface|ClockInterface|null $time = null,
-        ?Randomizer $randomizer = null,
+        Randomizer|null $randomizer = null,
     ): UuidV7 {
         $randomizer ??= self::randomizer();
 

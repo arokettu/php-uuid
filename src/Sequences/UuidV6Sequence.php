@@ -20,7 +20,7 @@ final readonly class UuidV6Sequence implements UuidSequence
     private Inner\V1HexSequence $innerSeq;
 
     public function __construct(
-        ?Nodes\Node $node = null,
+        Nodes\Node|null $node = null,
         ClockInterface $clock = new SystemClock(),
         Randomizer $randomizer = new Randomizer(new PcgOneseq128XslRr64()),
     ) {

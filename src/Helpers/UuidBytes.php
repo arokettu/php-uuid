@@ -11,7 +11,7 @@ use LogicException;
  */
 final class UuidBytes
 {
-    public static function getVariant(string $hex): ?UuidVariant
+    public static function getVariant(string $hex): UuidVariant|null
     {
         // $hex[16] >> 2 === 0b10
         if ($hex[16] === '8' || $hex[16] === '9' || $hex[16] === 'a' || $hex[16] === 'b') {
@@ -21,7 +21,7 @@ final class UuidBytes
         return null; // non RFC 4122 UUIDs are irrelevant
     }
 
-    public static function getVersion(string $hex): ?int
+    public static function getVersion(string $hex): int|null
     {
         $version = \intval($hex[12]); // 1-8 are valid, no a-f digits
 
