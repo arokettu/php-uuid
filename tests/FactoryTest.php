@@ -27,7 +27,7 @@ class FactoryTest extends TestCase
         );
         self::assertEquals(
             '00000000-34a5-21ef-9b00-9bd460413736',
-            (string)UuidFactory::v2(0, 0, $node, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v2(0, 0, $node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '1ef34a5f-d8e8-6a00-949b-9bd460413736',
@@ -55,7 +55,7 @@ class FactoryTest extends TestCase
         );
         self::assertEquals(
             '00000000-34a5-21ef-9b00-9bd460413736',
-            (string)UuidFactory::v2(0, 0, $node, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v2(0, 0, $node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '1ef34a5f-d8e8-6a00-949b-9bd460413736',
@@ -83,7 +83,7 @@ class FactoryTest extends TestCase
         );
         self::assertEquals(
             '00000000-34a5-21ef-9b00-9bd460413736',
-            (string)UuidFactory::v2(0, 0, $node, $clock, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v2(0, 0, $node, ClockSequence::Random, $clock, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '1ef34a5f-d8e8-6a00-949b-9bd460413736',

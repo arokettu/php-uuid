@@ -49,9 +49,16 @@ final class UuidFactory
         int $domain,
         int $identifier,
         Nodes\Node|null $node = null,
+        int|ClockSequences\ClockSequence $clockSequence = ClockSequences\ClockSequence::Random,
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV2 {
+        if ($clockSequence === ClockSequences\ClockSequence::Random) {
+            $clockSequence = null;
+        } elseif ($clockSequence < 0 || $clockSequence > 0x3f) {
+            throw new DomainException("Clock sequence must be in range 0-63");
+        }
+
         if ($domain < 0 || $domain > 0xff) {
             throw new DomainException('Domain must be in range 0-255');
         }
@@ -61,10 +68,11 @@ final class UuidFactory
 
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
+        $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3f)) | 0x80;
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
         $nodeHex = $node->getHex();
-        $clockSequenceHex = bin2hex($randomizer->getBytes(1));
+        $clockSequenceHex = sprintf('%02x', $clockSequence);
         $domainHex = sprintf('%02x', $domain);
         $identifierHex = sprintf('%08x', $identifier);
 
@@ -76,8 +84,6 @@ final class UuidFactory
             $clockSequenceHex .
             $domainHex .
             $nodeHex;
-
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
 
         return new UuidV2($hex);
     }
