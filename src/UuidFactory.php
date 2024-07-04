@@ -92,7 +92,7 @@ final class UuidFactory
     {
         $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
 
-        $hex = md5($bytes . $identifier);
+        $hex = hash('md5', $bytes . $identifier);
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 3);
@@ -116,7 +116,7 @@ final class UuidFactory
     {
         $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
 
-        $hex = substr(sha1($bytes . $identifier), 0, 32);
+        $hex = substr(hash('sha1', $bytes . $identifier), 0, 32);
 
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 5);
