@@ -22,7 +22,7 @@ UUID Versions
 
     UUIDv4 is slightly below the recommended secure randomness (122 bits out of 128 recommended currently),
     other versions have even less.
-    UUIDv1, v2, v6 have 62 or 14 depending on whether you use random nodes or not (-8 more in v2).
+    UUIDv1, v2, v6 have up to 62 (54 for v2) if you use both random nodes and random clock sequences.
     UUIDv7 has 74 bits maximum.
     Same goes for ULID that has 80.
     UUIDv3 and v5 are not random at all.
