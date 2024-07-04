@@ -33,29 +33,14 @@ final class UuidFactory
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV1 {
-        if ($clockSequence === ClockSequences\ClockSequence::Random) {
-            $clockSequence = null;
-        } elseif ($clockSequence < 0 || $clockSequence > 0x3fff) {
-            throw new DomainException("Clock sequence must be in range 0-16'383");
-        }
-
-        $randomizer ??= self::randomizer();
-        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
-        $clockSequence ??= $randomizer->getInt(0, 0x3fff);
-
-        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
-        $nodeHex = $node->getHex();
-        $clockSequenceHex = sprintf('%04x', $clockSequence);
+        [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $time, $randomizer);
 
         $hex =
-            substr($tsHex, 7, 8) . // time_low
-            substr($tsHex, 3, 4) . // time_mid
+            substr($ts, 7, 8) . // time_low
+            substr($ts, 3, 4) . // time_mid
             '1' . // version
-            substr($tsHex, 0, 3) . // time_high
-            $clockSequenceHex .
-            $nodeHex;
-
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
+            substr($ts, 0, 3) . // time_high
+            $tail;
 
         return new UuidV1($hex);
     }
@@ -139,28 +124,13 @@ final class UuidFactory
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV6 {
-        if ($clockSequence === ClockSequences\ClockSequence::Random) {
-            $clockSequence = null;
-        } elseif ($clockSequence < 0 || $clockSequence > 0x3fff) {
-            throw new DomainException("Clock sequence must be in range 0-16'383");
-        }
-
-        $randomizer ??= self::randomizer();
-        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
-        $clockSequence ??= $randomizer->getInt(0, 0x3fff);
-
-        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
-        $nodeHex = $node->getHex();
-        $clockSequenceHex = sprintf('%04x', $clockSequence);
+        [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $time, $randomizer);
 
         $hex =
-            substr($tsHex, 0, 12) . // time_high + time_mid
+            substr($ts, 0, 12) . // time_high + time_mid
             '6' . // version
-            substr($tsHex, 12, 3) . // time_low
-            $clockSequenceHex .
-            $nodeHex;
-
-        Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
+            substr($ts, 12, 3) . // time_low
+            $tail;
 
         return new UuidV6($hex);
     }
@@ -193,5 +163,28 @@ final class UuidFactory
         Helpers\UuidBytes::setVersion($hex, 8);
 
         return new UuidV8($hex);
+    }
+
+    private static function v1LikeHex(
+        Nodes\Node|null $node,
+        int|ClockSequences\ClockSequence $clockSequence,
+        DateTimeInterface|ClockInterface|null $time,
+        Randomizer|null $randomizer,
+    ): array {
+        if ($clockSequence === ClockSequences\ClockSequence::Random) {
+            $clockSequence = null;
+        } elseif ($clockSequence < 0 || $clockSequence > 0x3fff) {
+            throw new DomainException("Clock sequence must be in range 0-16'383");
+        }
+
+        $randomizer ??= self::randomizer();
+        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
+        $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3fff)) | 0x8000;
+
+        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
+        $nodeHex = $node->getHex();
+        $clockSequenceHex = sprintf('%04x', $clockSequence);
+
+        return [$tsHex, $clockSequenceHex . $nodeHex];
     }
 }
