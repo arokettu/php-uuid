@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use Arokettu\Uuid\ClockSequences\ClockSequence;
+use Arokettu\Uuid\Namespaces\UuidNamespace;
+use Arokettu\Uuid\Nodes\Node;
+use Arokettu\Uuid\Nodes\RandomNode;
 use DateTimeInterface;
 use DomainException;
 use Psr\Clock\ClockInterface;
@@ -28,8 +32,8 @@ final class UuidFactory
     }
 
     public static function v1(
-        Nodes\Node|null $node = null,
-        int|ClockSequences\ClockSequence $clockSequence = ClockSequences\ClockSequence::Random,
+        Node|null $node = null,
+        int|ClockSequence $clockSequence = ClockSequence::Random,
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV1 {
@@ -48,12 +52,12 @@ final class UuidFactory
     public static function v2(
         int $domain,
         int $identifier,
-        Nodes\Node|null $node = null,
-        int|ClockSequences\ClockSequence $clockSequence = ClockSequences\ClockSequence::Random,
+        Node|null $node = null,
+        int|ClockSequence $clockSequence = ClockSequence::Random,
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV2 {
-        if ($clockSequence === ClockSequences\ClockSequence::Random) {
+        if ($clockSequence === ClockSequence::Random) {
             $clockSequence = null;
         } elseif ($clockSequence < 0 || $clockSequence > 0x3f) {
             throw new DomainException("Clock sequence must be in range 0-63");
@@ -67,7 +71,7 @@ final class UuidFactory
         }
 
         $randomizer ??= self::randomizer();
-        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
+        $node ??= new RandomNode($randomizer); // override randomizer in the node too
         $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3f)) | 0x80;
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
@@ -88,7 +92,7 @@ final class UuidFactory
         return new UuidV2($hex);
     }
 
-    public static function v3(Uuid|Namespaces\UuidNamespace $namespace, string $identifier): UuidV3
+    public static function v3(Uuid|UuidNamespace $namespace, string $identifier): UuidV3
     {
         $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
 
@@ -112,7 +116,7 @@ final class UuidFactory
         return new UuidV4($hex);
     }
 
-    public static function v5(Uuid|Namespaces\UuidNamespace $namespace, string $identifier): UuidV5
+    public static function v5(Uuid|UuidNamespace $namespace, string $identifier): UuidV5
     {
         $bytes = $namespace instanceof Uuid ? $namespace->toBytes() : $namespace->getBytes();
 
@@ -125,8 +129,8 @@ final class UuidFactory
     }
 
     public static function v6(
-        Nodes\Node|null $node = null,
-        int|ClockSequences\ClockSequence $clockSequence = ClockSequences\ClockSequence::Random,
+        Node|null $node = null,
+        int|ClockSequence $clockSequence = ClockSequence::Random,
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV6 {
@@ -172,19 +176,19 @@ final class UuidFactory
     }
 
     private static function v1LikeHex(
-        Nodes\Node|null $node,
-        int|ClockSequences\ClockSequence $clockSequence,
+        Node|null $node,
+        int|ClockSequence $clockSequence,
         DateTimeInterface|ClockInterface|null $time,
         Randomizer|null $randomizer,
     ): array {
-        if ($clockSequence === ClockSequences\ClockSequence::Random) {
+        if ($clockSequence === ClockSequence::Random) {
             $clockSequence = null;
         } elseif ($clockSequence < 0 || $clockSequence > 0x3fff) {
             throw new DomainException("Clock sequence must be in range 0-16'383");
         }
 
         $randomizer ??= self::randomizer();
-        $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
+        $node ??= new RandomNode($randomizer); // override randomizer in the node too
         $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3fff)) | 0x8000;
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use Arokettu\Uuid\Nodes\Node;
+use Arokettu\Uuid\Nodes\StaticNode;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
@@ -13,14 +15,14 @@ final class SequenceFactory
     use Helpers\FactoryRandomizer;
 
     public static function v1(
-        Nodes\Node|null $node = null,
+        Node|null $node = null,
         ClockInterface|null $clock = null,
         Randomizer|null $randomizer = null,
     ): Sequences\UuidV1Sequence {
         $randomizer ??= self::randomizer();
 
         return new Sequences\UuidV1Sequence(
-            $node ?? Nodes\StaticNode::random($randomizer),
+            $node ?? StaticNode::random($randomizer),
             $clock ?? self::clock(),
             $randomizer,
         );
@@ -35,14 +37,14 @@ final class SequenceFactory
     }
 
     public static function v6(
-        Nodes\Node|null $node = null,
+        Node|null $node = null,
         ClockInterface|null $clock = null,
         Randomizer|null $randomizer = null,
     ): Sequences\UuidV6Sequence {
         $randomizer ??= self::randomizer();
 
         return new Sequences\UuidV6Sequence(
-            $node ?? Nodes\StaticNode::random($randomizer),
+            $node ?? StaticNode::random($randomizer),
             $clock ?? self::clock(),
             $randomizer,
         );
