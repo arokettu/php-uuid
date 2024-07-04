@@ -29,15 +29,23 @@ final class UuidFactory
 
     public static function v1(
         Nodes\Node|null $node = null,
+        int|ClockSequences\ClockSequence $clockSequence = ClockSequences\ClockSequence::Random,
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV1 {
+        if ($clockSequence === ClockSequences\ClockSequence::Random) {
+            $clockSequence = null;
+        } elseif ($clockSequence < 0 || $clockSequence > 0x3fff) {
+            throw new DomainException("Clock sequence must be in range 0-16'383");
+        }
+
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
+        $clockSequence ??= $randomizer->getInt(0, 0x3fff);
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
         $nodeHex = $node->getHex();
-        $clockSequenceHex = bin2hex($randomizer->getBytes(2));
+        $clockSequenceHex = sprintf('%04x', $clockSequence);
 
         $hex =
             substr($tsHex, 7, 8) . // time_low
@@ -127,15 +135,23 @@ final class UuidFactory
 
     public static function v6(
         Nodes\Node|null $node = null,
+        int|ClockSequences\ClockSequence $clockSequence = ClockSequences\ClockSequence::Random,
         DateTimeInterface|ClockInterface|null $time = null,
         Randomizer|null $randomizer = null,
     ): UuidV6 {
+        if ($clockSequence === ClockSequences\ClockSequence::Random) {
+            $clockSequence = null;
+        } elseif ($clockSequence < 0 || $clockSequence > 0x3fff) {
+            throw new DomainException("Clock sequence must be in range 0-16'383");
+        }
+
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
+        $clockSequence ??= $randomizer->getInt(0, 0x3fff);
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
         $nodeHex = $node->getHex();
-        $clockSequenceHex = bin2hex($randomizer->getBytes(2));
+        $clockSequenceHex = sprintf('%04x', $clockSequence);
 
         $hex =
             substr($tsHex, 0, 12) . // time_high + time_mid

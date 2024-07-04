@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Clock\StaticClock;
+use Arokettu\Uuid\ClockSequences\ClockSequence;
 use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\Nodes\StaticNode;
-use Arokettu\Uuid\Tests\Helper\FixedSequenceEngine;
 use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidV1;
 use PHPUnit\Framework\TestCase;
@@ -44,19 +44,19 @@ class V1Test extends TestCase
         $rand = new Randomizer(new Xoshiro256StarStar(123)); // f969a0d1a18f5a32
         $node = StaticNode::fromHex('1234567890ab'); // 1334567890ab
 
-        $uuid = UuidFactory::v1($node, $clock, $rand);
-        self::assertEquals('27875680-767d-11ee-b969-1334567890ab', $uuid->toString());
+        $uuid = UuidFactory::v1($node, ClockSequence::Random, $clock, $rand);
+        self::assertEquals('27875680-767d-11ee-a9f9-1334567890ab', $uuid->toString());
 
-        $fixed = new Randomizer(new FixedSequenceEngine("\xab\xcd\xef"));
+        $fixedCS = 0xabcd & 0x3fff;
 
         // time underflow
         $clock = new StaticClock(new \DateTimeImmutable('1585-01-01 1:02 UTC')); // 0027bbfb17ab400
-        $uuid = UuidFactory::v1($node, $clock, $fixed);
+        $uuid = UuidFactory::v1($node, $fixedCS, $clock);
         self::assertEquals('b17ab400-7bbf-1002-abcd-1334567890ab', $uuid->toString());
 
         // time overflow
         $clock = new StaticClock(new \DateTimeImmutable('6000-01-01 2:03 UTC')); // [1]358432968ac2200
-        $uuid = UuidFactory::v1($node, $clock, $fixed);
+        $uuid = UuidFactory::v1($node, $fixedCS, $clock);
         self::assertEquals('68ac2200-4329-1358-abcd-1334567890ab', $uuid->toString());
     }
 
@@ -79,8 +79,8 @@ class V1Test extends TestCase
         $randomizer6 = new Randomizer(clone $randEngine);
         $node = StaticNode::fromHex('1234567890ab');
 
-        $uuid1 = UuidFactory::v1($node, $clock, $randomizer1);
-        $uuid6 = UuidFactory::v6($node, $clock, $randomizer6);
+        $uuid1 = UuidFactory::v1($node, ClockSequence::Random, $clock, $randomizer1);
+        $uuid6 = UuidFactory::v6($node, ClockSequence::Random, $clock, $randomizer6);
 
         self::assertEquals($uuid6->toString(), $uuid1->toUuidV6()->toString());
     }
@@ -88,10 +88,10 @@ class V1Test extends TestCase
     public function testRfcExample(): void
     {
         $time = new \DateTime('February 22, 2022 2:22:22.000000PM GMT-05:00');
-        $clock = new Randomizer(new FixedSequenceEngine("\x33\xc8"));
+        $clockSeq = 0b11 << 12 | 0x3c8;
         $node = StaticNode::fromHex('9E6BDECED846');
 
-        $uuid = UuidFactory::v1($node, new StaticClock($time), $clock);
+        $uuid = UuidFactory::v1($node, $clockSeq, $time);
         self::assertEquals('C232AB00-9414-11EC-B3C8-9F6BDECED846', strtoupper($uuid->toString()));
     }
 
@@ -101,16 +101,12 @@ class V1Test extends TestCase
         $engine = new Xoshiro256StarStar(); // any seed
         $r1 = new Randomizer(clone $engine);
         $r2 = new Randomizer(clone $engine);
-        $r3 = new Randomizer(clone $engine);
 
         $clock = new StaticClock();
 
         $uuid1 = UuidFactory::v1(time: $clock, randomizer: $r1)->toString();
         $uuid2 = UuidFactory::v1(node: new RandomNode($r2), time: $clock, randomizer: $r2)->toString();
-        // for a single generation this should work too
-        $uuid3 = UuidFactory::v1(node: StaticNode::random($r3), time: $clock, randomizer: $r3)->toString();
 
         self::assertEquals($uuid1, $uuid2);
-        self::assertEquals($uuid1, $uuid3);
     }
 }

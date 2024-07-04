@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Clock\StaticClock;
+use Arokettu\Uuid\ClockSequences\ClockSequence;
 use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\UlidFactory;
 use Arokettu\Uuid\UuidFactory;
@@ -48,12 +49,12 @@ class DebugInfoTest extends TestCase
         $rnd = new Randomizer(new Xoshiro256StarStar(456));
         $node = new RandomNode($rnd);
 
-        $uuid = UuidFactory::v6($node, $clock, $rnd);
+        $uuid = UuidFactory::v6($node, ClockSequence::Random, $clock, $rnd);
 
         $this->assertEquals([
             'version' => 6,
-            'rfc' => '1ee9537c-f605-6180-b07a-f12110cb92a7',
-            'base32' => '0YX59QSXG5C60B0YQH448CQ4N7',
+            'rfc' => '1ee9537c-f605-6180-a1f1-317acca458e9',
+            'base32' => '0YX59QSXG5C60A3W9HFB6A8P79',
             'timestamp' => '2023-12-07T19:35:43.000000+00:00',
         ], $uuid->__debugInfo());
     }
