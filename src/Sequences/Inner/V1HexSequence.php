@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Sequences\Inner;
 
 use Arokettu\Uuid\Helpers;
-use Arokettu\Uuid\Nodes;
+use Arokettu\Uuid\Nodes\Node;
 use DateInterval;
 use DateTimeImmutable;
 use Psr\Clock\ClockInterface;
@@ -16,18 +16,17 @@ use Random\Randomizer;
  */
 final class V1HexSequence
 {
-    private const MAX_COUNTER = 0x3fff; // 14 bit
-    private const MAX_NSEC100_COUNTER = 9; // one decimal
+    private const MAX_COUNTER = 9; // one decimal
 
     private static DateInterval $ONE_MICROSECOND;
 
     private DateTimeImmutable $time;
-    private int $nsec100Counter;
     private int $counter;
 
     public function __construct(
         private readonly bool $isV6,
-        private readonly Nodes\Node $node,
+        private readonly Node $node,
+        private readonly int|null $clockSequence,
         private readonly ClockInterface $clock,
         private readonly Randomizer $randomizer,
     ) {
@@ -42,24 +41,18 @@ final class V1HexSequence
         if (!isset($this->time) || $this->time < $time) {
             // if time advanced, reset everything
             $this->time = $time;
-            $this->nsec100Counter = 0;
-            $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER);
+            $this->counter = 0;
         } else {
             $this->counter += 1;
 
             if ($this->counter > self::MAX_COUNTER) {
-                $this->nsec100Counter += 1;
-                $this->counter = $this->randomizer->getInt(0, self::MAX_COUNTER);
-
-                if ($this->nsec100Counter > self::MAX_NSEC100_COUNTER) {
-                    $this->time = $this->time->add(self::$ONE_MICROSECOND);
-                    $this->nsec100Counter = 0;
-                }
+                $this->time = $this->time->add(self::$ONE_MICROSECOND);
+                $this->counter = 0;
             }
         }
 
-        $tsHex = Helpers\DateTime::buildUuidV1Hex($this->time, $this->nsec100Counter);
-        $clockHex = sprintf('%04x', $this->counter | 0x8000); // 2 bytes
+        $tsHex = Helpers\DateTime::buildUuidV1Hex($this->time, $this->counter);
+        $clockHex = sprintf('%04x', ($this->clockSequence ?? $this->randomizer->getInt(0, 0x3fff)) | 0x8000); // 2 bytes
         $nodeHex = $this->node->getHex();
 
         if ($this->isV6) {
