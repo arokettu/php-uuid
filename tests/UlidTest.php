@@ -71,7 +71,7 @@ class UlidTest extends TestCase
     {
         // v7 has millisecond precision, we have to round our raw timestamp
         $clock = new RoundingClock(new StaticClock(), RoundingClock::ROUND_MILLISECONDS);
-        $ulid = UlidFactory::ulid(clock: $clock);
+        $ulid = UlidFactory::ulid(time: $clock);
 
         self::assertEquals($clock->now(), $ulid->getDateTime());
     }

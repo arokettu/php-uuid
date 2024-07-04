@@ -9,8 +9,6 @@ use DomainException;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
-// TODO: Rename all $clock to $clockOrTime in 4.0
-
 /**
  * @psalm-api
  */
@@ -31,13 +29,13 @@ final class UuidFactory
 
     public static function v1(
         ?Nodes\Node $node = null,
-        ClockInterface|DateTimeInterface|null $clock = null,
+        DateTimeInterface|ClockInterface|null $time = null,
         ?Randomizer $randomizer = null,
     ): UuidV1 {
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
 
-        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($clock));
+        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
         $nodeHex = $node->getHex();
         $clockSequenceHex = bin2hex($randomizer->getBytes(2));
 
@@ -58,7 +56,7 @@ final class UuidFactory
         int $domain,
         int $identifier,
         ?Nodes\Node $node = null,
-        ClockInterface|DateTimeInterface|null $clock = null,
+        DateTimeInterface|ClockInterface|null $time = null,
         ?Randomizer $randomizer = null,
     ): UuidV2 {
         if ($domain < 0 || $domain > 0xff) {
@@ -71,7 +69,7 @@ final class UuidFactory
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
 
-        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($clock));
+        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
         $nodeHex = $node->getHex();
         $clockSequenceHex = bin2hex($randomizer->getBytes(1));
         $domainHex = sprintf('%02x', $domain);
@@ -129,13 +127,13 @@ final class UuidFactory
 
     public static function v6(
         ?Nodes\Node $node = null,
-        ClockInterface|DateTimeInterface|null $clock = null,
+        DateTimeInterface|ClockInterface|null $time = null,
         ?Randomizer $randomizer = null,
     ): UuidV6 {
         $randomizer ??= self::randomizer();
         $node ??= new Nodes\RandomNode($randomizer); // override randomizer in the node too
 
-        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($clock));
+        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
         $nodeHex = $node->getHex();
         $clockSequenceHex = bin2hex($randomizer->getBytes(2));
 
@@ -152,12 +150,12 @@ final class UuidFactory
     }
 
     public static function v7(
-        ClockInterface|DateTimeInterface|null $clock = null,
+        DateTimeInterface|ClockInterface|null $time = null,
         ?Randomizer $randomizer = null,
     ): UuidV7 {
         $randomizer ??= self::randomizer();
 
-        $ts = Helpers\DateTime::buildUlidHex(self::getTime($clock));
+        $ts = Helpers\DateTime::buildUlidHex(self::getTime($time));
         $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 

@@ -70,7 +70,7 @@ class UlidV7CompatibleTest extends TestCase
     {
         // v7 has millisecond precision, we have to round our raw timestamp
         $clock = new RoundingClock(new StaticClock(), RoundingClock::ROUND_MILLISECONDS);
-        $uuid = UlidFactory::ulid(true, clock: $clock);
+        $uuid = UlidFactory::ulid(true, time: $clock);
 
         self::assertEquals($clock->now(), $uuid->getDateTime());
     }

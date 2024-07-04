@@ -8,8 +8,6 @@ use DateTimeInterface;
 use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 
-// TODO: Rename all $clock to $clockOrTime in 4.0
-
 /**
  * @psalm-api
  */
@@ -20,12 +18,12 @@ final class UlidFactory
 
     public static function ulid(
         bool $uuidV7Compatible = false,
-        ClockInterface|DateTimeInterface|null $clock = null,
+        DateTimeInterface|ClockInterface|null $time = null,
         ?Randomizer $randomizer = null,
     ): Ulid {
         $randomizer ??= self::randomizer();
 
-        $ts = Helpers\DateTime::buildUlidHex(self::getTime($clock));
+        $ts = Helpers\DateTime::buildUlidHex(self::getTime($time));
         $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 

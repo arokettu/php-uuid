@@ -105,10 +105,10 @@ class V1Test extends TestCase
 
         $clock = new StaticClock();
 
-        $uuid1 = UuidFactory::v1(clock: $clock, randomizer: $r1)->toString();
-        $uuid2 = UuidFactory::v1(node: new RandomNode($r2), clock: $clock, randomizer: $r2)->toString();
+        $uuid1 = UuidFactory::v1(time: $clock, randomizer: $r1)->toString();
+        $uuid2 = UuidFactory::v1(node: new RandomNode($r2), time: $clock, randomizer: $r2)->toString();
         // for a single generation this should work too
-        $uuid3 = UuidFactory::v1(node: StaticNode::random($r3), clock: $clock, randomizer: $r3)->toString();
+        $uuid3 = UuidFactory::v1(node: StaticNode::random($r3), time: $clock, randomizer: $r3)->toString();
 
         self::assertEquals($uuid1, $uuid2);
         self::assertEquals($uuid1, $uuid3);
