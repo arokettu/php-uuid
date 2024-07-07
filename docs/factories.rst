@@ -26,7 +26,13 @@ Versions 1 and 6 are not recommended either.
 Version 1
 ---------
 
-.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 3.1 Passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 4.0
+   ``$clock`` is renamed to ``$timestamp``.
+   Passing ``int`` / ``float`` timestamps is allowed
+
+.. note::
+    ``float`` timestamps are internally converted to DateTime so precision below 1 microsecond is still not achievable.
 
 ``Arokettu\Uuid\UuidFactory::v1($node)``
 
@@ -55,7 +61,10 @@ Version 2
 ---------
 
 .. versionadded:: 2.3
-.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 3.1 Passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 4.0
+   ``$clock`` is renamed to ``$timestamp``.
+   Passing ``int`` / ``float`` timestamps is allowed
 
 .. note::
     This is a legacy version and it should not be used.
@@ -161,7 +170,13 @@ Version 5 is created from an UUID namespace and a string identifier.
 Version 6
 ---------
 
-.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 3.1 Passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 4.0
+   ``$clock`` is renamed to ``$timestamp``.
+   Passing ``int`` / ``float`` timestamps is allowed
+
+.. note::
+    ``float`` timestamps are internally converted to DateTime so precision below 1 microsecond is still not achievable.
 
 ``Arokettu\Uuid\UuidFactory::v6($node)``
 
@@ -189,7 +204,10 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 Version 7
 ---------
 
-.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 3.1 Passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 4.0
+   ``$clock`` is renamed to ``$timestamp``.
+   Passing ``int`` / ``float`` timestamps is allowed
 
 ``Arokettu\Uuid\UuidFactory::v7()``
 
@@ -207,9 +225,8 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
     var_dump($uuid->toString()); // some random uuid
 
     // predictable UUID for testing
-    // using a StaticClock isntance from the arokettu/clock package
     $uuid = UuidFactory::v7(
-        clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+        timestamp: new DateTime('2023-07-07 12:00 UTC'),
         randomizer: new Randomizer(new Xoshiro256StarStar(123)),
     );
     var_dump($uuid->toString()); // 01893039-2a00-7969-9e4d-6d65c7e335f8
@@ -237,7 +254,10 @@ The factory accepts any sequence of 16 bytes, overwriting only variant and versi
 ULID
 ====
 
-.. versionchanged:: 3.1 passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 3.1 Passing ``DateTime`` / ``DateTimeImmutable`` is allowed
+.. versionchanged:: 4.0
+   ``$clock`` is renamed to ``$timestamp``.
+   Passing ``int`` / ``float`` timestamps is allowed
 
 ``Arokettu\Uuid\UlidFactory::ulid()``
 
@@ -255,9 +275,8 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
     var_dump($uuid->toString()); // some random ulid
 
     // predictable ULID for testing
-    // using a StaticClock isntance from the arokettu/clock package
     $ulid = UlidFactory::ulid(
-        clock: new StaticClock(new DateTime('2023-07-07 12:00 UTC')),
+        timestamp: new DateTime('2023-07-07 12:00 UTC'),
         randomizer: new Randomizer(new Xoshiro256StarStar(123)),
     );
     var_dump($ulid->toString()); // 01H4R3JAG0Z5MT1MD1HXD34QJD
@@ -269,7 +288,7 @@ Sequences are designed to be used in a case where you need a lot of UUIDs in a s
 Sequences for UUIDv1, v6, v7, and ULID also enforce extra monotonicity
 for IDs created in the same millisecond/microsecond.
 There are no sequences for UUIDv3 and UUIDv5 because they are not sequential by nature.
-The sequences are designed to provide a continuous supply of IDs, advancing the timestamp when clock sequences overflow.
+The sequences are designed to provide a continuous supply of IDs, advancing the timestamp when counters overflow.
 All sequences implement ``Traversable``.
 
 ::
@@ -287,13 +306,22 @@ All sequences implement ``Traversable``.
 UUIDv1
 ------
 
-``Arokettu\Uuid\SequenceFactory::v1($node)``
+``Arokettu\Uuid\SequenceFactory::v1($node, $clockSequence)``
+``Arokettu\Uuid\SequenceFactory::v1FromPrototype(UuidV1|UuidV6 $prototype)``
 
-This sequence uses 14 bit of clock_seq and the lowest decimal of the timestamp as a clock sequence.
-The sequence is initialized with a randomly generated static node ID if another node ID generator is not supplied.
+This sequence uses the lowest decimal of the timestamp as a counter.
+The sequence is initialized with a randomly generated static node ID and randomly generated static clock sequence.
+Pass an instance of ``Arokettu\Uuid\Nodes\Node`` to override the node strategy.
+Pass the integer clock sequence value to use a predefined clock sequence
+or a special ``Arokettu\Uuid\ClockSequences\ClockSequence::Random`` object to generate a new clock sequence value for every UUID.
+
+The prototype factory allows you to preset a node and a clock sequence from an existing UUID.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
+
+.. note::
+    Randomizer is only used if you have random/randomly initialized node or random/randomly initialized clock sequence.
 
 ::
 
@@ -314,15 +342,15 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     }
 
     // cc79e000-1cbd-11ee-8d5e-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d5f-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d60-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d61-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d62-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d63-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d64-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d65-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d66-f969a0d1a18f
-    // cc79e000-1cbd-11ee-8d67-f969a0d1a18f
+    // cc79e001-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e002-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e003-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e004-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e005-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e006-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e007-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e008-1cbd-11ee-8d5e-f969a0d1a18f
+    // cc79e009-1cbd-11ee-8d5e-f969a0d1a18f
 
 UUIDv4
 ------
@@ -364,10 +392,16 @@ Like with the regular factory you can override RNG by passing an instance of ``R
 UUIDv6
 ------
 
-``Arokettu\Uuid\SequenceFactory::v6($node)``
+``Arokettu\Uuid\SequenceFactory::v6($node, $clockSequence)``
+``Arokettu\Uuid\SequenceFactory::v6FromPrototype(UuidV1|UuidV6 $prototype)``
 
-This sequence uses 14 bit of clock_seq and the lowest decimal of the timestamp as a clock sequence.
-The sequence is initialized with a randomly generated static node ID if another node ID generator is not supplied.
+This sequence uses the lowest decimal of the timestamp as a counter.
+The sequence is initialized with a randomly generated static node ID and randomly generated static clock sequence.
+Pass an instance of ``Arokettu\Uuid\Nodes\Node`` to override the node strategy.
+Pass the integer clock sequence value to use a predefined clock sequence
+or a special ``Arokettu\Uuid\ClockSequences\ClockSequence::Random`` object to generate a new clock sequence value for every UUID.
+
+The prototype factory allows you to preset a node and a clock sequence from an existing UUID.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
 and override RNG by passing an instance of ``Random\Randomizer``.
@@ -391,15 +425,15 @@ and override RNG by passing an instance of ``Random\Randomizer``.
     }
 
     // 1ee1cbdc-c79e-6000-8d5e-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d5f-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d60-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d61-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d62-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d63-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d64-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d65-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d66-f969a0d1a18f
-    // 1ee1cbdc-c79e-6000-8d67-f969a0d1a18f
+    // 1ee1cbdc-c79e-6001-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6002-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6003-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6004-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6005-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6006-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6007-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6008-8d5e-f969a0d1a18f
+    // 1ee1cbdc-c79e-6009-8d5e-f969a0d1a18f
 
 UUIDv7 (short)
 --------------
@@ -409,8 +443,7 @@ UUIDv7 (short)
 ``Arokettu\Uuid\SequenceFactory::v7()``
 ``Arokettu\Uuid\SequenceFactory::v7Short()``
 
-The chosen algorithm is 12 bit clock sequence in rand_a + random 'tail' in rand_b
-as described in `RFC 9562`_ 6.2 Method 1.
+The chosen algorithm is 12 bit counter in rand_a + random 'tail' in rand_b as described in `RFC 9562`_ 6.2 Method 1.
 It gives a guaranteed sequence of 2049 UUIDs per millisecond (actual number is random, up to 4096) that are highly unguessable.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``

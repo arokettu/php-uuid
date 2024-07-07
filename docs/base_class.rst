@@ -21,7 +21,7 @@ It accepts a string of lowercase hexadecimal digits (0-9, a-f)::
     // {12345678-9abc-def0-1234-56789abcdef0}
     $uuid = new GenericUuid('123456789abcdef0123456789abcdef0');
 
-.. note:: ``UuidParser::fromRfcFormat()`` and ``UuidParser::fromRfcFormat()`` can parse UUIDs/ULIDs in hex in case-insensitive manner.
+.. note:: ``UuidParser::fromRfcFormat()`` and ``UlidParser::fromRfcFormat()`` can parse UUIDs/ULIDs in hex in case-insensitive manner.
 
 Subclasses may also check the string for additional validity.
 
@@ -139,3 +139,18 @@ UUIDv1, UUIDv2, UUIDv6, UUIDv7, and ULID extend this interface because they enco
 .. _RFC 4122: https://datatracker.ietf.org/doc/html/rfc4122
 .. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562
 .. _strcmp: https://www.php.net/manual/en/function.strcmp.php
+
+NodeBasedUuid
+=============
+
+.. versionadded:: 4.0
+
+UUIDv1, UUIDv2, and UUIDv6 extend this interface because they are based on a Node and a Clock Sequence::
+
+    <?php
+
+    use Arokettu\Uuid\UuidFactory;
+
+    $uuid = UuidFactory::v6();
+    var_dump($uuid->getNode()); // Node value (MAC address or MAC-like pseudo-value)
+    var_dump($uuid->getClockSequence()); // Clock Sequence value

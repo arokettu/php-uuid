@@ -8,7 +8,7 @@ Upgrade
 
 * Interface changes:
 
-  * ``Rfc4122Variant10xxUuid`` was renamed to ``Variant10xxUuid`` and it bo longer extends ``Rfc4122Uuid``
+  * ``Rfc4122Variant10xxUuid`` was renamed to ``Variant10xxUuid`` and it no longer extends ``Rfc4122Uuid``
   * ``UuidV2``, ``UuidV6``, ``UuidV7``, ``UuidV8``, ``MaxUuid`` no longer implement ``Rfc4122Uuid``
 
     * If you strictly check for standard UUIDs, use ``Rfc9562Uuid``
