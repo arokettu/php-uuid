@@ -2,6 +2,19 @@
 
 ## 3.x
 
+### 4.0.0
+
+*Jul 8, 2024*
+
+A release dedicated to fixing my gross misunderstanding of what the clock sequence is.
+
+* UuidV1, V2, V6 factories and their sequences now allow explicitly setting a clock sequence on creation
+* Clock sequence is no longer used as a counter
+* UuidV1, V2, V6 objects implement a new `NodeBasedUuid` interface and have `getNode()` and `getClockSequence` values
+* V1 and V6 sequences can now be created using a prototype UUID to preset node and clock sequence values
+* In UuidFactory and UlidFactory `$clock` was renamed to `$timestamp` 
+  and now additionally allows integer and float timestamps
+
 ### 3.1.0
 
 *Jun 27, 2024*
