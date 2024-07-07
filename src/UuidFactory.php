@@ -33,8 +33,8 @@ final class UuidFactory
 
     public static function v1(
         Node|null $node = null,
-        int|ClockSequence $clockSequence = ClockSequence::Random,
-        DateTimeInterface|ClockInterface|null $timestamp = null,
+        int|null $clockSequence = null,
+        DateTimeInterface|ClockInterface|int|float|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV1 {
         [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $timestamp, $randomizer);
@@ -53,16 +53,10 @@ final class UuidFactory
         int $domain,
         int $identifier,
         Node|null $node = null,
-        int|ClockSequence $clockSequence = ClockSequence::Random,
-        DateTimeInterface|ClockInterface|null $timestamp = null,
+        int|null $clockSequence = null,
+        DateTimeInterface|ClockInterface|int|float|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV2 {
-        if ($clockSequence === ClockSequence::Random) {
-            $clockSequence = null;
-        } elseif ($clockSequence < 0 || $clockSequence > 0x3f) {
-            throw new DomainException("Clock sequence must be in range 0-63");
-        }
-
         if ($domain < 0 || $domain > 0xff) {
             throw new DomainException('Domain must be in range 0-255');
         }
@@ -72,7 +66,13 @@ final class UuidFactory
 
         $randomizer ??= self::randomizer();
         $node ??= new RandomNode($randomizer); // override randomizer in the node too
-        $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3f)) | 0x80;
+
+        if ($clockSequence === null) {
+            $clockSequence = $randomizer->getInt(0, 0x3f);
+        } elseif ($clockSequence < 0 || $clockSequence > 0x3f) {
+            throw new DomainException("Clock sequence must be in range 0-63");
+        }
+        $clockSequence |= 0x80; // add variant marker
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($timestamp));
         $nodeHex = $node->getHex();
@@ -130,8 +130,8 @@ final class UuidFactory
 
     public static function v6(
         Node|null $node = null,
-        int|ClockSequence $clockSequence = ClockSequence::Random,
-        DateTimeInterface|ClockInterface|null $timestamp = null,
+        int|null $clockSequence = null,
+        DateTimeInterface|ClockInterface|int|float|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV6 {
         [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $timestamp, $randomizer);
@@ -146,7 +146,7 @@ final class UuidFactory
     }
 
     public static function v7(
-        DateTimeInterface|ClockInterface|null $timestamp = null,
+        DateTimeInterface|ClockInterface|int|float|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV7 {
         $randomizer ??= self::randomizer();
@@ -177,19 +177,19 @@ final class UuidFactory
 
     private static function v1LikeHex(
         Node|null $node,
-        int|ClockSequence $clockSequence,
-        DateTimeInterface|ClockInterface|null $timestamp,
+        int|null $clockSequence,
+        DateTimeInterface|ClockInterface|int|float|null $timestamp,
         Randomizer|null $randomizer,
     ): array {
-        if ($clockSequence === ClockSequence::Random) {
-            $clockSequence = null;
+        $randomizer ??= self::randomizer();
+        $node ??= new RandomNode($randomizer); // override randomizer in the node too
+
+        if ($clockSequence === null) {
+            $clockSequence = $randomizer->getInt(0, 0x3fff);
         } elseif ($clockSequence < 0 || $clockSequence > 0x3fff) {
             throw new DomainException("Clock sequence must be in range 0-16'383");
         }
-
-        $randomizer ??= self::randomizer();
-        $node ??= new RandomNode($randomizer); // override randomizer in the node too
-        $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3fff)) | 0x8000;
+        $clockSequence |= 0x8000; // add variant marker
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($timestamp));
         $nodeHex = $node->getHex();

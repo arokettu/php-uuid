@@ -52,7 +52,7 @@ class DebugInfoTest extends TestCase
         $rnd = new Randomizer(new Xoshiro256StarStar(456));
         $node = new RandomNode($rnd);
 
-        $uuid = UuidFactory::v6($node, ClockSequence::Random, $clock, $rnd);
+        $uuid = UuidFactory::v6($node, null, $clock, $rnd);
 
         $this->assertEquals([
             'version' => 6,

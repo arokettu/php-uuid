@@ -66,7 +66,7 @@ class V2Test extends TestCase
         $node = StaticNode::fromHex('1234567890ab'); // 1334567890ab
 
         // domain: 00, identifier: 0x18894
-        $uuid = UuidFactory::v2(Domains::PERSON, 100500, $node, ClockSequence::Random, $clock, $rand);
+        $uuid = UuidFactory::v2(Domains::PERSON, 100500, $node, null, $clock, $rand);
         self::assertEquals('00018894-767d-21ee-b900-1334567890ab', $uuid->toString());
 
         $fixedCS = 0xab & 0x3f;

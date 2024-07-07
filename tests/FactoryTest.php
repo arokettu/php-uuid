@@ -23,15 +23,15 @@ class FactoryTest extends TestCase
 
         self::assertEquals(
             'fd8e8a00-34a5-11ef-949b-9bd460413736',
-            (string)UuidFactory::v1($node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v1($node, null, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '00000000-34a5-21ef-9b00-9bd460413736',
-            (string)UuidFactory::v2(0, 0, $node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v2(0, 0, $node, null, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '1ef34a5f-d8e8-6a00-949b-9bd460413736',
-            (string)UuidFactory::v6($node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v6($node, null, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '01905a9f-2ea0-7bd4-a041-37366abec688',
@@ -51,15 +51,15 @@ class FactoryTest extends TestCase
 
         self::assertEquals(
             'fd8e8a00-34a5-11ef-949b-9bd460413736',
-            (string)UuidFactory::v1($node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v1($node, null, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '00000000-34a5-21ef-9b00-9bd460413736',
-            (string)UuidFactory::v2(0, 0, $node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v2(0, 0, $node, null, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '1ef34a5f-d8e8-6a00-949b-9bd460413736',
-            (string)UuidFactory::v6($node, ClockSequence::Random, $dt, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v6($node, null, $dt, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '01905a9f-2ea0-7bd4-a041-37366abec688',
@@ -79,15 +79,15 @@ class FactoryTest extends TestCase
 
         self::assertEquals(
             'fd8e8a00-34a5-11ef-949b-9bd460413736',
-            (string)UuidFactory::v1($node, ClockSequence::Random, $clock, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v1($node, null, $clock, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '00000000-34a5-21ef-9b00-9bd460413736',
-            (string)UuidFactory::v2(0, 0, $node, ClockSequence::Random, $clock, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v2(0, 0, $node, null, $clock, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '1ef34a5f-d8e8-6a00-949b-9bd460413736',
-            (string)UuidFactory::v6($node, ClockSequence::Random, $clock, new Randomizer(clone $rnd)),
+            (string)UuidFactory::v6($node, null, $clock, new Randomizer(clone $rnd)),
         );
         self::assertEquals(
             '01905a9f-2ea0-7bd4-a041-37366abec688',

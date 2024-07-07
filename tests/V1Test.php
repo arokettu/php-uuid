@@ -75,7 +75,7 @@ class V1Test extends TestCase
         $rand = new Randomizer(new Xoshiro256StarStar(123)); // f969a0d1a18f5a32
         $node = StaticNode::fromHex('1234567890ab'); // 1334567890ab
 
-        $uuid = UuidFactory::v1($node, ClockSequence::Random, $clock, $rand);
+        $uuid = UuidFactory::v1($node, null, $clock, $rand);
         self::assertEquals('27875680-767d-11ee-a9f9-1334567890ab', $uuid->toString());
 
         $fixedCS = 0xabcd & 0x3fff;
@@ -110,8 +110,8 @@ class V1Test extends TestCase
         $randomizer6 = new Randomizer(clone $randEngine);
         $node = StaticNode::fromHex('1234567890ab');
 
-        $uuid1 = UuidFactory::v1($node, ClockSequence::Random, $clock, $randomizer1);
-        $uuid6 = UuidFactory::v6($node, ClockSequence::Random, $clock, $randomizer6);
+        $uuid1 = UuidFactory::v1($node, null, $clock, $randomizer1);
+        $uuid6 = UuidFactory::v6($node, null, $clock, $randomizer6);
 
         self::assertEquals($uuid6->toString(), $uuid1->toUuidV6()->toString());
     }

@@ -69,7 +69,7 @@ class V6Test extends TestCase
         $rand = new Randomizer(new Xoshiro256StarStar(123)); // f969a0d1a18f5a32
         $node = StaticNode::fromHex('1234567890ab'); // 1334567890ab
 
-        $uuid = UuidFactory::v6($node, ClockSequence::Random, $clock, $rand);
+        $uuid = UuidFactory::v6($node, null, $clock, $rand);
         self::assertEquals('1ee767d2-7875-6680-a9f9-1334567890ab', $uuid->toString());
 
         $fixedCS = 0xabcd & 0x3fff;
