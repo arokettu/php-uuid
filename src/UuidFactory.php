@@ -34,10 +34,10 @@ final class UuidFactory
     public static function v1(
         Node|null $node = null,
         int|ClockSequence $clockSequence = ClockSequence::Random,
-        DateTimeInterface|ClockInterface|null $time = null,
+        DateTimeInterface|ClockInterface|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV1 {
-        [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $time, $randomizer);
+        [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $timestamp, $randomizer);
 
         $hex =
             substr($ts, 7, 8) . // time_low
@@ -54,7 +54,7 @@ final class UuidFactory
         int $identifier,
         Node|null $node = null,
         int|ClockSequence $clockSequence = ClockSequence::Random,
-        DateTimeInterface|ClockInterface|null $time = null,
+        DateTimeInterface|ClockInterface|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV2 {
         if ($clockSequence === ClockSequence::Random) {
@@ -74,7 +74,7 @@ final class UuidFactory
         $node ??= new RandomNode($randomizer); // override randomizer in the node too
         $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3f)) | 0x80;
 
-        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
+        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($timestamp));
         $nodeHex = $node->getHex();
         $clockSequenceHex = sprintf('%02x', $clockSequence);
         $domainHex = sprintf('%02x', $domain);
@@ -131,10 +131,10 @@ final class UuidFactory
     public static function v6(
         Node|null $node = null,
         int|ClockSequence $clockSequence = ClockSequence::Random,
-        DateTimeInterface|ClockInterface|null $time = null,
+        DateTimeInterface|ClockInterface|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV6 {
-        [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $time, $randomizer);
+        [$ts, $tail] = self::v1LikeHex($node, $clockSequence, $timestamp, $randomizer);
 
         $hex =
             substr($ts, 0, 12) . // time_high + time_mid
@@ -146,12 +146,12 @@ final class UuidFactory
     }
 
     public static function v7(
-        DateTimeInterface|ClockInterface|null $time = null,
+        DateTimeInterface|ClockInterface|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): UuidV7 {
         $randomizer ??= self::randomizer();
 
-        $ts = Helpers\DateTime::buildUlidHex(self::getTime($time));
+        $ts = Helpers\DateTime::buildUlidHex(self::getTime($timestamp));
         $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 
@@ -178,7 +178,7 @@ final class UuidFactory
     private static function v1LikeHex(
         Node|null $node,
         int|ClockSequence $clockSequence,
-        DateTimeInterface|ClockInterface|null $time,
+        DateTimeInterface|ClockInterface|null $timestamp,
         Randomizer|null $randomizer,
     ): array {
         if ($clockSequence === ClockSequence::Random) {
@@ -191,7 +191,7 @@ final class UuidFactory
         $node ??= new RandomNode($randomizer); // override randomizer in the node too
         $clockSequence = ($clockSequence ?? $randomizer->getInt(0, 0x3fff)) | 0x8000;
 
-        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($time));
+        $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($timestamp));
         $nodeHex = $node->getHex();
         $clockSequenceHex = sprintf('%04x', $clockSequence);
 

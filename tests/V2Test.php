@@ -135,8 +135,8 @@ class V2Test extends TestCase
 
         $clock = new StaticClock();
 
-        $uuid1 = UuidFactory::v2(0, 1, time: $clock, randomizer: $r1)->toString();
-        $uuid2 = UuidFactory::v2(0, 1, node: new RandomNode($r2), time: $clock, randomizer: $r2)->toString();
+        $uuid1 = UuidFactory::v2(0, 1, timestamp: $clock, randomizer: $r1)->toString();
+        $uuid2 = UuidFactory::v2(0, 1, node: new RandomNode($r2), timestamp: $clock, randomizer: $r2)->toString();
 
         self::assertEquals($uuid1, $uuid2);
     }

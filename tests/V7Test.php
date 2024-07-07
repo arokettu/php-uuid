@@ -66,7 +66,7 @@ class V7Test extends TestCase
     {
         // v7 has millisecond precision, we have to round our raw timestamp
         $clock = new RoundingClock(new StaticClock(), RoundingClock::ROUND_MILLISECONDS);
-        $uuid = UuidFactory::v7(time: $clock);
+        $uuid = UuidFactory::v7(timestamp: $clock);
 
         self::assertEquals($clock->now(), $uuid->getDateTime());
     }

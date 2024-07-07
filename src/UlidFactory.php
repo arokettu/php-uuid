@@ -18,12 +18,12 @@ final class UlidFactory
 
     public static function ulid(
         bool $uuidV7Compatible = false,
-        DateTimeInterface|ClockInterface|null $time = null,
+        DateTimeInterface|ClockInterface|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): Ulid {
         $randomizer ??= self::randomizer();
 
-        $ts = Helpers\DateTime::buildUlidHex(self::getTime($time));
+        $ts = Helpers\DateTime::buildUlidHex(self::getTime($timestamp));
         $rnd = bin2hex($randomizer->getBytes(10));
         $hex = $ts . $rnd;
 
