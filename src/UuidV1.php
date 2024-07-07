@@ -6,9 +6,15 @@ namespace Arokettu\Uuid;
 
 use DateTimeImmutable;
 
-final readonly class UuidV1 extends AbstractUuid implements Variant10xxUuid, TimeBasedUuid, Rfc4122Uuid, Rfc9562Uuid
+final readonly class UuidV1 extends AbstractUuid implements
+    Variant10xxUuid,
+    NodeBasedUuid,
+    TimeBasedUuid,
+    Rfc4122Uuid,
+    Rfc9562Uuid
 {
     use Helpers\Variant10xxUuidTrait;
+    use Helpers\NodeBasedUuidTrait;
 
     public function getVersion(): int
     {

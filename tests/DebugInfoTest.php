@@ -7,6 +7,7 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Clock\StaticClock;
 use Arokettu\Uuid\ClockSequences\ClockSequence;
 use Arokettu\Uuid\Nodes\RandomNode;
+use Arokettu\Uuid\Nodes\RawNode;
 use Arokettu\Uuid\UlidFactory;
 use Arokettu\Uuid\UuidFactory;
 use Arokettu\Uuid\UuidV2;
@@ -27,6 +28,8 @@ class DebugInfoTest extends TestCase
             'timestamp' => '2023-01-13T02:14:24.842137+00:00',
             'domain' => 0,
             'identifier' => 1234,
+            'node' => new RawNode('3fdb0085247e'),
+            'clockSequence' => 0x01,
         ], $uuid->__debugInfo());
     }
 
@@ -56,6 +59,8 @@ class DebugInfoTest extends TestCase
             'rfc' => '1ee9537c-f605-6180-a1f1-317acca458e9',
             'base32' => '0YX59QSXG5C60A3W9HFB6A8P79',
             'timestamp' => '2023-12-07T19:35:43.000000+00:00',
+            'node' => new RawNode('317acca458e9'),
+            'clockSequence' => 0x21f1,
         ], $uuid->__debugInfo());
     }
 

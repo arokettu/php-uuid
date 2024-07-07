@@ -10,7 +10,9 @@ use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\Nodes\StaticNode;
 use Arokettu\Uuid\UuidFactory;
+use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\UuidV1;
+use Arokettu\Uuid\UuidV6;
 use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
@@ -30,10 +32,39 @@ class V1Test extends TestCase
         self::assertEquals($ts, $uuid->getDateTime());
     }
 
+    public function testNode(): void
+    {
+        /** @var UuidV1 $uuid */
+        $uuid = UuidParser::fromRfc9562('ba472344-3c9b-11ef-9846-752142c7cc70');
+        self::assertEquals('75:21:42:c7:cc:70', $uuid->getNode()->toString());
+
+        /** @var UuidV1 $uuid */
+        $uuid = UuidParser::fromRfc9562('ba472344-3c9b-11ef-9846-1445FD782ba3');
+        self::assertEquals('14:45:fd:78:2b:a3', $uuid->getNode()->toString());
+    }
+
+    public function testClockSequence(): void
+    {
+        /** @var UuidV1 $uuid */
+        $uuid = UuidParser::fromRfc9562('ba472344-3c9b-11ef-9846-752142c7cc70');
+        self::assertEquals(0x1846, $uuid->getClockSequence());
+
+        /** @var UuidV1 $uuid */
+        $uuid = UuidParser::fromRfc9562('ba472344-3c9b-11ef-bfb9-752142c7cc70');
+        self::assertEquals(0x3fb9, $uuid->getClockSequence());
+    }
+
     public function testToUuidV6(): void
     {
-        $uuid = UuidNamespace::URL->getUuid();
-        self::assertEquals('1d19dad6-ba7b-6811-80b4-00c04fd430c8', $uuid->toUuidV6()->toString());
+        $uuid1 = UuidNamespace::URL->getUuid();
+        $uuid6 = new UuidV6('1d19dad6ba7b681180b400c04fd430c8');
+
+        self::assertEquals($uuid6->toString(), $uuid1->toUuidV6()->toString());
+
+        // fields do not change
+        self::assertEquals($uuid6->getDateTime(), $uuid1->getDateTime());
+        self::assertEquals($uuid6->getClockSequence(), $uuid1->getClockSequence());
+        self::assertEquals($uuid6->getNode(), $uuid1->getNode());
     }
 
     public function testFactory(): void

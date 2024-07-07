@@ -126,6 +126,11 @@ abstract readonly class AbstractUuid implements Uuid
             );
         }
 
+        if ($this instanceof NodeBasedUuid) {
+            $data['node'] = $this->getNode();
+            $data['clockSequence'] = $this->getClockSequence();
+        }
+
         return $data;
     }
 }

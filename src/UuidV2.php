@@ -6,9 +6,12 @@ namespace Arokettu\Uuid;
 
 use DateTimeImmutable;
 
-final readonly class UuidV2 extends AbstractUuid implements Variant10xxUuid, TimeBasedUuid
+final readonly class UuidV2 extends AbstractUuid implements Variant10xxUuid, TimeBasedUuid, NodeBasedUuid
 {
     use Helpers\Variant10xxUuidTrait;
+    use Helpers\NodeBasedUuidTrait {
+        getClockSequence as parentGetClockSequence;
+    }
 
     public function getVersion(): int
     {
@@ -31,6 +34,11 @@ final readonly class UuidV2 extends AbstractUuid implements Variant10xxUuid, Tim
         $timeHigh = substr($this->hex, 13, 3); // next 2 bytes, skip version
 
         return Helpers\DateTime::parseUuidV1Hex($timeHigh . $timeMid . '00000000');
+    }
+
+    public function getClockSequence(): int
+    {
+        return $this->parentGetClockSequence() >> 8; // lower byte is Domain
     }
 
     public function __debugInfo(): array
