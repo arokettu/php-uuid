@@ -148,6 +148,6 @@ class V6Test extends TestCase
         $this->expectException(\DomainException::class);
         $this->expectExceptionMessage("Clock sequence must be in range 0-16'383");
 
-        UuidFactory::v6(clockSequence: 100000000000000000);
+        UuidFactory::v6(clockSequence: 10000000);
     }
 }
