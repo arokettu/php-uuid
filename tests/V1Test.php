@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Arokettu\Uuid\Tests;
 
 use Arokettu\Clock\StaticClock;
-use Arokettu\Uuid\ClockSequences\ClockSequence;
 use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\Nodes\StaticNode;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-use Arokettu\Uuid\ClockSequences\ClockSequence;
 use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\Nodes\Node;
 use Arokettu\Uuid\Nodes\RandomNode;

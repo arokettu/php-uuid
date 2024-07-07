@@ -18,7 +18,7 @@ final class UlidFactory
 
     public static function ulid(
         bool $uuidV7Compatible = false,
-        DateTimeInterface|ClockInterface|null $timestamp = null,
+        DateTimeInterface|ClockInterface|int|float|null $timestamp = null,
         Randomizer|null $randomizer = null,
     ): Ulid {
         $randomizer ??= self::randomizer();
