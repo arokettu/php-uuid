@@ -3,6 +3,13 @@ Upgrade
 
 .. highlight:: php
 
+3.x to 4.0
+==========
+
+* In ``UuidFactory`` and ``UlidFactory``: ``$clock`` on all methods was renamed to ``$timestamp``
+* In ``UuidFactory`` and ``SequenceFactory`` for UUIDv1, UUIDv2, UUIDv6 ``$clockSequence``
+  param was added between ``$node`` and ``$timestamp`` / ``$clock``
+
 2.x to 3.0
 ==========
 
