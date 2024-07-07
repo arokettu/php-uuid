@@ -8,6 +8,7 @@ use Arokettu\Clock\MutableClock;
 use Arokettu\Clock\StaticClock;
 use Arokettu\Clock\TickingClock;
 use Arokettu\Uuid\ClockSequences\ClockSequence;
+use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\Nodes\RandomNode;
 use Arokettu\Uuid\Nodes\StaticNode;
 use Arokettu\Uuid\SequenceFactory;
@@ -157,5 +158,18 @@ class SequenceV6Test extends TestCase
                 break;
             }
         }
+    }
+
+    public function testSequenceFromPrototype(): void
+    {
+        $seq = SequenceFactory::v6FromPrototype(
+            UuidNamespace::X500->getUuid(), // 6ba7b814-9dad-11d1-80b4-00c04fd430c8
+            TickingClock::fromDateString('+1 second', '2024-07-07T20:30:28+00:00'),
+        );
+
+        self::assertEquals('1ef3c9fb-f604-6a00-80b4-00c04fd430c8', $seq->next()->toRfc4122());
+        self::assertEquals('1ef3c9fb-ff8e-6080-80b4-00c04fd430c8', $seq->next()->toRfc4122());
+        self::assertEquals('1ef3c9fc-0917-6700-80b4-00c04fd430c8', $seq->next()->toRfc4122());
+        self::assertEquals('1ef3c9fc-12a0-6d80-80b4-00c04fd430c8', $seq->next()->toRfc4122());
     }
 }

@@ -31,6 +31,18 @@ final class SequenceFactory
         );
     }
 
+    public static function v1FromPrototype(
+        UuidV1|UuidV6 $prototype,
+        ClockInterface|null $clock = null,
+    ): Sequences\UuidV1Sequence {
+        return new Sequences\UuidV1Sequence(
+            $prototype->getNode(),
+            $prototype->getClockSequence(),
+            $clock ?? self::clock(),
+            self::randomizer(), // Won't be used here so don't expose
+        );
+    }
+
     public static function v4(
         Randomizer|null $randomizer = null,
     ): Sequences\UuidV4Sequence {
@@ -52,6 +64,18 @@ final class SequenceFactory
             $clockSequence,
             $clock ?? self::clock(),
             $randomizer,
+        );
+    }
+
+    public static function v6FromPrototype(
+        UuidV1|UuidV6 $prototype,
+        ClockInterface|null $clock = null,
+    ): Sequences\UuidV6Sequence {
+        return new Sequences\UuidV6Sequence(
+            $prototype->getNode(),
+            $prototype->getClockSequence(),
+            $clock ?? self::clock(),
+            self::randomizer(), // Won't be used here so don't expose
         );
     }
 
