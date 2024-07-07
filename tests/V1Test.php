@@ -139,4 +139,20 @@ class V1Test extends TestCase
 
         self::assertEquals($uuid1, $uuid2);
     }
+
+    public function testClockSeqTooLow(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage("Clock sequence must be in range 0-16'383");
+
+        UuidFactory::v1(clockSequence: -1);
+    }
+
+    public function testClockSeqTooHigh(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage("Clock sequence must be in range 0-16'383");
+
+        UuidFactory::v1(clockSequence: 100000000000000000);
+    }
 }
