@@ -121,7 +121,7 @@ Rfc9562Uuid
 
 .. versionadded:: 3.0
 
-All UUIDs mentioned in `RFC 9562`_, i.e. Nil, Max, Rfc4122Variant10xxUuid versions 1-8 excluding 2.
+All UUIDs mentioned in `RFC 9562`_, i.e. Nil, Max, Variant10xxUuid versions 1-8 excluding 2.
 This excludes only Generic UUIDs and ULIDs.
 
 TimeBasedUuid
