@@ -25,7 +25,7 @@ cache:
   script:
     - composer update
     - php sbin/env_info.php
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit --fail-on-deprecation --fail-on-notice --fail-on-warning
 
 # main matrix
 test:
@@ -46,7 +46,7 @@ test-8.2-lowest:
   script:
     - composer update --prefer-lowest
     - php sbin/env_info.php
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit --fail-on-notice --fail-on-warning
 
 # 32 bit
 test-8-32bit:
