@@ -121,9 +121,7 @@ abstract readonly class AbstractUuid implements Uuid
         $data['base32'] = $this->toBase32();
 
         if ($this instanceof TimeBasedUuid) {
-            $data['timestamp'] = $this->getDateTime()->format(
-                'Y-m-d\TH:i:s.uP' // like DATE_RFC3339_EXTENDED but with microseconds
-            );
+            $data['timestamp'] = $this->getDateTime();
         }
 
         if ($this instanceof NodeBasedUuid) {

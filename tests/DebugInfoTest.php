@@ -24,7 +24,7 @@ class DebugInfoTest extends TestCase
             'version' => 2,
             'rfc' => '000004d2-92e8-21ed-8100-3fdb0085247e',
             'base32' => '00002D54Q847PR201ZVC08A93Y',
-            'timestamp' => '2023-01-13T02:14:24.842137+00:00',
+            'timestamp' => new \DateTimeImmutable('2023-01-13T02:14:24.842137+00:00'),
             'domain' => 0,
             'identifier' => 1234,
             'node' => new RawNode('3fdb0085247e'),
@@ -57,7 +57,7 @@ class DebugInfoTest extends TestCase
             'version' => 6,
             'rfc' => '1ee9537c-f605-6180-a1f1-317acca458e9',
             'base32' => '0YX59QSXG5C60A3W9HFB6A8P79',
-            'timestamp' => '2023-12-07T19:35:43.000000+00:00',
+            'timestamp' => new \DateTimeImmutable('@1701977743'),
             'node' => new RawNode('317acca458e9'),
             'clockSequence' => 0x21f1,
         ], $uuid->__debugInfo());
@@ -73,7 +73,7 @@ class DebugInfoTest extends TestCase
         $this->assertEquals([
             'rfc' => '018c45c7-5e98-f121-10cb-92a74394307a',
             'base32' => '01HH2WEQMRY4GH1JWJMX1S8C3T',
-            'timestamp' => '2023-12-07T19:35:43.000000+00:00',
+            'timestamp' => new \DateTimeImmutable('@1701977743'),
         ], $ulid->__debugInfo());
     }
 }
