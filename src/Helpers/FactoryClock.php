@@ -31,9 +31,9 @@ trait FactoryClock
                 => $clockOrTimestamp,
             $clockOrTimestamp instanceof ClockInterface
                 => $clockOrTimestamp->now(),
-            is_int($clockOrTimestamp)
+            \is_int($clockOrTimestamp)
                 => new DateTimeImmutable('@' . $clockOrTimestamp),
-            is_float($clockOrTimestamp)
+            \is_float($clockOrTimestamp)
                 => new DateTimeImmutable('@' . sprintf('%.6F', $clockOrTimestamp)),
             default
                 => throw new \LogicException('Unhandled type: ' . get_debug_type($clockOrTimestamp)),
