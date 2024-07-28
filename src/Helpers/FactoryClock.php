@@ -7,6 +7,7 @@ namespace Arokettu\Uuid\Helpers;
 use Arokettu\Clock\SystemClock;
 use DateTimeImmutable;
 use DateTimeInterface;
+use LogicException;
 use Psr\Clock\ClockInterface;
 
 /**
@@ -36,7 +37,7 @@ trait FactoryClock
             \is_float($clockOrTimestamp)
                 => new DateTimeImmutable('@' . sprintf('%.6F', $clockOrTimestamp)),
             default
-                => throw new \LogicException('Unhandled type: ' . get_debug_type($clockOrTimestamp)),
+                => throw new LogicException('Unhandled type: ' . get_debug_type($clockOrTimestamp)),
         };
     }
 }

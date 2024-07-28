@@ -6,6 +6,7 @@ namespace Arokettu\Uuid\Nodes;
 
 use Arokettu\Uuid\Helpers\NodeStringTrait;
 use DomainException;
+use UnexpectedValueException;
 
 abstract readonly class AbstractNode implements Node
 {
@@ -31,7 +32,7 @@ abstract readonly class AbstractNode implements Node
     final public static function fromHex(string $hex): static
     {
         if (preg_match('/^[0-9a-f]{12}$/i', $hex) !== 1) {
-            throw new DomainException('$hex must be 12 hexadecimal digits');
+            throw new UnexpectedValueException('$hex must be 12 hexadecimal digits');
         }
 
         return new static(static::normalize(strtolower($hex)));

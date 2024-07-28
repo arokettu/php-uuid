@@ -6,8 +6,8 @@ namespace Arokettu\Uuid\Nodes;
 
 use Arokettu\Uuid\Helpers\NodeStringTrait;
 use Arokettu\Uuid\Helpers\SystemMac;
-use DomainException;
 use RuntimeException;
+use UnexpectedValueException;
 
 final readonly class MacNode implements Node
 {
@@ -40,7 +40,7 @@ final readonly class MacNode implements Node
             return new self(strtolower($mac));
         }
 
-        throw new DomainException('Unrecognized MAC format');
+        throw new UnexpectedValueException('Unrecognized MAC format');
     }
 
     public static function system(): self

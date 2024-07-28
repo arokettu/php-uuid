@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arokettu\Uuid;
 
 use DomainException;
+use UnexpectedValueException;
 
 use function Arokettu\Unsigned\from_dec;
 use function Arokettu\Unsigned\to_dec;
@@ -82,7 +83,7 @@ abstract class AbstractParser
         }
 
         if (!$match) {
-            throw new DomainException('Not a valid RFC 9562 UUID notation');
+            throw new UnexpectedValueException('Not a valid RFC 9562 UUID notation');
         }
 
         $hex = preg_replace('/[{}-]/', '', $string);
@@ -113,7 +114,7 @@ abstract class AbstractParser
         }
 
         if (!$match) {
-            throw new DomainException('Not a valid Base32 encoded ' . static::TYPE);
+            throw new UnexpectedValueException('Not a valid Base32 encoded ' . static::TYPE);
         }
 
         return static::fromHex(Helpers\Base32::decode($string));
@@ -128,7 +129,7 @@ abstract class AbstractParser
         return match (\strlen($string)) {
             32, 34, 36, 38 => self::fromRfcFormat($string),
             26 => self::fromBase32($string),
-            default => throw new DomainException('Format not recognized'),
+            default => throw new UnexpectedValueException('Format not recognized'),
         };
     }
 
@@ -146,7 +147,7 @@ abstract class AbstractParser
         try {
             $bytes = from_dec($decimal, 16);
         } catch (DomainException $e) {
-            throw new DomainException(
+            throw new UnexpectedValueException(
                 'Invalid decimal string. ' .
                 '$decimal must represent an unsigned 128-bit integer without leading zeros',
                 previous: $e
@@ -156,7 +157,7 @@ abstract class AbstractParser
         $rev = to_dec($bytes);
 
         if ($rev !== $decimal) {
-            throw new DomainException(
+            throw new UnexpectedValueException(
                 sprintf(
                     'Overflow or leading zeros: got %s, decoded as %s. ' .
                     '$decimal must represent an unsigned 128-bit integer without leading zeros',

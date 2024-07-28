@@ -64,7 +64,7 @@ class NodesTest extends TestCase
 
     public function testRawNodeFromHexFormatEnforced(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('$hex must be 12 hexadecimal digits');
         RawNode::fromHex('must be hex!');
     }
@@ -141,7 +141,7 @@ class NodesTest extends TestCase
 
     public function testStaticNodeFromHexFormatEnforced(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('$hex must be 12 hexadecimal digits');
         StaticNode::fromHex('must be hex!');
     }

@@ -27,14 +27,14 @@ class MacNodeTest extends TestCase
 
     public function testParseWrongData(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Unrecognized MAC format');
         MacNode::parse('so:me:ju:nk:00:00');
     }
 
     public function testDoNotAllowMixedSeparators(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Unrecognized MAC format');
         MacNode::parse('94-47-b9-e7:6b:fc');
     }

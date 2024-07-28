@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
+use DomainException;
+
 final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
 {
     use Helpers\UlidLikeDateTime;
@@ -38,7 +40,7 @@ final readonly class Ulid extends AbstractUuid implements TimeBasedUuid
         }
 
         if ($lossy === false) {
-            throw new \DomainException('This ULID cannot be converted to UUID v7 losslessly');
+            throw new DomainException('This ULID cannot be converted to UUID v7 losslessly');
         }
 
         $hex = $this->hex;

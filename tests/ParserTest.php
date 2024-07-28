@@ -91,7 +91,7 @@ class ParserTest extends TestCase
 
     public function testHexWrongLength(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('UUID must be 32 hexadecimal digits');
 
         UuidParser::fromHex('3132333435363738393031323334353637');
@@ -99,7 +99,7 @@ class ParserTest extends TestCase
 
     public function testHexWrongLengthUlid(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('ULID must be 32 hexadecimal digits');
 
         UlidParser::fromHex('3132333435363738393031323334353637');
@@ -107,7 +107,7 @@ class ParserTest extends TestCase
 
     public function testRfcWrongChars(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid RFC 9562 UUID notation');
 
         UuidParser::fromRfcFormat('000003e8-113f-21ee-8z00-2eb5a363657c');
@@ -115,7 +115,7 @@ class ParserTest extends TestCase
 
     public function testRfcStrictBracketsNotAllowed(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid RFC 9562 UUID notation');
 
         UuidParser::fromRfcFormat('{000003e8-113f-21ee-8c00-2eb5a363657c}', true);
@@ -123,7 +123,7 @@ class ParserTest extends TestCase
 
     public function testRfcStrictNoDashes(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid RFC 9562 UUID notation');
 
         UuidParser::fromRfcFormat('000003e8113f21ee8c002eb5a363657c', true);
@@ -131,7 +131,7 @@ class ParserTest extends TestCase
 
     public function testBase32WrongChars1(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
         UlidParser::fromBase32('ZZZZZZZZZZZZZZZZZZZZZZZZZZ');
@@ -139,7 +139,7 @@ class ParserTest extends TestCase
 
     public function testBase32WrongCharsU(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
         UlidParser::fromBase32('7ZZZZZZZZZZZUZZZZZZZZZZZZZ');
@@ -147,7 +147,7 @@ class ParserTest extends TestCase
 
     public function testBase32WrongCharsB32Strict(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
         UlidParser::fromBase32('7ZZZZZZZZZZZLZZZZZZZZZZZZZ', strict: true);
@@ -155,7 +155,7 @@ class ParserTest extends TestCase
 
     public function testBase32WrongCharsB32Strict1st(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('Not a valid Base32 encoded ULID');
 
         UlidParser::fromBase32('IZZZZZZZZZZZZZZZZZZZZZZZZZ', strict: true);
@@ -259,7 +259,7 @@ class ParserTest extends TestCase
 
     public function testDecimalNonNegative(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
             'Invalid decimal string. ' .
             '$decimal must represent an unsigned 128-bit integer without leading zeros'
@@ -270,7 +270,7 @@ class ParserTest extends TestCase
 
     public function testDecimalOverflow(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
             'Overflow or leading zeros: got 784531231484897451231354848645211654874566, ' .
             'decoded as 180375732134292948276378514985927468486. ' .
@@ -282,7 +282,7 @@ class ParserTest extends TestCase
 
     public function testDecimalOverflowMin(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
             'Overflow or leading zeros: got 340282366920938463463374607431768211456, decoded as 0. ' .
             '$decimal must represent an unsigned 128-bit integer without leading zeros'
