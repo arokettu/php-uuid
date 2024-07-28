@@ -2,6 +2,12 @@
 
 ## 3.x
 
+### 4.0.1
+
+*Jul 28, 2024*
+
+* Parser exceptions were changed to `UnexpectedValueException`
+
 ### 4.0.0
 
 *Jul 8, 2024*
