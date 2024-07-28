@@ -19,6 +19,14 @@
 
 UUID and ULID classes for PHP.
 
+## Installation
+
+```bash
+composer require arokettu/uuid
+```
+
+* Either GMP or Bcmath extension is strongly recommended on 32-bit systems.
+
 ## Usage
 
 ```php
@@ -56,14 +64,6 @@ UuidParser::fromString('e982dc4e-1acc-11ee-be56-0242ac120002')
 UlidParser::fromString('01H4HQC4G1C1606J19358PWESA')
     ->toUuidV7(lossy: true); // 01892376-1201-704c-8348-2919516e3b2a
 ```
-
-## Installation
-
-```bash
-composer require arokettu/uuid
-```
-
-* Either GMP or Bcmath extension is strongly recommended on 32-bit systems.
 
 ## Documentation
 
