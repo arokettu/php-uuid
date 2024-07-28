@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.x
+## 4.x
 
 ### 4.0.1
 
@@ -20,6 +20,8 @@ A release dedicated to fixing my gross misunderstanding of what the clock sequen
 * V1 and V6 sequences can now be created using a prototype UUID to preset node and clock sequence values
 * In UuidFactory and UlidFactory `$clock` was renamed to `$timestamp` 
   and now additionally allows integer and float timestamps
+
+## 3.x
 
 ### 3.1.0
 
