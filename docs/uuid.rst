@@ -150,7 +150,7 @@ Basically a rearrangement of UUIDv1 fields.
 They are mostly useful as a conversion from UUIDv1.
 
 The class implements ``TimeBasedUuid`` interface.
-UUIDv1 timestamp is measured to 100 nsec precision which is more than DateTime can handle
+UUIDv6 timestamp is measured to 100 nsec precision which is more than DateTime can handle
 therefore the returned value will be truncated by one decimal.
 The range is ``1582-10-15 00:00:00.0 +00:00`` -- ``5236-03-31 21:21:00.684697 +00:00``.
 
@@ -240,14 +240,14 @@ You can do it at your own risk if you used ULIDs and then decided to move to a m
     use Arokettu\Uuid\UuidParser;
 
     // ULID that was converted from UUIDv7
-    $ulid = UuidParser::fromBase32('01H44Q8TJ8EP0B9GNZKB6YF4J0');
+    $ulid = UlidParser::fromBase32('01H44Q8TJ8EP0B9GNZKB6YF4J0');
     var_dump($ulid->isUuidV7Compatible());  // true
     $uuid = $ulid->toUuidV7();
     var_dump($uuid->toString());    // 01890974-6a48-7580-b4c2-bf9acde79240
     var_dump($uuid->toBase32());    // 01H44Q8TJ8EP0B9GNZKB6YF4J0
 
     // Just a random ULID
-    $ulid = UuidParser::fromBase32('01H44RDYXJPFCF895N3BBXCZRC');
+    $ulid = UlidParser::fromBase32('01H44RDYXJPFCF895N3BBXCZRC');
     var_dump($ulid->isUuidV7Compatible()); // false
     // $uuid = $ulid->toUuidV7(); // UnexpectedValueException: This ULID cannot be converted to UUID v7 losslessly
     $uuid = $ulid->toUuidV7(lossy: true);

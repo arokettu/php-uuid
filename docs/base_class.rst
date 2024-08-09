@@ -97,9 +97,9 @@ This interface is most useful to check that it is a standard based UUID as oppos
 
     <?php
 
-    use Arokettu\Uuid\Rfc4122Variant10xxUuid;
     use Arokettu\Uuid\UlidFactory;
     use Arokettu\Uuid\UuidFactory;
+    use Arokettu\Uuid\Variant10xxUuid;
 
     $uuid = UuidFactory::v4();
     var_dump($uuid instanceof Variant10xxUuid); // true
