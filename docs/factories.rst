@@ -438,7 +438,7 @@ and override RNG by passing an instance of ``Random\Randomizer``.
 UUIDv7 (short)
 --------------
 
-.. versionadded:: 3.0 ``v7Short```
+.. versionadded:: 3.0 ``v7Short``
 
 ``Arokettu\Uuid\SequenceFactory::v7()``
 ``Arokettu\Uuid\SequenceFactory::v7Short()``
@@ -481,7 +481,7 @@ and override RNG by passing an instance of ``Random\Randomizer``.
 UUIDv7 (long) and ULID
 -----------------------
 
-.. versionadded:: 3.0 ``v7Long```
+.. versionadded:: 3.0 ``v7Long``
 
 ``Arokettu\Uuid\SequenceFactory::v7Long()``
 ``Arokettu\Uuid\SequenceFactory::ulid($uuidV7Compatible = false)``
