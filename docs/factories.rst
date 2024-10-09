@@ -39,22 +39,32 @@ Version 1
 
 Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
 You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
+a clock sequence value by using an integer in range 0-16'383,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
 
-    use Arokettu\Clock\StaticClock;
     use Arokettu\Uuid\Nodes\StaticNode;
     use Arokettu\Uuid\UuidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
 
     $uuid = UuidFactory::v1(); // some random UUID
 
+    // nothing random
     $node = StaticNode::fromHex('1234567890ab');
     $time = new DateTime('2023-10-30 12:00 UTC');
     $seq = 123;
     $uuid = UuidFactory::v1($node, $seq, $time);
 
     var_dump($uuid->toString()); // d9fb2000-771b-11ee-807b-1334567890ab
+
+    // use RNG to get predictable random clock sequence and node values
+    $rng = new Randomizer(new Xoshiro256StarStar(123));
+    $time = new DateTime('2023-10-30 12:00 UTC');
+    $uuid = UuidFactory::v1(timestamp: $time, randomizer: $rng);
+
+    var_dump($uuid->toString()); // d9fb2000-771b-11ee-a9f9-5f4d6d65c7e3
 
 Version 2
 ---------
@@ -74,18 +84,20 @@ Version 2 requires domain (8 bit unsigned) and identifier (32 bit unsigned) valu
 
 Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
 You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
+a clock sequence value by using an integer in range 0-63,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
 
-    require __DIR__ . '/../vendor/autoload.php';
-
     use Arokettu\Uuid\DceSecurity\Domains;
     use Arokettu\Uuid\Nodes\StaticNode;
     use Arokettu\Uuid\UuidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
 
     $uuid = UuidFactory::v2(Domains::GROUP, posix_getgid()); // some GID based UUID
 
+    // nothing random
     $node = StaticNode::fromHex('1234567890ab');
     $time = new DateTime('2023-10-30 12:00 UTC');
     $seq = 23;
@@ -94,6 +106,13 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
     $uuid = UuidFactory::v2($domain, $identifier, $node, $seq, $time);
 
     var_dump($uuid->toString()); // 000003e8-771b-21ee-9700-1334567890ab
+
+    // use RNG to get predictable random clock sequence and node values
+    $rng = new Randomizer(new Xoshiro256StarStar(123));
+    // reusing $time, $domain, $identifier
+    $uuid = UuidFactory::v2($domain, $identifier, timestamp: $time, randomizer: $rng);
+
+    var_dump($uuid->toString()); // 000003e8-771b-21ee-b900-5f4d6d65c7e3
 
 Version 3
 ---------
@@ -180,21 +199,32 @@ Version 6
 
 Set :ref:`a node <uuidv1nodes>` if needed, a random one will be used if not set.
 You can set a timestamp by using an instance of ``DateTimeInterface`` or ``Psr\Clock\ClockInterface``,
+a clock sequence value by using an integer in range 0-16'383,
 also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
 
     use Arokettu\Uuid\Nodes\StaticNode;
     use Arokettu\Uuid\UuidFactory;
+    use Random\Engine\Xoshiro256StarStar;
+    use Random\Randomizer;
 
     $uuid = UuidFactory::v6(); // some random UUID
 
+    // nothing random
     $node = StaticNode::fromHex('1234567890ab');
     $time = new DateTime('2023-10-30 12:00 UTC');
     $seq = 123;
     $uuid = UuidFactory::v6($node, $seq, $time);
 
     var_dump($uuid->toString()); // 1ee771bd-9fb2-6000-807b-1334567890ab
+
+    // use RNG to get predictable random clock sequence and node values
+    $rng = new Randomizer(new Xoshiro256StarStar(123));
+    $time = new DateTime('2023-10-30 12:00 UTC');
+    $uuid = UuidFactory::v6(timestamp: $time, randomizer: $rng);
+
+    var_dump($uuid->toString()); // 1ee771bd-9fb2-6000-a9f9-5f4d6d65c7e3
 
 Version 7
 ---------
