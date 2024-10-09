@@ -12,6 +12,8 @@
 
 *Jul 8, 2024*
 
+Forked from 3.1.0
+
 A release dedicated to fixing my gross misunderstanding of what the clock sequence is.
 
 * UuidV1, V2, V6 factories and their sequences now allow explicitly setting a clock sequence on creation
@@ -32,6 +34,8 @@ A release dedicated to fixing my gross misunderstanding of what the clock sequen
 ### 3.0.0
 
 *May 15, 2024*
+
+Forked from 2.5.0
 
 * Since RFC 9562 is published, terminology was rebased
   * `Rfc4122Variant10xxUuid` -> `Variant10xxUuid` and it no longer extends `Rfc4122Uuid`
