@@ -62,7 +62,7 @@ Generic UUID
 Any UUID that is not Nil, Max or Variant10xx and is not marked as ULID will be parsed to this class.
 
 The class can also be initialized directly with any 32 hexadecimal digits.
-(Obviously, the class will not be cast to a version class in case the data happen to be a valid version or special UUID)
+(Obviously, the class will not be cast to a version class in case the data happen to be a valid version or a special UUID)
 
 RFC 9562
 ========
@@ -252,10 +252,10 @@ You can do it at your own risk if you used ULIDs and then decided to move to a m
     // $uuid = $ulid->toUuidV7(); // UnexpectedValueException: This ULID cannot be converted to UUID v7 losslessly
     $uuid = $ulid->toUuidV7(lossy: true);
     // note digit 13 becoming '7' and digit 17 moving into [89ab] range
-    var_dump($uuid->toString());    // 01890986-fbb2-73d8-b424-b51ad7d67f0c
     var_dump($ulid->toRfcFormat()); // 01890986-fbb2-b3d8-f424-b51ad7d67f0c
-    var_dump($uuid->toBase32());    // 01H44RDYXJEFCB895N3BBXCZRC
+    var_dump($uuid->toString());    // 01890986-fbb2-73d8-b424-b51ad7d67f0c
     var_dump($ulid->toString());    // 01H44RDYXJPFCF895N3BBXCZRC
+    var_dump($uuid->toBase32());    // 01H44RDYXJEFCB895N3BBXCZRC
 
 .. _RFC 9562: https://datatracker.ietf.org/doc/html/rfc9562
 .. _ULID spec: https://github.com/ulid/spec

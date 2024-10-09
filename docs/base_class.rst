@@ -40,7 +40,7 @@ Conversion to String
 
 .. versionadded:: 2.1 ``toDecimal()``
 
-Methods to convert UUID object to string:
+Methods to convert UUID object to a readable string:
 
 * ``toString()``. Converts UUIDs to the RFC Format and ULIDs to Base32.
 * ``toRfcFormat()`` to `RFC 9562`_ form.

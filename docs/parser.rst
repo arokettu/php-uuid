@@ -80,6 +80,7 @@ Supported formats:
 * Hex without dashes: ``6ba7b8119dad11d180b400c04fd430c8``
 * Hex without dashes in curly braces: ``{6ba7b8119dad11d180b400c04fd430c8}``
 
+Strict mode only supports the standard hex format.
 All representations are case insensitive.
 The type is determined the same way as in ``fromBytes()``.
 
@@ -95,6 +96,9 @@ The type is determined the same way as in ``fromBytes()``.
     $uuid = UuidParser::fromRfcFormat($string);
     var_dump($uuid->toString());    // 6ba7b811-9dad-11d1-80b4-00c04fd430c8
     var_dump($uuid::class);         // Arokettu\Uuid\UuidV1
+
+    // curly braces are not allowed in the strict mode
+    UuidParser::fromRfcFormat($string, strict: true); // UnexpectedValueException
 
     $ulid = UlidParser::fromRfcFormat($string);
     var_dump($ulid->toString());    // 3BMYW137DD278R1D00R17X8C68

@@ -30,6 +30,7 @@ Version 1
 .. versionchanged:: 4.0
    ``$clock`` is renamed to ``$timestamp``.
    Passing ``int`` / ``float`` timestamps is allowed
+.. versionadded:: 4.0 ``$clockSequence``
 
 .. note::
     ``float`` timestamps are internally converted to DateTime so precision below 1 microsecond is still not achievable.
@@ -45,17 +46,15 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
     use Arokettu\Clock\StaticClock;
     use Arokettu\Uuid\Nodes\StaticNode;
     use Arokettu\Uuid\UuidFactory;
-    use Random\Engine\Xoshiro256StarStar;
-    use Random\Randomizer;
 
     $uuid = UuidFactory::v1(); // some random UUID
 
     $node = StaticNode::fromHex('1234567890ab');
-    $rand = new Randomizer(new Xoshiro256StarStar(123));
-    $clock = new StaticClock(new DateTime('2023-10-30 12:00 UTC'));
-    $uuid = UuidFactory::v1($node, $clock, $rand);
+    $time = new DateTime('2023-10-30 12:00 UTC');
+    $seq = 123;
+    $uuid = UuidFactory::v1($node, $seq, $time);
 
-    var_dump($uuid->toString()); // d9fb2000-771b-11ee-b969-1334567890ab
+    var_dump($uuid->toString()); // d9fb2000-771b-11ee-807b-1334567890ab
 
 Version 2
 ---------
@@ -65,6 +64,7 @@ Version 2
 .. versionchanged:: 4.0
    ``$clock`` is renamed to ``$timestamp``.
    Passing ``int`` / ``float`` timestamps is allowed
+.. versionadded:: 4.0 ``$clockSequence``
 
 .. note::
     This is a legacy version and it should not be used.
@@ -80,23 +80,20 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     require __DIR__ . '/../vendor/autoload.php';
 
-    use Arokettu\Clock\StaticClock;
     use Arokettu\Uuid\DceSecurity\Domains;
     use Arokettu\Uuid\Nodes\StaticNode;
     use Arokettu\Uuid\UuidFactory;
-    use Random\Engine\Xoshiro256StarStar;
-    use Random\Randomizer;
 
     $uuid = UuidFactory::v2(Domains::GROUP, posix_getgid()); // some GID based UUID
 
     $node = StaticNode::fromHex('1234567890ab');
-    $rand = new Randomizer(new Xoshiro256StarStar(123));
-    $clock = new StaticClock(new DateTime('2023-10-30 12:00 UTC'));
+    $time = new DateTime('2023-10-30 12:00 UTC');
+    $seq = 23;
     $domain = Domains::PERSON;
     $identifier = posix_getuid(); // usually 1000 for most default groups on modern Linuxes
-    $uuid = UuidFactory::v2($domain, $identifier, $node, $clock, $rand);
+    $uuid = UuidFactory::v2($domain, $identifier, $node, $seq, $time);
 
-    var_dump($uuid->toString()); // 000003e8-771b-21ee-b900-1334567890ab
+    var_dump($uuid->toString()); // 000003e8-771b-21ee-9700-1334567890ab
 
 Version 3
 ---------
@@ -174,6 +171,7 @@ Version 6
 .. versionchanged:: 4.0
    ``$clock`` is renamed to ``$timestamp``.
    Passing ``int`` / ``float`` timestamps is allowed
+.. versionadded:: 4.0 ``$clockSequence``
 
 .. note::
     ``float`` timestamps are internally converted to DateTime so precision below 1 microsecond is still not achievable.
@@ -186,20 +184,17 @@ also you can override RNG by passing an instance of ``Random\Randomizer``::
 
     <?php
 
-    use Arokettu\Clock\StaticClock;
-    use Arokettu\Uuid\Node\StaticNode;
+    use Arokettu\Uuid\Nodes\StaticNode;
     use Arokettu\Uuid\UuidFactory;
-    use Random\Engine\Xoshiro256StarStar;
-    use Random\Randomizer;
 
     $uuid = UuidFactory::v6(); // some random UUID
 
     $node = StaticNode::fromHex('1234567890ab');
-    $rand = new Randomizer(new Xoshiro256StarStar(123));
-    $clock = new StaticClock(new DateTime('2023-10-30 12:00 UTC'));
-    $uuid = UuidFactory::v6($node, $clock, $rand);
+    $time = new DateTime('2023-10-30 12:00 UTC');
+    $seq = 123;
+    $uuid = UuidFactory::v6($node, $seq, $time);
 
-    var_dump($uuid->toString()); // 1ee771bd-9fb2-6000-b969-1334567890ab
+    var_dump($uuid->toString()); // 1ee771bd-9fb2-6000-807b-1334567890ab
 
 Version 7
 ---------
@@ -483,13 +478,13 @@ UUIDv7 (long) and ULID
 
 .. versionadded:: 3.0 ``v7Long``
 
-``Arokettu\Uuid\SequenceFactory::v7Long()``
-``Arokettu\Uuid\SequenceFactory::ulid($uuidV7Compatible = false)``
+* ``Arokettu\Uuid\SequenceFactory::v7Long()``
+* ``Arokettu\Uuid\SequenceFactory::ulid($uuidV7Compatible = false)``
 
 The algorithm is a simplified version of ULID standard algo, having the whole rand_a + rand_b as a counter,
 that also aligns with `RFC 9562`_ 6.2 Method 2.
 The simplification is that only the lowest 48 bits act as a proper counter to simplify the implementation.
-Each iteration increments with 24 bits of randomness resulting in approximately 16'777'216 ids/msec.
+Each iteration increments with 24 bits of randomness resulting in approximately 8'388'608 ids/msec.
 This sequence is moderately unguessable.
 
 Like with the regular factory you can set a timestamp by using an instance of ``Psr\Clock\ClockInterface``
