@@ -6,21 +6,23 @@ sys.path.append(os.curdir)
 from conf_project import *
 
 author = 'Anton Smirnov'
-copyright = '{} {}'.format(datetime.now().year, author)
+copyright = '{}'.format(datetime.now().year)
 language = 'en'
 
 html_title = project
-html_theme = 'furo'
+html_theme = 'sphinx_book_theme'
 templates_path = ["_templates"]
 html_sidebars = {
     "**": [
-        "sidebar/brand.html",
+        "navbar-logo.html",
         "rtd-version.html",
-        "sidebar/search.html",
-        "sidebar/scroll-start.html",
-        "sidebar/navigation.html",
-        "sidebar/ethical-ads.html",
-        "sidebar/scroll-end.html",
-        "sidebar/variant-selector.html",
+        "icon-links.html",
+        "search-button-field.html",
+        "sbt-sidebar-nav.html",
     ]
 }
+html_context = {
+    'current_version': os.environ.get("READTHEDOCS_VERSION_NAME"),
+}
+
+exclude_patterns = ['venv/*']
