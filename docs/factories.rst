@@ -76,6 +76,8 @@ Version 2
    Passing ``int`` / ``float`` timestamps is allowed
 .. versionadded:: 4.0 ``$clockSequence``
 
+``Arokettu\Uuid\UuidFactory::v2($domain, $identifier, $node)``
+
 .. note::
     This is a legacy version and it should not be used.
     There is a high chance of generating a same ID unless a random node is used.
