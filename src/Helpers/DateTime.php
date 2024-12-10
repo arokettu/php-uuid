@@ -33,7 +33,7 @@ final class DateTime
                 $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
             }
 
-            return sprintf('%012s', $hexTS);
+            return \sprintf('%012s', $hexTS);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
@@ -50,7 +50,7 @@ final class DateTime
                 $hexTS = substr($hexTS, -12); // allow date to roll over on 10889-08-02 lol
             }
 
-            return sprintf('%012s', $hexTS);
+            return \sprintf('%012s', $hexTS);
         } elseif (\extension_loaded('bcmath')) {
             $ts = bcadd($tsS . '000', $tsMs, 0);
             return BcmathHelper::decToHex($ts, 12);
@@ -74,25 +74,25 @@ final class DateTime
             $tsMs = hexdec($hex);
             $ts = intdiv($tsMs, 1000);
             $ms = $tsMs % 1000;
-            return DateTimeImmutable::createFromFormat('U v', sprintf('%d %03d', $ts, $ms)) ?:
+            return DateTimeImmutable::createFromFormat('U v', \sprintf('%d %03d', $ts, $ms)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
             $tsMs = gmp_init($hex, 16);
             [$ts, $ms] = gmp_div_qr($tsMs, 1000);
-            return DateTimeImmutable::createFromFormat('U v', sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
+            return DateTimeImmutable::createFromFormat('U v', \sprintf('%s %03s', gmp_strval($ts), gmp_strval($ms))) ?:
                 throw new RuntimeException('Error creating DateTime object');
         } elseif (\extension_loaded('bcmath')) {
             $tsMs = BcmathHelper::hexToDec($hex);
             $ts = bcdiv($tsMs, '1000', 0);
             $ms = bcmod($tsMs, '1000', 0);
-            return DateTimeImmutable::createFromFormat('U v', sprintf('%s %03s', $ts, $ms)) ?:
+            return DateTimeImmutable::createFromFormat('U v', \sprintf('%s %03s', $ts, $ms)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         } else {
             $tsMs = u\from_hex($hex, 6);
             [$ts, $ms] = u\div_mod_int($tsMs, 1000);
-            return DateTimeImmutable::createFromFormat('U v', sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
+            return DateTimeImmutable::createFromFormat('U v', \sprintf('%s %03d', u\to_dec($ts), $ms)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         }
         // @codeCoverageIgnoreEnd
@@ -112,7 +112,7 @@ final class DateTime
                 $hexTS = substr($hexTS, -15); // allow date to roll over on 5236-03-31 lol
             }
 
-            return sprintf('%015s', $hexTS);
+            return \sprintf('%015s', $hexTS);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } elseif (\extension_loaded('gmp')) {
@@ -129,7 +129,7 @@ final class DateTime
                 $hexTS = substr($hexTS, -15); // allow date to roll over on 5236-03-31 lol
             }
 
-            return sprintf('%015s', $hexTS);
+            return \sprintf('%015s', $hexTS);
         } elseif (\extension_loaded('bcmath')) {
             $ts = bcsub($tsS, self::V1_EPOCH_STR_DEC, 0) . '0000000';
             $ts = bcadd($ts, $tsUs . '0', 0);
@@ -162,7 +162,7 @@ final class DateTime
             $tsS = intdiv($ts, 10_000_000) + self::V1_EPOCH; // convert to unix timestamp
             $tsUs = intdiv($ts % 10_000_000, 10); // lose 1 decimal of precision
 
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%d %06d', $tsS, $tsUs)) ?:
+            return DateTimeImmutable::createFromFormat('U u', \sprintf('%d %06d', $tsS, $tsUs)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
@@ -174,14 +174,14 @@ final class DateTime
 
             return DateTimeImmutable::createFromFormat(
                 'U u',
-                sprintf('%s %06s', gmp_strval($tsS), gmp_strval($tsUs))
+                \sprintf('%s %06s', gmp_strval($tsS), gmp_strval($tsUs))
             ) ?: throw new RuntimeException('Error creating DateTime object');
         } elseif (\extension_loaded('bcmath')) {
             $ts = BcmathHelper::hexToDec($hex);
             $tsS = bcadd(bcdiv($ts, '10000000', 0), self::V1_EPOCH_STR_DEC, 0);
             $tsUs = bcdiv(bcmod($ts, '10000000', 0), '10', 0);
 
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %06s', $tsS, $tsUs)) ?:
+            return DateTimeImmutable::createFromFormat('U u', \sprintf('%s %06s', $tsS, $tsUs)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         } else {
             $ts = u\from_hex($hex, 8);
@@ -189,7 +189,7 @@ final class DateTime
             $tsS = u\sub($tsES, u\from_hex(self::V1_EPOCH_STR_NEG, 8));
             $tsUs = intdiv($tsNs, 10); // lose 1 decimal of precision
 
-            return DateTimeImmutable::createFromFormat('U u', sprintf('%s %06d', u\to_dec($tsS), $tsUs)) ?:
+            return DateTimeImmutable::createFromFormat('U u', \sprintf('%s %06d', u\to_dec($tsS), $tsUs)) ?:
                 throw new RuntimeException('Error creating DateTime object');
         }
         // @codeCoverageIgnoreEnd

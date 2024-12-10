@@ -22,7 +22,7 @@ final class Base32
             $b2 = base_convert($h2, 16, 32);
             $b3 = base_convert($h3, 16, 32);
 
-            $num = sprintf('%02s%08s%08s%08s', $b0, $b1, $b2, $b3);
+            $num = \sprintf('%02s%08s%08s%08s', $b0, $b1, $b2, $b3);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } else {
@@ -42,7 +42,7 @@ final class Base32
             $b5 = base_convert($h5, 16, 32);
             $b6 = base_convert($h6, 16, 32);
 
-            $num = sprintf('%02s%04s%04s%04s%04s%04s%04s', $b0, $b1, $b2, $b3, $b4, $b5, $b6);
+            $num = \sprintf('%02s%04s%04s%04s%04s%04s%04s', $b0, $b1, $b2, $b3, $b4, $b5, $b6);
         }
         // @codeCoverageIgnoreEnd
 
@@ -75,7 +75,7 @@ final class Base32
             $h2 = base_convert($b2, 32, 16);
             $h3 = base_convert($b3, 32, 16);
 
-            $hex = sprintf('%02s%010s%010s%010s', $h0, $h1, $h2, $h3);
+            $hex = \sprintf('%02s%010s%010s%010s', $h0, $h1, $h2, $h3);
         // @codeCoverageIgnoreStart
         // 32 bit stuff is not covered by the coverage build
         } else {
@@ -95,7 +95,7 @@ final class Base32
             $h5 = base_convert($b5, 32, 16);
             $h6 = base_convert($b6, 32, 16);
 
-            $hex = sprintf('%02s%05s%05s%05s%05s%05s%05s', $h0, $h1, $h2, $h3, $h4, $h5, $h6);
+            $hex = \sprintf('%02s%05s%05s%05s%05s%05s%05s', $h0, $h1, $h2, $h3, $h4, $h5, $h6);
         }
         // @codeCoverageIgnoreEnd
 

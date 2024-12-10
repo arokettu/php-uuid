@@ -158,7 +158,7 @@ abstract class AbstractParser
 
         if ($rev !== $decimal) {
             throw new UnexpectedValueException(
-                sprintf(
+                \sprintf(
                     'Overflow or leading zeros: got %s, decoded as %s. ' .
                     '$decimal must represent an unsigned 128-bit integer without leading zeros',
                     $decimal,

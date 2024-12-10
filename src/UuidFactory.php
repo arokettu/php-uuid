@@ -75,9 +75,9 @@ final class UuidFactory
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($timestamp));
         $nodeHex = $node->getHex();
-        $clockSequenceHex = sprintf('%02x', $clockSequence);
-        $domainHex = sprintf('%02x', $domain);
-        $identifierHex = sprintf('%08x', $identifier);
+        $clockSequenceHex = \sprintf('%02x', $clockSequence);
+        $domainHex = \sprintf('%02x', $domain);
+        $identifierHex = \sprintf('%08x', $identifier);
 
         $hex =
             $identifierHex .
@@ -192,7 +192,7 @@ final class UuidFactory
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex(self::getTime($timestamp));
         $nodeHex = $node->getHex();
-        $clockSequenceHex = sprintf('%04x', $clockSequence);
+        $clockSequenceHex = \sprintf('%04x', $clockSequence);
 
         return [$tsHex, $clockSequenceHex . $nodeHex];
     }

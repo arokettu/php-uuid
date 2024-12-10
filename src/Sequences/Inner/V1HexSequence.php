@@ -52,7 +52,7 @@ final class V1HexSequence
         }
 
         $tsHex = Helpers\DateTime::buildUuidV1Hex($this->time, $this->counter);
-        $clockHex = sprintf('%04x', ($this->clockSequence ?? $this->randomizer->getInt(0, 0x3fff)) | 0x8000); // 2 bytes
+        $clockHex = \sprintf('%04x', ($this->clockSequence ?? $this->randomizer->getInt(0, 0x3fff)) | 0x8000); // 2 bytes
         $nodeHex = $this->node->getHex();
 
         if ($this->isV6) {

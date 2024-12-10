@@ -20,7 +20,7 @@ trait Variant10xxUuidTrait
         }
         if (UuidBytes::getVersion($hex) !== $this->getVersion()) {
             throw new DomainException(
-                sprintf('The supplied UUID is not a valid RFC 9562 version %d UUID', $this->getVersion())
+                \sprintf('The supplied UUID is not a valid RFC 9562 version %d UUID', $this->getVersion())
             );
         }
     }

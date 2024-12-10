@@ -72,8 +72,8 @@ final class V7LongHexSequence
         $hex =
             $this->time .
             $this->hex .
-            sprintf('%06x', $this->counterHigh) .
-            sprintf('%06x', $this->counterLow);
+            \sprintf('%06x', $this->counterHigh) .
+            \sprintf('%06x', $this->counterLow);
 
         return $hex;
     }
