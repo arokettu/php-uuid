@@ -23,7 +23,7 @@ cache:
     # cache dependencies
     - composer config -g cache-dir "$(pwd)/.composer-cache"
   script:
-    - composer update
+    - composer update --ignore-platform-req=php
     - php sbin/env_info.php
     - vendor/bin/phpunit --fail-on-deprecation --fail-on-notice --fail-on-warning
 
@@ -62,7 +62,7 @@ test-8-32bit-gmp:
   script:
     - apt-get install -y libgmp-dev
     - docker-php-ext-install gmp
-    - composer update
+    - composer update --ignore-platform-req=php
     - php sbin/env_info.php
     - vendor/bin/phpunit
 
@@ -73,7 +73,7 @@ test-8-32bit-bcmath:
   image: i386/php:8
   script:
     - docker-php-ext-install bcmath
-    - composer update
+    - composer update --ignore-platform-req=php
     - php sbin/env_info.php
     - vendor/bin/phpunit
 
