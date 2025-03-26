@@ -23,7 +23,6 @@ cache:
     # cache dependencies
     - composer config -g cache-dir "$(pwd)/.composer-cache"
   script:
-    - composer update --ignore-platform-req=php
     - php sbin/env_info.php
     - vendor/bin/phpunit --fail-on-deprecation --fail-on-notice --fail-on-warning --no-coverage
 
@@ -46,7 +45,7 @@ test-8.2-lowest:
   script:
     - composer update --prefer-lowest
     - php sbin/env_info.php
-    - vendor/bin/phpunit --fail-on-notice --fail-on-warning
+    - vendor/bin/phpunit --fail-on-notice --fail-on-warning --no-coverage
 
 # 32 bit
 test-8-32bit:
@@ -62,9 +61,8 @@ test-8-32bit-gmp:
   script:
     - apt-get install -y libgmp-dev
     - docker-php-ext-install gmp
-    - composer update --ignore-platform-req=php
     - php sbin/env_info.php
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit --fail-on-deprecation --fail-on-notice --fail-on-warning --no-coverage
 
 # 32 bit + GMP
 test-8-32bit-bcmath:
@@ -73,9 +71,8 @@ test-8-32bit-bcmath:
   image: i386/php:8
   script:
     - docker-php-ext-install bcmath
-    - composer update --ignore-platform-req=php
     - php sbin/env_info.php
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit --fail-on-deprecation --fail-on-notice --fail-on-warning --no-coverage
 
 # coverage
 coverage:
