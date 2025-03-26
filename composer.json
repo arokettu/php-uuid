@@ -40,11 +40,11 @@
     },
     "require-dev": {
         "arokettu/clock": "^2.4",
-        "phpunit/phpunit": "^10.5.10",
+        "phpunit/phpunit": "^11.5",
         "psy/psysh": "*",
-        "sandfox.dev/code-standard": "^1.2024.12.10",
+        "sandfox.dev/code-standard": "^1.2025.03.13",
         "squizlabs/php_codesniffer": "*",
-        "vimeo/psalm": "^5.22.2"
+        "vimeo/psalm": "^6.9"
     },
     "suggest": {
         "php-64bit": "The library is optimized for 64-bit systems",
