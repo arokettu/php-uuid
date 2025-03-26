@@ -16,6 +16,11 @@
             <directory>src</directory>
         </include>
     </source>
+    <coverage>
+        <report>
+            <html outputDirectory="reports/phpunit"/>
+        </report>
+    </coverage>
     <php>
         <ini name="error_reporting" value="E_ALL"/>
     </php>

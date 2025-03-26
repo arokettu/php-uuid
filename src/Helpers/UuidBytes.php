@@ -36,9 +36,7 @@ final class UuidBytes
     public static function setVariant(string &$hex, UuidVariant $variant, int $index = 16): void
     {
         if ($variant !== UuidVariant::v10xx) {
-            // @codeCoverageIgnoreStart
             throw new LogicException('Only variant 10xx is supported');
-            // @codeCoverageIgnoreEnd
         }
 
         // $hex[16] & 0b00_11 | 0b10_00
@@ -55,9 +53,7 @@ final class UuidBytes
     {
         // check for valid version numbers
         if ($version < 1 || $version > 8) {
-            // @codeCoverageIgnoreStart
             throw new LogicException('Only versions 1-8 are supported');
-            // @codeCoverageIgnoreEnd
         }
 
         $hex[12] = \strval($version);

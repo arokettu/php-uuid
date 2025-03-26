@@ -97,6 +97,18 @@ class ParserTest extends TestCase
         UuidParser::fromHex('3132333435363738393031323334353637');
     }
 
+    public function testHex(): void
+    {
+        $hex = '513b3a53e86d4EB8A47E125EAB689A3F'; // case insensitive
+        $mustBeHex = '513b3a53e86d4eb8a47e125eab689a3f'; // must be lowercase
+
+        $uuid = UuidParser::fromHex($hex);
+        $ulid = UlidParser::fromHex($hex);
+
+        self::assertEquals($mustBeHex, $uuid->toHex());
+        self::assertEquals($mustBeHex, $ulid->toHex());
+    }
+
     public function testHexWrongLengthUlid(): void
     {
         $this->expectException(\UnexpectedValueException::class);
