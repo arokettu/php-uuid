@@ -65,7 +65,7 @@ abstract class AbstractParser
                 '/' .
                 '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' .
                 '/i',
-                $string
+                $string,
             );
         } else {
             $match = preg_match(
@@ -78,7 +78,7 @@ abstract class AbstractParser
                 '|' .
                 '^[0-9a-f]{32}$' .
                 '/i',
-                $string
+                $string,
             );
         }
 
@@ -150,7 +150,7 @@ abstract class AbstractParser
             throw new UnexpectedValueException(
                 'Invalid decimal string. ' .
                 '$decimal must represent an unsigned 128-bit integer without leading zeros',
-                previous: $e
+                previous: $e,
             );
         }
 
@@ -162,8 +162,8 @@ abstract class AbstractParser
                     'Overflow or leading zeros: got %s, decoded as %s. ' .
                     '$decimal must represent an unsigned 128-bit integer without leading zeros',
                     $decimal,
-                    $rev
-                )
+                    $rev,
+                ),
             );
         }
 

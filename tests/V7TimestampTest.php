@@ -10,7 +10,7 @@ use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\UuidV7;
 use PHPUnit\Framework\TestCase;
 
-class V7TimestampTest extends TestCase
+final class V7TimestampTest extends TestCase
 {
     public function testTimestamp(): void
     {

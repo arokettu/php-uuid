@@ -14,7 +14,7 @@ use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\Variant10xxUuid;
 use PHPUnit\Framework\TestCase;
 
-class InheritanceTest extends TestCase
+final class InheritanceTest extends TestCase
 {
     public function testInheritance(): void
     {

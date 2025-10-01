@@ -9,7 +9,7 @@ use Arokettu\Uuid\Helpers\UuidVariant;
 use Arokettu\Uuid\NilUuid;
 use PHPUnit\Framework\TestCase;
 
-class HelpersTest extends TestCase
+final class HelpersTest extends TestCase
 {
     public function testNoSettingInvalidVersionTooLow(): void
     {

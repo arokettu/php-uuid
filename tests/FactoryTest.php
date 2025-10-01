@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class FactoryTest extends TestCase
+final class FactoryTest extends TestCase
 {
     public function testPassDateTime(): void
     {

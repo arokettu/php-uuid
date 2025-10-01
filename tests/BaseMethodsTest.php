@@ -11,7 +11,7 @@ use Arokettu\Uuid\UuidV4;
 use Arokettu\Uuid\UuidV7;
 use PHPUnit\Framework\TestCase;
 
-class BaseMethodsTest extends TestCase
+final class BaseMethodsTest extends TestCase
 {
     public function testSerialize(): void
     {

@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class DebugInfoTest extends TestCase
+final class DebugInfoTest extends TestCase
 {
     public function testV2(): void
     {

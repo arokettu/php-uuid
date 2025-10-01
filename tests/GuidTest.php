@@ -7,7 +7,7 @@ namespace Arokettu\Uuid\Tests;
 use Arokettu\Uuid\UuidParser;
 use PHPUnit\Framework\TestCase;
 
-class GuidTest extends TestCase
+final class GuidTest extends TestCase
 {
     public function testGuid(): void
     {

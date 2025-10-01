@@ -20,7 +20,7 @@ use Arokettu\Uuid\UuidV7;
 use Arokettu\Uuid\UuidV8;
 use PHPUnit\Framework\TestCase;
 
-class ParserTest extends TestCase
+final class ParserTest extends TestCase
 {
     public function testTypeDetection(): void
     {
@@ -274,7 +274,7 @@ class ParserTest extends TestCase
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
             'Invalid decimal string. ' .
-            '$decimal must represent an unsigned 128-bit integer without leading zeros'
+            '$decimal must represent an unsigned 128-bit integer without leading zeros',
         );
 
         UlidParser::fromDecimal('-1');
@@ -286,7 +286,7 @@ class ParserTest extends TestCase
         $this->expectExceptionMessage(
             'Overflow or leading zeros: got 784531231484897451231354848645211654874566, ' .
             'decoded as 180375732134292948276378514985927468486. ' .
-            '$decimal must represent an unsigned 128-bit integer without leading zeros'
+            '$decimal must represent an unsigned 128-bit integer without leading zeros',
         );
 
         UlidParser::fromDecimal('784531231484897451231354848645211654874566');
@@ -297,7 +297,7 @@ class ParserTest extends TestCase
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
             'Overflow or leading zeros: got 340282366920938463463374607431768211456, decoded as 0. ' .
-            '$decimal must represent an unsigned 128-bit integer without leading zeros'
+            '$decimal must represent an unsigned 128-bit integer without leading zeros',
         );
 
         UlidParser::fromDecimal('340282366920938463463374607431768211456'); // max + 1

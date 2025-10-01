@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class UlidTest extends TestCase
+final class UlidTest extends TestCase
 {
     public function testMin(): void
     {

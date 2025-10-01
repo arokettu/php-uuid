@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class V2Test extends TestCase
+final class V2Test extends TestCase
 {
     public function testTimestamp(): void
     {
@@ -143,7 +143,7 @@ class V2Test extends TestCase
     public function testClockSeqTooLow(): void
     {
         $this->expectException(\DomainException::class);
-        $this->expectExceptionMessage("Clock sequence must be in range 0-63");
+        $this->expectExceptionMessage('Clock sequence must be in range 0-63');
 
         UuidFactory::v2(1, 123, clockSequence: -1);
     }
@@ -151,7 +151,7 @@ class V2Test extends TestCase
     public function testClockSeqTooHigh(): void
     {
         $this->expectException(\DomainException::class);
-        $this->expectExceptionMessage("Clock sequence must be in range 0-63");
+        $this->expectExceptionMessage('Clock sequence must be in range 0-63');
 
         UuidFactory::v2(1, 123, clockSequence: 100);
     }

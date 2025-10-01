@@ -42,7 +42,7 @@
         "arokettu/clock": "^2.4",
         "phpunit/phpunit": "^11.5",
         "psy/psysh": "*",
-        "sandfox.dev/code-standard": "^1.2025.03.13",
+        "sandfox.dev/code-standard": "^1.2025.09.17",
         "squizlabs/php_codesniffer": "*",
         "vimeo/psalm": "^6.9"
     },

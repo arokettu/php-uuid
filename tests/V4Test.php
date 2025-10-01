@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class V4Test extends TestCase
+final class V4Test extends TestCase
 {
     public function testMin(): void
     {

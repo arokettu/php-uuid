@@ -9,7 +9,7 @@ use Arokettu\Uuid\UuidParser;
 use Arokettu\Uuid\UuidV1;
 use PHPUnit\Framework\TestCase;
 
-class NamespacesTest extends TestCase
+final class NamespacesTest extends TestCase
 {
     public function testNamespaces(): void
     {

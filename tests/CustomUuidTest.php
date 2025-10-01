@@ -8,7 +8,7 @@ use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\NonStandard\CustomUuidFactory;
 use PHPUnit\Framework\TestCase;
 
-class CustomUuidTest extends TestCase
+final class CustomUuidTest extends TestCase
 {
     public function testSha256(): void
     {

@@ -26,7 +26,7 @@ final class SystemMac
             $it = new FilesystemIterator('/sys/class/net', FilesystemIterator::SKIP_DOTS);
 
             $finfo = iterator_to_array($it);
-            usort($finfo, function (SplFileInfo $a, SplFileInfo $b) {
+            usort($finfo, static function (SplFileInfo $a, SplFileInfo $b) {
                 // search for the oldest created interface
                 return $a->getMTime() <=> $b->getMTime();
             });

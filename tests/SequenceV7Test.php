@@ -14,7 +14,7 @@ use Random\Engine\PcgOneseq128XslRr64;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class SequenceV7Test extends TestCase
+final class SequenceV7Test extends TestCase
 {
     public function testShortSequence(): void
     {

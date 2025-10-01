@@ -8,7 +8,7 @@ use Arokettu\Uuid\Helpers\SystemMac;
 use Arokettu\Uuid\Nodes\MacNode;
 use PHPUnit\Framework\TestCase;
 
-class MacNodeTest extends TestCase
+final class MacNodeTest extends TestCase
 {
     public function testParse(): void
     {

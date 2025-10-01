@@ -8,7 +8,7 @@ use Arokettu\Uuid\Namespaces\UuidNamespace;
 use Arokettu\Uuid\UuidFactory;
 use PHPUnit\Framework\TestCase;
 
-class V3Test extends TestCase
+final class V3Test extends TestCase
 {
     public function testNil(): void
     {

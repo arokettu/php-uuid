@@ -174,7 +174,7 @@ final class DateTime
 
             return DateTimeImmutable::createFromFormat(
                 'U u',
-                \sprintf('%s %06s', gmp_strval($tsS), gmp_strval($tsUs))
+                \sprintf('%s %06s', gmp_strval($tsS), gmp_strval($tsUs)),
             ) ?: throw new RuntimeException('Error creating DateTime object');
         } elseif (\extension_loaded('bcmath')) {
             $ts = BcmathHelper::hexToDec($hex);

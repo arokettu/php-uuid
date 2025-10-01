@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class V6Test extends TestCase
+final class V6Test extends TestCase
 {
     public function testTimestamp(): void
     {
@@ -63,7 +63,7 @@ class V6Test extends TestCase
     public function testFactory(): void
     {
         $clock = new StaticClock(
-            new \DateTimeImmutable('2023-10-29 17:04:00.123456 UTC') // 1ee767d27875680
+            new \DateTimeImmutable('2023-10-29 17:04:00.123456 UTC'), // 1ee767d27875680
         );
         $rand = new Randomizer(new Xoshiro256StarStar(123)); // f969a0d1a18f5a32
         $node = StaticNode::fromHex('1234567890ab'); // 1334567890ab

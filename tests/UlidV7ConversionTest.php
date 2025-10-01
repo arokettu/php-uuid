@@ -8,7 +8,7 @@ use Arokettu\Uuid\UlidParser;
 use Arokettu\Uuid\UuidParser;
 use PHPUnit\Framework\TestCase;
 
-class UlidV7ConversionTest extends TestCase
+final class UlidV7ConversionTest extends TestCase
 {
     public function testIsCompatible(): void
     {

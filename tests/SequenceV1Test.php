@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
-class SequenceV1Test extends TestCase
+final class SequenceV1Test extends TestCase
 {
     public function testSequenceStaticTime(): void
     {

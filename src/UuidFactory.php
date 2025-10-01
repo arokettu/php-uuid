@@ -69,7 +69,7 @@ final class UuidFactory
         if ($clockSequence === null) {
             $clockSequence = $randomizer->getInt(0, 0x3f);
         } elseif ($clockSequence < 0 || $clockSequence > 0x3f) {
-            throw new DomainException("Clock sequence must be in range 0-63");
+            throw new DomainException('Clock sequence must be in range 0-63');
         }
         $clockSequence |= 0x80; // add variant marker
 

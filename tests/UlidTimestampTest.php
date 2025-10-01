@@ -8,7 +8,7 @@ use Arokettu\Clock\StaticClock;
 use Arokettu\Uuid\UlidFactory;
 use PHPUnit\Framework\TestCase;
 
-class UlidTimestampTest extends TestCase
+final class UlidTimestampTest extends TestCase
 {
     public function testMillisec(): void
     {
