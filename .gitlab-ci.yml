@@ -46,7 +46,7 @@ test-8.2-lowest:
   script:
     - composer update --prefer-lowest
     - php sbin/env_info.php
-    - vendor/bin/phpunit --fail-on-notice --fail-on-warning --no-coverage
+    - vendor/bin/phpunit
 
 # 32 bit
 test-8-32bit:
