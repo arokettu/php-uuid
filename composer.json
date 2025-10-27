@@ -40,6 +40,7 @@
     },
     "require-dev": {
         "arokettu/clock": "^2.4",
+        "composer/class-map-generator": "^1.6",
         "phpunit/phpunit": "^11.5.42",
         "psy/psysh": "*",
         "sandfox.dev/code-standard": "^1.2025.09.17",

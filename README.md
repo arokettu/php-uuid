@@ -59,7 +59,8 @@ $ulid2 = UlidParser::fromString('01H4HQC4G1C1606J19358PWESA'); // == $ulid
 // possible killer features
 // UUIDv1 to UUIDv6 conversion (and vice versa)
 UuidParser::fromString('e982dc4e-1acc-11ee-be56-0242ac120002')
-    ->toUuidV6(); // 1ee1acce-982d-6c4e-be56-0242ac120002
+    ->toUuidV6() // 1ee1acce-982d-6c4e-be56-0242ac120002
+    ->toUuidV1(); // back to e982dc4e-1acc-11ee-be56-0242ac120002
 // ULID to UUIDv7 conversion (lossy but predictable)
 UlidParser::fromString('01H4HQC4G1C1606J19358PWESA')
     ->toUuidV7(lossy: true); // 01892376-1201-704c-8348-2919516e3b2a
