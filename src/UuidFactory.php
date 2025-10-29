@@ -176,7 +176,7 @@ final class UuidFactory
         Helpers\UuidBytes::setVariant($hex, Helpers\UuidVariant::v10xx);
         Helpers\UuidBytes::setVersion($hex, 8);
 
-        return new UuidV8($hex);
+        return new GenericUuidV8($hex);
     }
 
     private static function v1LikeHex(

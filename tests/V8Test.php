@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid\Tests;
 
+use Arokettu\Uuid\GenericUuidV8;
 use Arokettu\Uuid\UuidFactory;
-use Arokettu\Uuid\UuidV8;
 use PHPUnit\Framework\TestCase;
 use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
@@ -55,7 +55,7 @@ final class V8Test extends TestCase
         $bytes[6] = "\x8a"; // valid version upper hex (8)
         $bytes[8] = "\x9e"; // valid variant bits in upper hex (89ab)
 
-        $uuid = new UuidV8(bin2hex($bytes));
+        $uuid = new GenericUuidV8(bin2hex($bytes));
         self::assertEquals('f969a0d1-a18f-8a32-9e4d-6d65c7e335f8', $uuid->toString());
     }
 
@@ -68,7 +68,7 @@ final class V8Test extends TestCase
         $bytes[6] = "\x8a"; // valid version upper hex (8)
         $bytes[8] = "\x9e"; // valid variant bits in upper hex (89ab)
 
-        new UuidV8(bin2hex($bytes));
+        new GenericUuidV8(bin2hex($bytes));
     }
 
     public function testDirectCreationWrongVariant(): void
@@ -79,7 +79,7 @@ final class V8Test extends TestCase
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
         $bytes[6] = "\x8a"; // valid version upper hex (8)
 
-        new UuidV8(bin2hex($bytes));
+        new GenericUuidV8(bin2hex($bytes));
     }
 
     public function testDirectCreationWrongVersion(): void
@@ -90,6 +90,6 @@ final class V8Test extends TestCase
         $bytes = (new Randomizer(new Xoshiro256StarStar(123)))->getBytes(16); // f969a0d1a18f5a325e4d6d65c7e335f8
         $bytes[8] = "\x9e"; // valid variant bits in upper hex (89ab)
 
-        new UuidV8(bin2hex($bytes));
+        new GenericUuidV8(bin2hex($bytes));
     }
 }

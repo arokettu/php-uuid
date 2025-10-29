@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace Arokettu\Uuid;
 
-// phpcs:ignore SlevomatCodingStandard.Classes.RequireAbstractOrFinal.ClassNeitherAbstractNorFinal
-readonly class UuidV8 extends AbstractUuid implements Variant10xxUuid, Rfc9562Uuid
+abstract readonly class UuidV8 extends AbstractUuid implements Variant10xxUuid, Rfc9562Uuid
 {
     use Helpers\Variant10xxUuidTrait {
         assertValid as baseAssertValid;

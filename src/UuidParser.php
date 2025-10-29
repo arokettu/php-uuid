@@ -36,7 +36,7 @@ final class UuidParser extends AbstractParser
                 5 => new UuidV5($hex),
                 6 => new UuidV6($hex),
                 7 => new UuidV7($hex),
-                8 => new UuidV8($hex),
+                8 => new GenericUuidV8($hex),
                 default => new GenericUuid($hex),
             };
         }
